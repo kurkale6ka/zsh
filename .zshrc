@@ -186,7 +186,7 @@ s() {
 ## Prompts
 precmd() { psvar[3]="$SSH_CONNECTION" }
 
-PS1=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b]\n%(!.%F{red}.%F{yellow})%n %f%# '
+PS1=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b]\n%F{yellow}%n %f%# '
 RPS1='%(3V.%F{purple}.%F{yellow})%m%f %T'
 
 ## Directory functions and aliases: cd, md, rd, pw
