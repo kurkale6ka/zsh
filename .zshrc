@@ -1,6 +1,9 @@
+#! /usr/bin/env zsh
+# Author: kurkale6ka <Dimitar Dimitrov>
+
+export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
 export SAVEHIST=7000
-export HISTFILE="$HOME"/.zsh_history
 
 ## Colors
 # These can't reside in .profile since there is no terminal for tput
