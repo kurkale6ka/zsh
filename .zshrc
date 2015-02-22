@@ -899,8 +899,10 @@ alias rmp=rpm
 alias shh=ssh
 alias xlcip=xclip
 
-## tmux
+## Completion
+setopt menucomplete
 
+## tmux
 alias tmux='tmux -2'
 alias tm='tmux -2'
 alias tl='tmux ls'
