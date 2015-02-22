@@ -3,6 +3,7 @@ export SAVEHIST=5000
 export HISTFILE="$HOME"/.zsh_history
 
 ## Colors
+
 # # Colored man pages
 # export LESS_TERMCAP_mb="$LGreen" # begin blinking
 # export LESS_TERMCAP_md="$LBlue"  # begin bold
@@ -169,11 +170,8 @@ s() {
 ## Prompts
 precmd() { psvar[3]="$SSH_CONNECTION" }
 
-PS1=$'\n%(!.%F{red}.%F{green})%n%f%F{blue} @ %f%(3V.%F{purple}.%F{green})%m%f %(!.#.$) '
-RPS1='%B%F{blue}%~%f%b %T'
-
-# RPS1='%(!.%F{red}.%F{green})%n%f%F{blue} @ %f%(3V.%F{purple}.%F{green})%m%f %T'
-# PS1=$'\n%B%F{blue}%~%f%b %(!.#.$) '
+PS1=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b]\n%(!.%F{red}.%F{yellow})%n %f%# '
+RPS1='%(3V.%F{purple}.%F{yellow})%m%f %T'
 
 ## Directory functions and aliases: cd, md, rd, pw
 # if [[ -r $HOME/github/bash/scripts/cd/cd.bash ]]
