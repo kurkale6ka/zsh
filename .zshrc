@@ -1,5 +1,5 @@
-export HISTSIZE=5500
-export SAVEHIST=5000
+export HISTSIZE=7000
+export SAVEHIST=7000
 export HISTFILE="$HOME"/.zsh_history
 
 ## Colors
