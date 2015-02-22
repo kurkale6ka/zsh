@@ -383,10 +383,8 @@ ln() {
    if (($#)); then
       command ln "$@"
    else
-      if (( $(find . -maxdepth 1 -type l -print -quit | wc -l) == 1 )); then
-         find . -maxdepth 1 -type l -printf '%P\0' |
-         xargs -0 'ls' -FBAhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" --
-      fi
+      ll .*(@)
+      ll *(@)
    fi
 }
 
