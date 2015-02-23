@@ -299,16 +299,7 @@ rs() {
 }
 
 ## Permissions + debug
-x() {
-   (($#)) && { chmod u+x -- "$@"; return; }
-
-   if [[ $- == *x* ]]
-   then echo 'debug OFF'; set +o xtrace
-   else echo 'debug ON' ; set -o xtrace
-   fi
-} 2>/dev/null
-
-alias bx='bash -x'
+alias zx='zsh -xv'
 
 alias    setuid='chmod u+s'
 alias    setgid='chmod g+s'
