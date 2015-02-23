@@ -926,6 +926,8 @@ bindkey "\e[B" history-beginning-search-forward-end
 bindkey "\e[1~" beginning-of-line
 bindkey "\e[4~" end-of-line
 
+bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb\C-b'
+
 ## Business specific or system dependant stuff
 [[ -r $HOME/.zshrc_after ]] && . "$HOME"/.zshrc_after
 
