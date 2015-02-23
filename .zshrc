@@ -1,6 +1,8 @@
 #! /usr/bin/env zsh
 # Author: kurkale6ka <Dimitar Dimitrov>
 
+setopt extendedglob
+
 export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
 export SAVEHIST=7000
