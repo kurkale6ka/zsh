@@ -3,6 +3,9 @@
 
 setopt extendedglob
 
+setopt histignoredups
+setopt histignorespace
+
 export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
 export SAVEHIST=7000
