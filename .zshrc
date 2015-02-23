@@ -911,6 +911,8 @@ alias tn='tmux new -s'
 
 ## zle (~readline)
 
+bindkey -e # emacs like line editing
+
 autoload -U history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
