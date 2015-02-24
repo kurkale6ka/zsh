@@ -915,7 +915,86 @@ then
    zle -N zle-line-finish
 fi
 
-bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb\C-b'
+## zle snippets
+# Array
+bindkey -s '^x[' '${[@]}\e4^b'
+
+# bc
+bindkey -s '^x=' "command bc <<< 'scale=20; '^b"
+
+# find
+bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
+
+# GNU parallel
+bindkey -s '^x\\' " | parallel -X ^@ {} ^x^x"
+
+# IPs
+bindkey -s '^x0' '127.0.0.1'
+bindkey -s '^x1' '10.0.0.'
+bindkey -s '^x7' '172.16.0.'
+bindkey -s '^x9' '192.168.0.'
+
+# Ranges
+bindkey -s '^x-' '{1\e ..}^b'
+bindkey -s '^x.' '{1\e ..}^b'
+
+# Output in columns
+bindkey -s '^x|' ' | column -t'
+
+# /dev/null
+bindkey -s '^x_' '/dev/null'
+
+# awk
+bindkey -s '^xa' "awk '/^@/ {print $}' \e3^b"
+bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
+
+# Braces
+bindkey -s '^xb' '(())\e2^b'
+bindkey -s '^xB' '{}^b'
+bindkey -s '^x]' '[[]]\e2^b'
+
+# Counting row occurrences in a stream
+bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
+
+# Diff
+bindkey -s '^xd' 'diff -uq^@ --from-file '
+
+# ed
+bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
+bindkey -s '^xE' "printf '%s\\\n' H 0i ^@ . wq | 'ed' -s "
+
+# Loops
+bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb^b'
+bindkey -s '^xF' 'for ((i = 0; i < ^@; i++)); do  $i; done\e2\eb^b'
+bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
+bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
+
+# groff
+bindkey -s '^xg' ' | groff -man -Tascii | less^m'
+
+# File renaming (mv)
+bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"Ta/'.\\\{-}'/l1l0\" -c'se ft=sh' -^x^x"
+bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
+
+# Directory statistics
+bindkey -s '^xn' '(setopt nullglob; unset latest; for file in *^@; do [[ $file -nt $latest ]] && latest=$file; done; echo $latest)^x^x'
+bindkey -s '^xo' '(setopt nullglob; unset oldest; for file in *^@; do [[ $file -ot $oldest || ! $oldest ]] && oldest=$file; done; echo $oldest)^x^x'
+bindkey -s '^x*' '(setopt nullglob dotglob; inodes=(*[\^\~]); echo There are ${#inodes[@]} inodes)'
+
+# printf
+bindkey -s '^xp' "printf '%s\\\n' "
+
+# Backticks
+bindkey -s '^x`' '$()^b'
+
+# systemd
+bindkey -s '^xs' 'systemctl status'
+
+# tcpdump
+bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
+
+# Test
+bindkey -s '^xT' ' && echo hmm'
 
 ## Business specific or system dependant stuff
 [[ -r $HOME/.zshrc_after ]] && . "$HOME"/.zshrc_after
