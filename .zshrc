@@ -856,9 +856,15 @@ alias shh=ssh
 alias xlcip=xclip
 
 ## Completion
-setopt menucomplete
+setopt menucomplete # select the first item straight away
+
+zmodload zsh/complist
+bindkey -M menuselect '^M' .accept-line
 
 autoload -Uz compinit && compinit
+
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 ## tmux
 alias tmux='tmux -2'
