@@ -858,6 +858,8 @@ alias xlcip=xclip
 ## Completion
 setopt menucomplete
 
+autoload -Uz compinit && compinit
+
 ## tmux
 alias tmux='tmux -2'
 alias tm='tmux -2'
