@@ -1,1 +1,1 @@
-x() { chmod u+x -- $@ }
+chmod u+x -- $@
