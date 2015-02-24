@@ -871,16 +871,49 @@ alias tn='tmux new -s'
 
 bindkey -e # emacs like line editing
 
+typeset -A key
+
+key[Insert]=${terminfo[kich1]}
+key[Delete]=${terminfo[kdch1]}
+key[Home]=${terminfo[khome]}
+key[End]=${terminfo[kend]}
+key[PageUp]=${terminfo[kpp]}
+key[PageDown]=${terminfo[knp]}
+key[Up]=${terminfo[kcuu1]}
+key[Down]=${terminfo[kcud1]}
+key[Left]=${terminfo[kcub1]}
+key[Right]=${terminfo[kcuf1]}
+
+[[ ${key[Insert]}   ]] && bindkey ${key[Insert]}   overwrite-mode
+[[ ${key[Delete]}   ]] && bindkey ${key[Delete]}   delete-char
+[[ ${key[Home]}     ]] && bindkey ${key[Home]}     beginning-of-line
+[[ ${key[End]}      ]] && bindkey ${key[End]}      end-of-line
+[[ ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
+[[ ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
+
 autoload -U history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 
-bindkey "\e[A" history-beginning-search-backward-end
-bindkey "\e[B" history-beginning-search-forward-end
+[[ ${key[Up]}    ]] && bindkey ${key[Up]}    history-beginning-search-backward-end
+[[ ${key[Down]}  ]] && bindkey ${key[Down]}  history-beginning-search-forward-end
+[[ ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
+[[ ${key[Right]} ]] && bindkey ${key[Right]} forward-char
 
-bindkey "\e[1~" beginning-of-line
-bindkey "\e[4~" end-of-line
+# Make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
+then
+   function zle-line-init () {
+      printf '%s' "${terminfo[smkx]}"
+   }
+   function zle-line-finish () {
+      printf '%s' "${terminfo[rmkx]}"
+   }
+   zle -N zle-line-init
+   zle -N zle-line-finish
+fi
 
 bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb\C-b'
 
