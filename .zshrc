@@ -842,7 +842,7 @@ bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
 # Directory statistics
-bindkey -s '^xn' '(setopt dotglob; ls -d *^@(om[1]))^x^x'
+bindkey -s '^xn' 'ls -d (.*|*)(om[1])\eb^f^f'
 bindkey -s '^xo' '(setopt nullglob; unset oldest; for file in *^@; do [[ $file -ot $oldest || ! $oldest ]] && oldest=$file; done; echo $oldest)^x^x'
 bindkey -s '^x*' '(setopt nullglob dotglob; inodes=(*[\^\~]); echo There are ${#inodes[@]} inodes)'
 
