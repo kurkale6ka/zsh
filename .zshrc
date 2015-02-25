@@ -73,8 +73,6 @@ if [[ $my_gvim ]]; then
    alias  gvd="command $my_gvim -u ~/.vimrc -U ~/.gvimrc -d"
 fi
 
-tags() { ctags --languages="$1"; }
-
 ## sudo and s()
 if sudo -V |
    { read -r _ _ ver; ver="${ver%.*}"; ((${ver%.*} > 0 && ${ver#*.} > 6)); }
