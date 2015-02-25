@@ -192,7 +192,9 @@ s() {
 }
 
 ## Prompts
-precmd() { psvar[3]="$SSH_CONNECTION" }
+precmd() {
+   psvar[3]="$SSH_CONNECTION"
+}
 
 PS1=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b]\n%F{yellow}%n %f%# '
 RPS1='%(3V.%F{purple}.%F{yellow})%m%f %T'
@@ -865,6 +867,7 @@ autoload -Uz compinit && compinit
 
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
 
 ## tmux
 alias tmux='tmux -2'
