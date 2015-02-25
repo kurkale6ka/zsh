@@ -1,0 +1,5 @@
+# Update (or install)
+if (($#))
+then pacman -U $@
+else pacman -Syu
+fi

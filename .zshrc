@@ -10,8 +10,8 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
 export SAVEHIST=7000
 
-fpath=(~/.zsh/autoload $fpath)
-autoload ~/.zsh/autoload/*(.:t)
+fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
+autoload ~/.zsh/autoload/**/*(.:t)
 
 ## Colors
 # These can't reside in .profile since there is no terminal for tput
@@ -113,51 +113,6 @@ vn() {
 }
 
 tags() { ctags --languages="$1"; }
-
-## Arch Linux
-# Search (or sync)
-ps() {
-   if (($#))
-   then
-      if [[ $1 == @(-|aux|fax|faux)* ]]
-      then command ps "$@"
-      else pacman -Ss "$@"
-      fi
-   else
-      pacman -Syu
-   fi
-}
-
-# Install
-pi() {
-   if [[ $1 == *.pkg.tar.xz ]]
-   then pacman -U "$@"
-   else pacman -S "$@"
-   fi
-}
-
-# Update (or install)
-pu() {
-   if (($#))
-   then pacman -U "$@"
-   else pacman -Syu
-   fi
-}
-
-# Update Neovim
-nu () (
-   cd /usr/local/src/neovim-git || exit 1
-   if makepkg -s
-   then
-      shopt -s nullglob
-      local latest file
-      for file in *.pkg.tar.xz
-      do
-         [[ $file -nt $latest ]] && latest="$file"
-      done
-      sudo pacman -U "$latest"
-   fi
-)
 
 ## sudo and s()
 if sudo -V |

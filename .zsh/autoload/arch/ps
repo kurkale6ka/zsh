@@ -1,0 +1,10 @@
+# Search (or sync)
+if (($#))
+then
+   if [[ $1 == (-|aux|fax|faux)* ]]
+   then command ps $@
+   else pacman -Ss $@
+   fi
+else
+   pacman -Syu
+fi
