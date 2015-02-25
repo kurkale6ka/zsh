@@ -5,6 +5,7 @@ setopt extendedglob
 
 setopt histignoredups
 setopt histignorespace
+setopt inc_append_history
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
@@ -97,7 +98,6 @@ s() {
       else command grep    -iE --color=auto -- "$1" /etc/services
       fi
    else
-      history -a
       if [[ $sudo_version_ok ]]
       then sudo -E /usr/bin/zsh
       else sudo    /usr/bin/zsh
