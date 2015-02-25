@@ -112,15 +112,15 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' formats 'λ %b' # branch
 
 precmd() {
-   psvar[3]="$SSH_CONNECTION"
+   psvar[3]=$SSH_CONNECTION
 
    local vcs_info_msg_0_
    vcs_info
    psvar[4]=$vcs_info_msg_0_
 }
 
-PS1=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
-RPS1='%(3V.%F{purple}.%F{yellow})%m%f %T'
+PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
+RPROMPT='%(3V.%F{purple}.%F{yellow})%m%f %T'
 
 ## Directory functions and aliases: cd, md, rd, pw
 # if [[ -r $HOME/github/bash/scripts/cd/cd.bash ]]
