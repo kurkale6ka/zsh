@@ -718,6 +718,7 @@ setopt menucomplete # select the first item straight away
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line
 
+compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' menu select=2
