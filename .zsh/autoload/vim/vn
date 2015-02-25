@@ -1,0 +1,51 @@
+if command -v nvim
+then
+   nvim=nvim
+else
+   nvim=vim
+fi >/dev/null 2>&1
+
+if command -v vimx
+then
+   my_gvim=vimx
+elif command -v gvim
+then
+   my_gvim=gvim
+fi >/dev/null 2>&1
+
+if (($#))
+then
+   $nvim -NX -u NONE $@
+   return
+fi
+
+local opt opts
+
+local    nvm=$nvim
+local    nvi=${Bold}$nvim$Reset
+local    gvi=${Bold}gvim$Reset
+local  vimrc=${LGreen}.vimrc$Reset   _vimrc=~/.vimrc
+local gvimrc=${LGreen}.gvimrc$Reset _gvimrc=~/.gvimrc
+local plugin=${LGreen}plugins$Reset
+
+ opts=("$nvi no .vimrc,           , no plugins ( \vim -nNX -u NONE                              )")
+opts+=("$nvm    $vimrc,           , no plugins ( \vim -nNX -u ~/.vimrc --noplugin               )")
+opts+=("$gvi no .vimrc, no .gvimrc, no plugins ( \gvim -nN -u NONE                              )")
+opts+=("gvim    $vimrc, no .gvimrc,    $plugin ( \gvim -nN -u ~/.vimrc -U NONE                  )")
+opts+=("gvim no .vimrc,    $gvimrc, no plugins ( \gvim -nN -u /dev/null -U ~/.gvimrc --noplugin )")
+opts+=("gvim    $vimrc, no .gvimrc, no plugins ( \gvim -nN -u ~/.vimrc -U NONE --noplugin       )")
+opts+=("gvim    $vimrc,    $gvimrc, no plugins ( \gvim -nN -u ~/.vimrc -U ~/.gvimrc --noplugin  )")
+
+select opt in $opts
+do
+   case $opt in
+      ${opts[1]})    $nvim -nNX -u NONE                            ; break;;
+      ${opts[2]})    $nvim -nNX -u $_vimrc               --noplugin; break;;
+      ${opts[3]}) $my_gvim -nN  -u NONE                            ; break;;
+      ${opts[4]}) $my_gvim -nN  -u $_vimrc   -U NONE               ; break;;
+      ${opts[5]}) $my_gvim -nN  -u /dev/null -U $_gvimrc --noplugin; break;;
+      ${opts[6]}) $my_gvim -nN  -u $_vimrc   -U NONE     --noplugin; break;;
+      ${opts[7]}) $my_gvim -nN  -u $_vimrc   -U $_gvimrc --noplugin; break;;
+               *) printf '\nInvalid choice!\n' >&2
+   esac
+done

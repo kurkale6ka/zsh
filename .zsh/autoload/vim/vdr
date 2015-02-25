@@ -1,0 +1,13 @@
+if (($# < 2))
+then
+cat 1>&2 << 'HELP'
+  Usage: rvd {host} {file} (same on local & remote)
+         rvd {host} {file} {rfile}
+
+example: rvd qa1 ~/.bashrc '~/.bashrc'
+         rvd qa1 ~/.bashrc WON'T WORK because of ~ expansion
+HELP
+return 1
+fi
+
+$nvim -u ~/.vimrc -d $2 <(ssh -q $1 cat ${3:-$2})
