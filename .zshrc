@@ -226,19 +226,7 @@ alias   ..="${cd_alias:-cd} .."
 
 alias to=touch
 alias md='command mkdir -p --'
-
-rd() {
-   printf 'rd: remove directory ‘%s’?\n' "$@"
-   read -p '(y/n) '
-   [[ $REPLY == @(y|yes) ]] && command rm -r -- "$@"
-}
-
-pw() {
-   if (($#))
-   then pws --seconds 25 get "$1"
-   else command pwd -P
-   fi
-}
+alias pw='pwd -P'
 
 ## Networking: myip, dig, tunnel
 alias myip='curl icanhazip.com'

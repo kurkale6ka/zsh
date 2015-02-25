@@ -1,0 +1,8 @@
+printf 'rd: remove directory ‘%s’?\n' $@
+
+read REPLY\?'(y/n) '
+
+if [[ $REPLY == (y|yes) ]]
+then
+   command rm -r -- $@
+fi
