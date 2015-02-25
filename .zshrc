@@ -10,8 +10,8 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
 export SAVEHIST=7000
 
-fpath=(~/.zsh/functions $fpath)
-autoload ~/.zsh/functions/*(.:t)
+fpath=(~/.zsh/autoload $fpath)
+autoload ~/.zsh/autoload/*(.:t)
 
 ## Colors
 # These can't reside in .profile since there is no terminal for tput
