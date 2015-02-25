@@ -727,23 +727,6 @@ alias gf='git fetch'
 alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
 
-gsa() (
-   for repo in bash config help scripts vim
-   do
-      cd "$HOME"/github/"$repo" && {
-         echo "$Bold=== $repo ===$Reset"
-         if (($#)) # fetch if branch ahead of remote
-         then
-            git fetch
-         else
-            git -c color.ui=false status -sb | head -n1
-            git status -s
-         fi
-         [[ $repo != vim ]] && echo
-      }
-   done
-)
-
 ## Google search: gg term
 urlencode() {
    local char

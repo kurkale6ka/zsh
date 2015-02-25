@@ -1,0 +1,20 @@
+(
+cd ~/github || return 1
+
+for repo in *~bash-cd(/)
+do
+   if cd ~/github/$repo
+   then
+      echo "$Bold=== $repo ===$Reset"
+
+      if (($#)) # fetch if branch ahead of remote
+      then
+         git fetch
+      else
+         git -c color.ui=false status -sb | head -n1
+         git status -s
+      fi
+   fi
+   [[ $repo != zsh ]] && echo
+done
+)
