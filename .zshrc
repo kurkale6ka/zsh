@@ -21,29 +21,29 @@ Underline="$(tput smul)"
     Green="$(tput setaf 2)"
      Blue="$(tput setaf 4)"
       Red="$(tput setaf 1)"
-  LPurple="$(printf %s "$Bold"; tput setaf 5)"
-   LGreen="$(printf %s "$Bold"; tput setaf 2)"
-    LBlue="$(printf %s "$Bold"; tput setaf 4)"
-     LRed="$(printf %s "$Bold"; tput setaf 1)"
-    LCyan="$(printf %s "$Bold"; tput setaf 6)"
+  LPurple="$(printf %s $Bold; tput setaf 5)"
+   LGreen="$(printf %s $Bold; tput setaf 2)"
+    LBlue="$(printf %s $Bold; tput setaf 4)"
+     LRed="$(printf %s $Bold; tput setaf 1)"
+    LCyan="$(printf %s $Bold; tput setaf 6)"
     Reset="$(tput sgr0)"
 
 # Colored man pages
-export LESS_TERMCAP_mb="$LGreen" # begin blinking
-export LESS_TERMCAP_md="$LBlue"  # begin bold
-export LESS_TERMCAP_me="$Reset"  # end mode
+export LESS_TERMCAP_mb=$LGreen # begin blinking
+export LESS_TERMCAP_md=$LBlue  # begin bold
+export LESS_TERMCAP_me=$Reset  # end mode
 
 # so -> stand out - info box
-export LESS_TERMCAP_so="$(printf %s "$Bold"; tput setaf 3; tput setab 4)"
+export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
 # se -> stand out end
-export LESS_TERMCAP_se="$(tput rmso; printf %s "$Reset")"
+export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
 
 # us -> underline start
-export LESS_TERMCAP_us="$(printf %s%s "$Bold$Underline"; tput setaf 5)"
+export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
 # ue -> underline end
-export LESS_TERMCAP_ue="$(tput rmul; printf %s "$Reset")"
+export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
 
-[[ -r $HOME/.dir_colors ]] && eval "$(dircolors "$HOME"/.dir_colors)"
+[[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
 ## Vim
 if command -v nvim
