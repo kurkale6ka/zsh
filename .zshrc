@@ -120,7 +120,7 @@ precmd() {
 }
 
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
-RPROMPT='%(3V.%F{purple}.%F{yellow})%m%f %T'
+RPROMPT='%(3V.%F{purple}.%F{yellow})%(?..%F{red})%m%f %T'
 
 ## Directory functions and aliases: cd, md, rd, pw
 # if [[ -r $HOME/github/bash/scripts/cd/cd.bash ]]
@@ -644,9 +644,6 @@ bn() {
    else                   figlist | column -c"$COLUMNS"
    fi
 }
-
-# Echo
-e() { local status=$?; (($#)) && echo "$@" || echo "$status"; }
 
 ## Head/tail + cat-like functions
 h() { if (($#)) || [[ ! -t 0 ]]; then head "$@"; else history; fi; }
