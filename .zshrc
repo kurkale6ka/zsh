@@ -1,12 +1,12 @@
 #! /usr/bin/env zsh
 # Author: kurkale6ka <Dimitar Dimitrov>
 
-setopt extendedglob
-
-setopt histignoredups
-setopt histignorespace
-setopt inc_append_history
+setopt extended_glob
 setopt auto_pushd
+
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt inc_append_history
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
@@ -711,7 +711,7 @@ alias shh=ssh
 alias xlcip=xclip
 
 ## Completion
-setopt menucomplete # select the first item straight away
+setopt menu_complete # select the first item straight away
 
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line
