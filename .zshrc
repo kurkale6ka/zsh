@@ -6,6 +6,7 @@ setopt extendedglob
 setopt histignoredups
 setopt histignorespace
 setopt inc_append_history
+setopt auto_pushd
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=7000
