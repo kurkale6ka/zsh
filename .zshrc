@@ -177,18 +177,8 @@ llm() {
    ls -FBhltr --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" "$@"
 }
 
-_lx() {
-   local exes=()
-   for x in *; do [[ -x $x ]] && exes+=("$x"); done
-   if [[ ${FUNCNAME[1]} == 'lx' ]]; then
-      command ls -FB   --color=auto                                    "${exes[@]}"
-   else
-      command ls -FBhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" "${exes[@]}"
-   fi
-}
-
- lx() { _lx "$@"; }
-llx() { _lx "$@"; }
+alias lx='ls -Fd --color=auto (.*~.*~|*~*~)(*)'
+alias llx='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" (.*~.*~|*~*~)(*)'
 
 ln() {
    if (($#)); then
