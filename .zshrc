@@ -75,36 +75,9 @@ if [[ $my_gvim ]]; then
    alias  gvd="command $my_gvim -u ~/.vimrc -U ~/.gvimrc -d"
 fi
 
-## sudo and s()
-if sudo -V |
-   { read -r _ _ ver; ver="${ver%.*}"; ((${ver%.*} > 0 && ${ver#*.} > 6)); }
-then alias sudo="sudo -p 'Password for %p: ' ";       sudo_version_ok=1
-else alias sudo="sudo -p 'Password for %u: ' "; unset sudo_version_ok
-fi
-
+## sudo
 alias  sd=sudo
 alias sde=sudoedit
-
-# s///
-# /etc/services lookup (ex: s ftp)
-# sudo bash
-s() {
-   if (($# == 2)); then
-      # s old new [number|cmd]
-      fc -s "$1"="$2" "$3"
-   elif (($# == 1)); then
-      # s ftp|21
-      if [[ $1 == [[:digit:]]* ]]
-      then command grep -w -iE --color=auto -- "$1" /etc/services
-      else command grep    -iE --color=auto -- "$1" /etc/services
-      fi
-   else
-      if [[ $sudo_version_ok ]]
-      then sudo -E /usr/bin/zsh
-      else sudo    /usr/bin/zsh
-      fi
-   fi
-}
 
 ## Prompts
 autoload -Uz vcs_info
