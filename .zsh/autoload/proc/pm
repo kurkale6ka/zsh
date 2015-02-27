@@ -1,0 +1,14 @@
+# Memory map
+while (($#))
+do
+   printf '%s:\n' $1
+
+   for j in $(pgrep $1)
+   do
+      echo -n "$j(PID) "
+      pmap -d $j | tail -n1
+   done
+
+   (($# > 1)) && echo
+   shift
+done

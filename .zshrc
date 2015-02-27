@@ -121,31 +121,19 @@ alias il='iptables -nvL --line-numbers'
 alias nn=netstat
 
 ## Processes and jobs
-# memory map
-pm() {
-   for i in "$@"; do
-      printf '%s: ' "$i"; pmap -d "$(command pgrep "$i")" | tail -n1
-   done | column -t | sort -k4
-}
-
 ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 pfields=pid,stat,euser,egroup,start_time,cmd
-
-p() { if (($#)); then ping -c3 "$@"; else ps fww o "$ppfields" --headers; fi; }
 
 alias pp="command ps faxww o $ppfields --headers"
 alias pg="command ps o $pfields --headers | head -1 && ps faxww o $pfields | command grep -v grep | command grep -iEB1 --color=auto"
 alias ppg="command ps o $ppfields --headers | head -1 && ps faxww o $ppfields | command grep -v grep | command grep -iEB1 --color=auto"
-alias pgrep='pgrep -l'
 
-alias  k=kill
-alias kl='kill -l'
-alias ka=killall
+alias k=kill
+alias pk='pkill -f'
 alias kg='kill -- -'
-alias pk=pkill
 
 # jobs
-alias     z=fg
+alias z=fg
 alias -- --='fg %-'
 
 ## Copy a user dir to a remote server using rsync

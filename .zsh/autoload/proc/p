@@ -1,0 +1,6 @@
+if (($#))
+then
+   ping -c3 $@
+else
+   command ps fww o $ppfields --headers
+fi
