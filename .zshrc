@@ -8,9 +8,9 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
 
-export HISTFILE=~/.zsh_history
-export HISTSIZE=7000
-export SAVEHIST=7000
+HISTFILE=~/.zsh_history
+HISTSIZE=7000
+SAVEHIST=7000
 
 fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
 autoload ~/.zsh/autoload/**/*(.:t)
