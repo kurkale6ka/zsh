@@ -148,34 +148,8 @@ alias co=chown
 alias cm=chmod
 
 ## ls
-ldot() {
-   local ls
-   if [[ ${FUNCNAME[1]} == 'l.' ]]
-   then ls=(ls -FB   --color=auto)
-   else ls=(ls -FBhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M")
-   fi
-   (($# == 0)) && {             "${ls[@]}" -d .[^.]* ; return; }
-   (($# == 1)) && { (cd "$1" && "${ls[@]}" -d .[^.]*); return; }
-   local i arg
-   for arg in "$@"; do
-      printf '%s:\n' "$arg"
-      (cd -- "$arg" && "${ls[@]}" -d .[^.]*)
-      (($# != ++i)) && echo
-   done
-}
-
-.() {
-   if (($#))
-   then source "$@"
-   else command ls -FB --color=auto -d .[^.]*
-   fi
-}
-
-unalias l. ll. l ld la lr lk lx ll lld lla llr llk llx lm lc lu llm llc llu ln \
-   2>/dev/null
-
- l.() { ldot "$@"; }
-ll.() { ldot "$@"; }
+alias l.='ls -Fd --color=auto .*~.*~'
+alias ll.='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" .*~.*~'
 
 alias   l='command ls -FB    --color=auto'
 alias  ll='command ls -FBhl  --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
