@@ -151,30 +151,30 @@ alias cm=chmod
 alias l.='ls -Fd --color=auto .*~.*~'
 alias ll.='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" .*~.*~'
 
-alias   l='command ls -FB    --color=auto'
-alias  ll='command ls -FBhl  --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
-alias  l1='command ls -FB1   --color=auto'
+alias   l='ls -FB    --color=auto'
+alias  ll='ls -FBhl  --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+alias  l1='ls -FB1   --color=auto'
 
-alias  la='command ls -FBA   --color=auto'
-alias lla='command ls -FBAhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+alias  la='ls -FBA   --color=auto'
+alias lla='ls -FBAhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
-alias  ld='command ls -FBd   --color=auto'
-alias lld='command ls -FBdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+alias  ld='ls -FBd   --color=auto'
+alias lld='ls -FBdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
-alias  lk='command ls -FBS   --color=auto'
-alias llk='command ls -FBShl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+alias  lk='ls -FBS   --color=auto'
+alias llk='ls -FBShl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
 alias  lr="tree -AC -I '*~' --noreport"
-alias llr='command ls -FBRhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+alias llr='ls -FBRhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
 lm() {
    [[ -t 1 ]] && echo "$Purple${Underline}Sorted by modification date:$Reset"
-   command ls -FBtr --color=auto "$@"
+   ls -FBtr --color=auto "$@"
 }
 
 llm() {
    [[ -t 1 ]] && echo "$Purple${Underline}Sorted by modification date:$Reset"
-   command ls -FBhltr --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" "$@"
+   ls -FBhltr --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" "$@"
 }
 
 _lx() {
