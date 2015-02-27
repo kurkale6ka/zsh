@@ -113,33 +113,8 @@ alias to=touch
 alias md='command mkdir -p --'
 alias pw='pwd -P'
 
-## Networking: myip, dig, tunnel
+## Networking: myip, iptables, netstat
 alias myip='curl icanhazip.com'
-
-dig() { command dig +noall +answer "${@#*//}"; }
-dg() { dig -x $(dig +noall +answer +short "${@#*//}"); }
-
-# Tunnel host's port to the local port
-tunnel() {
-   # Help
-   if [[ $1 == -@(h|-h)* ]] || (($# == 0))
-   then
-      local info='Usage: tunnel {host} [{remote port: 80} {local port: 8080}]'
-      if (($#))
-      then echo "$info"    ; return 0
-      else echo "$info" >&2; return 1
-      fi
-   fi
-
-   if (($# == 1))
-   then
-      ssh -fNL "${3:-8080}":localhost:"${2:-80}" "$1" &&
-      xdg-open http://localhost:"${3:-8080}" 2>/dev/null
-   else
-      ssh -fNL "${3:-$2}":localhost:"$2" "$1" &&
-      xdg-open http://localhost:"${3:-$2}" 2>/dev/null
-   fi
-}
 
 # Security
 alias il='iptables -nvL --line-numbers'
