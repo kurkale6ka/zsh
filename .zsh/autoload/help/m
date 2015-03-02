@@ -1,0 +1,10 @@
+# mv
+if (($# >= 2)) && [[ -f $1 ]]
+then
+   mv -i -- $@
+   return
+fi
+
+(($# == 0)) && man man && return
+
+man $@
