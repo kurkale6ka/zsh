@@ -1,0 +1,32 @@
+# Search for help topics in my personal documentation
+
+case $1 in
+   rg|regex)
+      cat /home/mitko/github/help/it/regex.txt
+      return ;;
+
+   pf|printf)
+      /home/mitko/github/help/it/printf.sh
+      return ;;
+
+   sort)
+      cat /home/mitko/github/help/it/sort.txt
+      return ;;
+esac
+
+typeset -a matches
+
+while read -r
+do
+   matches+=($REPLY)
+done < <(ag -lS --ignore '*install*' --ignore '*readme*' --ignore '*license*' $1 ~/help/it)
+
+# For a single match, open the help file
+if (( ${#matches} == 1 ))
+then
+   v $matches -c"0/$1" -c'noh|norm zv<cr>'
+elif (( ${#matches[@]} > 1 ))
+then
+   ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31" \
+      $1 $matches
+fi

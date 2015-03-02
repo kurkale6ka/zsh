@@ -177,40 +177,6 @@ alias mm='man -k'
 
 mg() { man git-"${1:-help}"; }
 
-# Search for help topics in my personal documentation
-doc() {
-
-   case "$1" in
-      rg|regex)
-         cat /home/mitko/github/help/it/regex.txt
-         return ;;
-
-      pf|printf)
-         /home/mitko/github/help/it/printf.sh
-         return ;;
-
-      sort)
-         cat /home/mitko/github/help/it/sort.txt
-         return ;;
-   esac
-
-   local matches=()
-   while read -r
-   do
-      matches+=("$REPLY")
-   done < <(ag -lS --ignore '*install*' --ignore '*readme*' --ignore '*license*' "$1" "$HOME"/help/it)
-
-   # For a single match, open the help file
-   if (( ${#matches[@]} == 1 ))
-   then
-      command nvim -u "$HOME"/.vimrc "${matches[@]}" -c"0/$1" -c'noh|norm zv<cr>'
-   elif (( ${#matches[@]} > 1 ))
-   then
-      ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31" \
-         "$1" "${matches[@]}"
-   fi
-}
-
 alias rg="cat $HOME/github/help/it/regex.txt" # Regex  help
 alias pf="$HOME/github/help/it/printf.sh"     # printf help
 
