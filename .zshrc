@@ -135,12 +135,11 @@ alias co=chown
 alias cm=chmod
 
 ## ls
-alias l.='ls -Fd --color=auto .*~.*~'
+alias  l.='ls -Fd   --color=auto .*~.*~'
 alias ll.='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" .*~.*~'
 
-alias   l='ls -FB    --color=auto'
-alias  ll='ls -FBhl  --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
-alias  l1='ls -FB1   --color=auto'
+alias  l='ls -FB   --color=auto'
+alias ll='ls -FBhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
 alias  la='ls -FBA   --color=auto'
 alias lla='ls -FBAhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
@@ -148,39 +147,29 @@ alias lla='ls -FBAhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 alias  ld='ls -FBd   --color=auto'
 alias lld='ls -FBdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
+alias  l/='ld (.*|*)(/)'
+alias ll/='lld (.*|*)(/)'
+
+alias  lx='ls -Fd   --color=auto (.*~.*~|*~*~)(*)'
+alias llx='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" (.*~.*~|*~*~)(*)'
+
+alias  lm='ls -FBtr   --color=auto'
+alias llm='ls -FBhltr --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+
+# Sort by size
 alias  lk='ls -FBS   --color=auto'
 alias llk='ls -FBShl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
-alias  lr="tree -AC -I '*~' --noreport"
-alias llr='ls -FBRhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
+# A single column
+alias l1='ls -FB1 --color=auto'
 
-lm() {
-   [[ -t 1 ]] && echo "$Purple${Underline}Sorted by modification date:$Reset"
-   ls -FBtr --color=auto "$@"
-}
-
-llm() {
-   [[ -t 1 ]] && echo "$Purple${Underline}Sorted by modification date:$Reset"
-   ls -FBhltr --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" "$@"
-}
-
-alias lx='ls -Fd --color=auto (.*~.*~|*~*~)(*)'
-alias llx='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" (.*~.*~|*~*~)(*)'
+alias lr="tree -AC -I '*~' --noreport"
 
 ln() {
-   if (($#)); then
-      command ln "$@"
-   else
-      ll .*(@)
-      ll *(@)
+   if (($#))
+   then command ln $@
+   else ll (.*|*)(@)
    fi
-}
-
-sl() {
-   printf '%-8s %-17s %-3s %-4s %-4s %-10s %-12s %-s\n'\
-          'Inode' 'Permissions' 'ln' 'UID' 'GID' 'Size' 'Time' 'Name'
-   local args=(); (($#)) && args=("$@") || args=(*)
-   stat -c "%8i %A (%4a) %3h %4u %4g %10s (%10Y) %n" -- "${args[@]}"
 }
 
 ## Help
