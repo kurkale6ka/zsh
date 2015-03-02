@@ -175,8 +175,6 @@ ln() {
 ## Help
 alias mm='man -k'
 
-mg() { man git-"${1:-help}"; }
-
 alias rg="cat $HOME/github/help/it/regex.txt" # Regex  help
 alias pf="$HOME/github/help/it/printf.sh"     # printf help
 

@@ -1,0 +1,1 @@
+man git-${1:-help}
