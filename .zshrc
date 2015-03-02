@@ -48,32 +48,19 @@ export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
 [[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
 ## Vim
-if command -v nvim
-then nvim=nvim
-else nvim=vim
-fi >/dev/null 2>&1
+if command -v nvim >/dev/null 2>&1
+then nvim='nvim -u ~/.vimrc'
+else nvim='vim -u ~/.vimrc'
+fi
 
-if command -v vimx; then
-   my_gvim=vimx
-elif command -v gvim; then
-   my_gvim=gvim
-fi >/dev/null 2>&1
+alias v=$nvim
+alias vd="$nvim -d"
+alias vt="$nvim -t"
 
-alias  vim='command   vim -u ~/.vimrc'
-alias    v="command $nvim -u ~/.vimrc"
-alias   vm="command $nvim -u ~/.vimrc -"
-alias   vd="command $nvim -u ~/.vimrc -d"
-alias   vt="command $nvim -u ~/.vimrc -t"
-alias   vl="command ls -FB1 | $nvim -u ~/.vimrc -"
-alias vish='sudo vipw -s'
+alias -g L="| $nvim -"
+alias vl="ls -FB1 L"
 
 alias ed='ed -v -p:'
-
-if [[ $my_gvim ]]; then
-   alias gvim="command $my_gvim -u ~/.vimrc -U ~/.gvimrc"
-   alias   gv="command $my_gvim -u ~/.vimrc -U ~/.gvimrc"
-   alias  gvd="command $my_gvim -u ~/.vimrc -U ~/.gvimrc -d"
-fi
 
 ## sudo
 alias  sd=sudo
