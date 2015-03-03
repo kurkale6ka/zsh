@@ -303,36 +303,6 @@ alias dump='dump -u'
 ## Disk: df, du, hdparm, mount
 df() { command df -hT "$@" | sort -k6r; }
 
-duu() {
-   local args=()
-   (($#)) && args=("$@") || args=(*)
-   du -xsk -- "${args[@]}" | sort -n | while read -r size f
-   do
-      for u in K M G T P E Z Y
-      do
-         if ((size < 1024))
-         then
-            case "$u" in
-               K) unit="${Green}$u${Reset}";;
-               M) unit="${Blue}$u${Reset}";;
-               G) unit="${Red}$u${Reset}";;
-               *) unit="${LRed}$u${Reset}"
-            esac
-            if [[ -h $f ]]; then
-               file="${LCyan}$f${Reset}"
-            elif [[ -d $f ]]; then
-               file="${LBlue}$f${Reset}"
-            else
-               file="$f"
-            fi
-            printf '%5d%s\t%s\n' "$size" "$unit" "$file"
-            break
-         fi
-         ((size = size / 1024))
-      done
-   done
-}
-
 hd() { if ((1 == $#)); then hdparm -I -- "$1"; else hdparm "$@"; fi; }
 
 mn() {
