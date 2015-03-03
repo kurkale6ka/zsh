@@ -496,84 +496,85 @@ zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
 ## zle snippets
-# Array
+
+### ^x[ Array
 bindkey -s '^x[' '${[@]}\e4^b'
 
-# bc
+### ^x= bc
 bindkey -s '^x=' "command bc <<< 'scale=20; '^b"
 
-# find
+### ^x/ find
 bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
 
-# GNU parallel
+### ^x\ GNU parallel
 bindkey -s '^x\\' " | parallel -X ^@ {} ^x^x"
 
-# IPs
+### ^x0 IPs
 bindkey -s '^x0' '127.0.0.1'
 bindkey -s '^x1' '10.0.0.'
 bindkey -s '^x7' '172.16.0.'
 bindkey -s '^x9' '192.168.0.'
 
-# Ranges
+### ^x- Ranges
 bindkey -s '^x-' '{1\e ..}^b'
 bindkey -s '^x.' '{1\e ..}^b'
 
-# Output in columns
+### ^x| Output in columns
 bindkey -s '^x|' ' | column -t'
 
-# /dev/null
+### ^x_ /dev/null
 bindkey -s '^x_' '/dev/null'
 
-# awk
+### ^xa awk
 bindkey -s '^xa' "awk '/^@/ {print $}' \e3^b"
 bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
 
-# Braces
+### ^xb Braces
 bindkey -s '^xb' '(())\e2^b'
 bindkey -s '^xB' '{}^b'
 bindkey -s '^x]' '[[]]\e2^b'
 
-# Counting row occurrences in a stream
+### ^xc Counting row occurrences in a stream
 bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
 
-# Diff
+### ^xd Diff
 bindkey -s '^xd' 'diff -uq^@ --from-file '
 
-# ed
+### ^xe ed
 bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
 bindkey -s '^xE' "printf '%s\\\n' H 0i ^@ . wq | 'ed' -s "
 
-# Loops
+### ^xf Loops
 bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb^b'
 bindkey -s '^xF' 'for ((i = 0; i < ^@; i++)); do  $i; done\e2\eb^b'
 bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
 bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
 
-# groff
+### ^xg groff
 bindkey -s '^xg' ' | groff -man -Tascii | less^m'
 
-# File renaming (mv)
+### ^xm File renaming (mv)
 bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"Ta/'.\\\{-}'/l1l0\" -c'se ft=sh' -^x^x"
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
-# Directory statistics
+### ^xn Directory statistics
 bindkey -s '^xn' 'ls -d (.*|*)(om[1])\eb^f^f'
 bindkey -s '^xo' '(setopt nullglob; unset oldest; for file in *^@; do [[ $file -ot $oldest || ! $oldest ]] && oldest=$file; done; echo $oldest)^x^x'
 bindkey -s '^x*' '(setopt nullglob dotglob; inodes=(*[\^\~]); echo There are ${#inodes[@]} inodes)'
 
-# printf
+### ^xp printf
 bindkey -s '^xp' "printf '%s\\\n' "
 
-# Backticks
+### ^x` Backticks
 bindkey -s '^x`' '$()^b'
 
-# systemd
+### ^xs systemd
 bindkey -s '^xs' 'systemctl status'
 
-# tcpdump
+### ^xt tcpdump
 bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
 
-# Test
+### ^xT Test
 bindkey -s '^xT' ' && echo hmm'
 
 ## Business specific or system dependant stuff
