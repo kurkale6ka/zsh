@@ -490,6 +490,11 @@ then
    zle -N zle-line-finish
 fi
 
+# Use EDITOR/VISUAL to edit the command line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
 ## zle snippets
 # Array
 bindkey -s '^x[' '${[@]}\e4^b'
