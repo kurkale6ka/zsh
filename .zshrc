@@ -200,38 +200,6 @@ _type() {
 
 alias '?=_type'
 
-## Display /etc/passwd, ..group and ..shadow with some formatting
-db() {
-   local options[0]='/etc/passwd'
-         options[1]='/etc/group'
-         options[2]='/etc/shadow'
-
-   select choice in "${options[@]}"; do
-
-      case "$choice" in
-
-         "${options[0]}")
-            header=LOGIN:PASSWORD:UID:GID:GECOS:HOME:SHELL
-            sort -k7 -t: /etc/passwd | command sed -e "1i$header" -e 's/::/:-:/g' |\
-               column -ts:
-            break;;
-
-         "${options[1]}")
-            header=GROUP:PASSWORD:GID:USERS
-            sort -k4 -t: /etc/group | command sed "1i$header" | column -ts:
-            break;;
-
-         "${options[2]}")
-            header=LOGIN:PASSWORD:LAST:MIN:MAX:WARN:INACTIVITY:EXPIRATION:RESERVED
-            sudo sort -k2 -t: /etc/shadow |\
-               awk -F: '{print $1":"substr($2,1,3)":"$3":"$4":"$5":"$6":"$7":"$8":"$9}' |\
-               command sed -e "1i$header" -e 's/::/:-:/g' | column -ts:
-            break;;
-      esac
-      echo '*** Wrong choice ***'
-   done
-}
-
 ## rm and cp like functions and aliases
 # Delete based on inodes (use ls -li first)
 di() {
