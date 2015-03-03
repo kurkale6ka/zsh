@@ -377,9 +377,7 @@ bn() {
    fi
 }
 
-## Head/tail + cat-like functions
-h() { if (($#)) || [[ ! -t 0 ]]; then head "$@"; else history; fi; }
-
+## Tail and cat aliases
 alias t=tail
 alias tf='tail -f -n0'
 
