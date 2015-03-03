@@ -219,15 +219,6 @@ alias y='cp -i --'
 alias d='rm -i --preserve-root --'
 
 ## Find stuff and diffs
-f() {
-   if (($# == 1))
-   then
-      find . -iname "*$1*" -printf '%P\n'
-   else
-      find "$@"
-   fi
-}
-
 alias lo='command locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
