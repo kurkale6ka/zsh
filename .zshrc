@@ -232,13 +232,6 @@ else
    alias gr='command grep -nIriE --color=auto --exclude="*~" --exclude tags'
 fi
 
-diff() {
-   if [[ -t 1 ]] && command -v colordiff >/dev/null 2>&1
-   then         colordiff "$@"
-   else command      diff "$@"
-   fi
-}
-
 alias _=combine
 
 ## Date and calendar

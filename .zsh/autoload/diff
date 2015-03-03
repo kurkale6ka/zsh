@@ -1,0 +1,6 @@
+if [[ -t 1 ]] && command -v colordiff >/dev/null 2>&1
+then
+   colordiff $@
+else
+   diff $@
+fi
