@@ -345,8 +345,7 @@ mn() {
 alias umn=umount
 alias fu='sudo fuser -mv'
 
-## Misc: options, app aliases, rc(), b(), e()
-# Options
+## Various app aliases
 alias  a=alias
 alias ua=unalias
 
