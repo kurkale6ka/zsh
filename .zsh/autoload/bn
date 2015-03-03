@@ -1,0 +1,6 @@
+# Banners
+case $# in
+   (1) figlet -f smslant -- $1     ;; # bn Hello
+   (2) figlet -f $1      -- ${@:2} ;; # bn lean Hello (use a different font)
+   (*) figlist                     ;; # bn (list fonts and control files)
+esac

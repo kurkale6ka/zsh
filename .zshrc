@@ -369,14 +369,6 @@ alias rb=irb
 # # rbenv: run multiple versions of ruby side-by-side
 # command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
 
-# Banners using figlet
-bn() {
-   if   (($# == 1)); then figlet -f smslant -- "$1"
-   elif (($# == 2)); then figlet -f "$1"    -- "${@:2}"
-   else                   figlist | column -c"$COLUMNS"
-   fi
-}
-
 ## Tail and cat aliases
 alias t=tail
 alias tf='tail -f -n0'
