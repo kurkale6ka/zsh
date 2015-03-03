@@ -393,9 +393,6 @@ catall() {
 
 cn() { if [[ -t 1 ]]; then command cat -n -- "$@"; else command cat "$@"; fi; }
 
-# Display non-empty lines in a file
-sq() { command grep -v '^[[:space:]]*#\|^[[:space:]]*$' -- "$@"; }
-
 # Cleaner PATH display
 pa() { awk '!_[$0]++' <<< "${PATH//:/$'\n'}"; }
 

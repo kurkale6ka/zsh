@@ -1,0 +1,2 @@
+# Display non-empty lines in a file
+grep -v '^[[:space:]]*#\|^[[:space:]]*$' -- $@
