@@ -393,9 +393,6 @@ catall() {
 
 cn() { if [[ -t 1 ]]; then command cat -n -- "$@"; else command cat "$@"; fi; }
 
-# Cleaner PATH display
-pa() { awk '!_[$0]++' <<< "${PATH//:/$'\n'}"; }
-
 ## Git
 alias gc='git commit -v'
 alias gp='git push origin master'
