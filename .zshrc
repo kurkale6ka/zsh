@@ -350,9 +350,6 @@ alias fu='sudo fuser -mv'
 alias  a=alias
 alias ua=unalias
 
-alias  o='set -o'
-alias oo=shopt
-
 # Application aliases
 alias open=xdg-open
 alias weechat='TERM=xterm-256color weechat'
@@ -363,7 +360,6 @@ alias bc='bc -ql'
 # More aliases
 alias msg=dmesg
 alias cmd=command
-alias builtins='enable -a | cut -d" " -f2  | column'
 alias hg='history | command grep -iE --color=auto'
 
 alias pl=perl
@@ -372,14 +368,6 @@ alias rb=irb
 
 # # rbenv: run multiple versions of ruby side-by-side
 # command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
-
-# Helper for creating a minimal .inputrc file
-rc() {
-   local inputrc="printf '%s\n' "
-         inputrc+="'\"\e[A\": history-search-backward' "
-         inputrc+="'\"\e[B\": history-search-forward' >> $HOME/.inputrc"
-   xclip -f <<< "$inputrc"
-}
 
 # Banners using figlet
 bn() {
