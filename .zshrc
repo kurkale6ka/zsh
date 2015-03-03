@@ -234,14 +234,7 @@ fi
 
 alias _=combine
 
-## Date and calendar
-date() {
-   if (($#))
-   then command date "$@"
-   else command date '+%A %d %B %Y, %H:%M %Z (%d/%m/%Y)'
-   fi
-}
-
+## Calendar
 if command -v ncal >/dev/null 2>&1; then
    alias  cal='env LC_TIME=bg_BG.utf8 ncal -3 -M -C'
    alias call='env LC_TIME=bg_BG.utf8 ncal -y -M -C'
