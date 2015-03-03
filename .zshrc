@@ -482,24 +482,6 @@ alias gf='git fetch'
 alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
 
-## Google search: gg term
-urlencode() {
-   local char
-   local str="$*"
-   for ((i = 0; i < ${#str}; i++)); do
-      char="${str:i:1}"
-      case "$char" in
-         [a-zA-Z0-9.~_-]) printf "$char" ;;
-                     ' ') printf + ;;
-                       *) printf '%%%X' "'$char"
-      esac
-   done
-}
-
-gg() {
-   sudo -umitko xdg-open https://www.google.co.uk/search?q="$(urlencode "$@")" >/dev/null 2>&1
-}
-
 ## Typos
 alias cta=cat
 alias ecex=exec

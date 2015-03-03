@@ -1,0 +1,23 @@
+## Google search: gg word1 word2 ...
+
+urlencode() {
+
+   local char
+   local str="$*"
+
+   for ((i = 0; i < ${#str}; i++))
+   do
+      char=${str:$i:1}
+      case $char in
+         [a-zA-Z0-9.~_-]) printf $char ;;
+                     ' ') printf + ;;
+                       *) printf '%%%X' "'$char"
+      esac
+   done
+}
+
+gg() {
+   sudo -umitko xdg-open "https://www.google.co.uk/search?q=$(urlencode $@)" >/dev/null 2>&1
+}
+
+gg $@
