@@ -393,9 +393,6 @@ catall() {
 
 cn() { if [[ -t 1 ]]; then command cat -n -- "$@"; else command cat "$@"; fi; }
 
-# Print nth line in a file: n 11 /my/file
-n() { command sed -n "$1{p;q}" -- "$2"; }
-
 # Display non-empty lines in a file
 sq() { command grep -v '^[[:space:]]*#\|^[[:space:]]*$' -- "$@"; }
 

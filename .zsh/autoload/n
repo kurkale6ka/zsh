@@ -1,0 +1,4 @@
+# Print nth line in a file
+# Ex: n 11 /my/file
+
+sed -n "$1{p;q}" -- $2
