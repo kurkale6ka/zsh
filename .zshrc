@@ -383,7 +383,7 @@ h() { if (($#)) || [[ ! -t 0 ]]; then head "$@"; else history; fi; }
 alias t=tail
 alias tf='tail -f -n0'
 
-cn() { if [[ -t 1 ]]; then command cat -n -- "$@"; else command cat "$@"; fi; }
+alias cn='cat -n --'
 
 ## Git
 alias gc='git commit -v'
