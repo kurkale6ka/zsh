@@ -383,14 +383,6 @@ h() { if (($#)) || [[ ! -t 0 ]]; then head "$@"; else history; fi; }
 alias t=tail
 alias tf='tail -f -n0'
 
-# Display the first 98 lines of all (or filtered) files in . Ex: catall .ba
-catall() {
-   (($#)) && local filter=(-iname "$1*")
-   find . -maxdepth 1 "${filter[@]}" ! -name '*~' -type f -print0 |
-   xargs -0 file | grep text | cut -d: -f1 | cut -c3- | xargs head -n98 |
-   command $nvim -u "$HOME"/.vimrc -c "se fdl=0 fdm=expr fde=getline(v\:lnum)=~'==>'?'>1'\:'='" -
-}
-
 cn() { if [[ -t 1 ]]; then command cat -n -- "$@"; else command cat "$@"; fi; }
 
 ## Git
