@@ -175,8 +175,8 @@ ln() {
 ## Help
 alias mm='man -k'
 
-alias rg="cat $HOME/github/help/it/regex.txt" # Regex  help
-alias pf="$HOME/github/help/it/printf.sh"     # printf help
+alias rg='cat ~/github/help/it/regex.txt' # Regex  help
+alias pf='~/github/help/it/printf.sh'     # printf help
 
 # which-like function
 _type() {
@@ -556,6 +556,6 @@ bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
 bindkey -s '^xT' ' && echo hmm'
 
 ## Business specific or system dependant stuff
-[[ -r $HOME/.zshrc_after ]] && . "$HOME"/.zshrc_after
+[[ -r ~/.zshrc_after ]] && . ~/.zshrc_after
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
