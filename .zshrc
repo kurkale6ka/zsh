@@ -230,8 +230,6 @@ u() {
 
 alias os='tail -n99 /etc/*{release,version} 2>/dev/null | cat -s'
 
-alias dump='dump -u'
-
 ## umount and fuser aliases
 alias umn=umount
 alias fu='sudo fuser -mv'
