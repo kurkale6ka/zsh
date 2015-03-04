@@ -279,9 +279,7 @@ br() {
 
 alias dump='dump -u'
 
-## Disk: df, du, hdparm, mount
-df() { command df -hT "$@" | sort -k6r; }
-
+## umount and fuser aliases
 alias umn=umount
 alias fu='sudo fuser -mv'
 
