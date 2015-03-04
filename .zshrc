@@ -282,8 +282,6 @@ alias dump='dump -u'
 ## Disk: df, du, hdparm, mount
 df() { command df -hT "$@" | sort -k6r; }
 
-hd() { if ((1 == $#)); then hdparm -I -- "$1"; else hdparm "$@"; fi; }
-
 alias umn=umount
 alias fu='sudo fuser -mv'
 
