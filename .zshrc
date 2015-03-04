@@ -144,11 +144,11 @@ alias lla='ls -FBAhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 alias  ld='ls -FBd   --color=auto'
 alias lld='ls -FBdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 
-alias  l/='ld (.*|*)(/)'
-alias ll/='lld (.*|*)(/)'
+alias  l/='ld *(/D)'
+alias ll/='lld *(/D)'
 
-alias  lx='ls -Fd   --color=auto (.*~.*~|*~*~)(*)'
-alias llx='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" (.*~.*~|*~*~)(*)'
+alias  lx='ls -Fd   --color=auto *~*~(*D)'
+alias llx='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" *~*~(*D)'
 
 alias  lm='ls -FBtr   --color=auto'
 alias llm='ls -FBhltr --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
@@ -165,7 +165,7 @@ alias lr="tree -AC -I '*~' --noreport"
 ln() {
    if (($#))
    then command ln $@
-   else ll (.*|*)(@)
+   else ll *(@D)
    fi
 }
 
@@ -402,7 +402,7 @@ bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
 ### ^xn Directory statistics
-bindkey -s '^xn' 'ls -d (.*|*)(om[1])\eb^f^f'
+bindkey -s '^xn' 'ls -d *(om[1]D)\eb^f'
 bindkey -s '^xo' '(setopt nullglob; unset oldest; for file in *^@; do [[ $file -ot $oldest || ! $oldest ]] && oldest=$file; done; echo $oldest)^x^x'
 bindkey -s '^x*' '(setopt nullglob dotglob; inodes=(*[\^\~]); echo There are ${#inodes[@]} inodes)'
 

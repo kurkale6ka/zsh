@@ -3,8 +3,8 @@
 # Ex: catall
 #     catall .ba
 
-file $1(.*~.*~|*~*~)(.) |
-grep text               |
-cut -d: -f1             |
-xargs head -n98         |
+file $1*~*~(.D) |
+grep text       |
+cut -d: -f1     |
+xargs head -n98 |
 v -c "se fdl=0 fdm=expr fde=getline(v\:lnum)=~'==>'?'>1'\:'='" -
