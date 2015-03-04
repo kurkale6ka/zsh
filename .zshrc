@@ -176,27 +176,8 @@ alias mm='man -k'
 alias rg='cat ~/github/help/it/regex.txt' # Regex  help
 alias pf='~/github/help/it/printf.sh'     # printf help
 
-# which-like function
-_type() {
-   (($#)) || { type -a -- "$FUNCNAME"; return; }
-
-   echo "${Bold}type -a (exe, alias, builtin, func):$Reset"
-   type -a -- "$@" 2>/dev/null
-   echo
-
-   echo "${Bold}whereis -b (bin):$Reset"
-   whereis -b "$@"
-   echo
-
-   echo "${Bold}file -L (deref):$Reset"
-   local f
-   for f in "$@"
-   do
-      file -L "$(type -P -- "$f")"
-   done
-}
-
-alias '?=_type'
+# print info about a command, alias, function...
+alias '?=whence -ca --'
 
 ## rm and cp like functions and aliases
 # Delete based on inodes (use ls -li first)
