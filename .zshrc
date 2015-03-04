@@ -284,13 +284,6 @@ df() { command df -hT "$@" | sort -k6r; }
 
 hd() { if ((1 == $#)); then hdparm -I -- "$1"; else hdparm "$@"; fi; }
 
-mn() {
-   if (($#))
-   then command mount "$@"
-   else command mount | cut -d" " -f1,3,5,6 | column -t
-   fi
-}
-
 alias umn=umount
 alias fu='sudo fuser -mv'
 
