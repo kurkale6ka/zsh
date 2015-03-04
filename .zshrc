@@ -3,7 +3,6 @@
 
 setopt extended_glob
 setopt auto_pushd
-
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
@@ -47,7 +46,7 @@ export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
 
 [[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
-## Vim
+## Vim and ed
 if command -v nvim >/dev/null 2>&1
 then nvim='nvim -u ~/.vimrc'
 else nvim='vim -u ~/.vimrc'
@@ -83,7 +82,7 @@ precmd() {
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
 RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(3V.%F{purple}.%F{yellow})%(?..%F{red})%m%f %T'
 
-## Directory functions and aliases: cd, md, rd, pw
+## Directory + file aliases: cd, autojump, to...
 alias -- -='cd - >/dev/null'
 
 alias 1='cd ..'
