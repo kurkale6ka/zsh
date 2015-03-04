@@ -16,7 +16,7 @@ fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
 autoload ~/.zsh/autoload/**/*(.:t)
 
 ## Colors
-# These can't reside in .profile since there is no terminal for tput
+# These can't reside in .zprofile since there is no terminal for tput
      Bold="$(tput bold)"
 Underline="$(tput smul)"
    Purple="$(tput setaf 5)"
@@ -84,14 +84,12 @@ PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
 RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(3V.%F{purple}.%F{yellow})%(?..%F{red})%m%f %T'
 
 ## Directory functions and aliases: cd, md, rd, pw
-alias  cd-='cd - >/dev/null'
 alias -- -='cd - >/dev/null'
-alias    1='cd ..'
-alias    2='cd ../..'
-alias    3='cd ../../..'
-alias    4='cd ../../../..'
-alias cd..='cd ..'
-alias   ..='cd ..'
+
+alias 1='cd ..'
+alias 2='cd ../..'
+alias 3='cd ../../..'
+alias 4='cd ../../../..'
 
 . /etc/profile.d/autojump.zsh
 alias c=j
