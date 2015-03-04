@@ -4,7 +4,7 @@ if (($#))
 then
    args=($@)
 else
-   args=(*)
+   args=(*(D))
 fi
 
 du -xsk -- $args | sort -n | while read -r size f
