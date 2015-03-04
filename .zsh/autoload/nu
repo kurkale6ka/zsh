@@ -3,6 +3,6 @@
    cd /usr/local/src/neovim-git || exit 1
    if makepkg -s
    then
-      sudo pacman -U "$(echo *.pkg.tar.xz(om[1]))"
+      sudo pacman -U *.pkg.tar.xz(om[1])
    fi
 )
