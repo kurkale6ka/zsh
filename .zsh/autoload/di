@@ -1,0 +1,23 @@
+# Delete based on inodes
+# NB: ls -li
+#     to first find the inodes you want to delete
+
+if (($#))
+then
+   typeset -a inodes
+   inodes=()
+
+   local inode
+
+   # skip the last inode
+   for inode in ${@:1:$#-1}
+   do
+      inodes+=(-inum $inode -o)
+   done
+
+   # last inode
+   inodes+=(-inum ${@:$#})
+
+   # -inum 38 -o -inum 73
+   find . \( $inodes \) -exec rm -i -- {} +
+fi

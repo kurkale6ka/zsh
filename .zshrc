@@ -179,21 +179,7 @@ alias pf='~/github/help/it/printf.sh'     # printf help
 # print info about a command, alias, function...
 alias '?=whence -ca --'
 
-## rm and cp like functions and aliases
-# Delete based on inodes (use ls -li first)
-di() {
-   (($#)) || return 1
-   local inode inodes=()
-   # skip the last inode
-   for inode in "${@:1:$#-1}"; do
-      inodes+=(-inum "$inode" -o)
-   done
-   # last inode
-   inodes+=(-inum "${@:$#}")
-   # -inum 38 -o -inum 73
-   find . \( "${inodes[@]}" \) -exec rm -i -- {} +
-}
-
+## cp and rm aliases
 alias y='cp -i --'
 alias d='rm -i --preserve-root --'
 
