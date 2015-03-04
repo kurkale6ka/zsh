@@ -208,13 +208,8 @@ else
    alias call='env LC_TIME=bg_BG.utf8 cal -my'
 fi
 
-## uname + os
-u() {
-   uname -r
-   echo "$(uname -mpi) (machine, proc, platform)"
-}
-
-alias os='tail -n99 /etc/*{release,version} 2>/dev/null | cat -s'
+## os
+alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
 
 ## umount and fuser aliases
 alias umn=umount

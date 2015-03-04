@@ -1,0 +1,2 @@
+uname -r
+echo "$(uname -mpi) (machine, proc, platform)"
