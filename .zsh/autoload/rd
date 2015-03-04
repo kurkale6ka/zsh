@@ -4,5 +4,5 @@ read REPLY\?'(y/n) '
 
 if [[ $REPLY == (y|yes) ]]
 then
-   command rm -r -- $@
+   'rm' -r -- $@
 fi

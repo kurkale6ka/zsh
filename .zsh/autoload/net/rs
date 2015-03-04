@@ -1,4 +1,5 @@
 ## Copy a user dir to a remote server using rsync
+
 if (($# != 3))
 then
    echo 'Usage: rs {user} {server} {dir}' 1>&2

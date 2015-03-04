@@ -1,11 +1,11 @@
 case $# in
-   2)
+   (2)
       # Run the previous command by replacing old with new
       # s old new [number|cmd]
       fc -s $1=$2 $3
       ;;
 
-   1)
+   (1)
       # /etc/services lookup (ex: ftp)
       if [[ $1 == [[:digit:]]* ]]
       then
@@ -17,7 +17,7 @@ case $# in
       fi
       ;;
 
-   0)
+   (0)
       # Run a root shell
       sudo -E /usr/bin/zsh 2>/dev/null || sudo /usr/bin/zsh
       ;;

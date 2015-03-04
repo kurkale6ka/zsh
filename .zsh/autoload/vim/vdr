@@ -10,4 +10,4 @@ HELP
 return 1
 fi
 
-$nvim -u ~/.vimrc -d $2 <(ssh -q $1 cat ${3:-$2})
+v -d $2 <(ssh -q $1 cat ${3:-$2})

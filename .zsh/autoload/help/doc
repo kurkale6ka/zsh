@@ -25,7 +25,7 @@ done < <(ag -lS --ignore '*install*' --ignore '*readme*' --ignore '*license*' $1
 if (( ${#matches} == 1 ))
 then
    v $matches -c"0/$1" -c'noh|norm zv<cr>'
-elif (( ${#matches[@]} > 1 ))
+elif (( ${#matches} > 1 ))
 then
    ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31" \
       $1 $matches
