@@ -1,0 +1,33 @@
+# Install an AUR package downloaded in ~/Downloads
+#
+# Usage:
+#    aur
+#    aur -d (install as a dependence)
+#
+# Run as root
+
+local _user=mitko
+local downloads=~/Downloads
+
+local pkg="$(echo $downloads/*.tar.gz(om[1]))"
+pkg=${pkg##*/}
+
+if cd /usr/local/src
+then
+   mv $downloads/$pkg .
+   tar zxvf $pkg
+   rm $pkg
+   chown -R $_user:$_user ${pkg%%.*}
+fi
+
+if cd ${pkg%%.*}
+then
+   sudo -u$_user makepkg -s
+
+   if [[ $1 == -d ]]
+   then
+      pacman --asdeps -U ${pkg%%.*}*.tar.xz
+   else
+      pacman -U ${pkg%%.*}*.tar.xz
+   fi
+fi
