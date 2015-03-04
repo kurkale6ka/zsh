@@ -234,9 +234,6 @@ alias pl=perl
 alias py=python
 alias rb=irb
 
-# # rbenv: run multiple versions of ruby side-by-side
-# command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
-
 ## Tail and cat aliases
 alias t=tail
 alias tf='tail -f -n0'
