@@ -303,22 +303,22 @@ key[Down]=${terminfo[kcud1]}
 key[Left]=${terminfo[kcub1]}
 key[Right]=${terminfo[kcuf1]}
 
-[[ ${key[Insert]}   ]] && bindkey ${key[Insert]}   overwrite-mode
-[[ ${key[Delete]}   ]] && bindkey ${key[Delete]}   delete-char
-[[ ${key[Home]}     ]] && bindkey ${key[Home]}     beginning-of-line
-[[ ${key[End]}      ]] && bindkey ${key[End]}      end-of-line
-[[ ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
-[[ ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
+[[ -n ${key[Insert]}   ]] && bindkey ${key[Insert]}   overwrite-mode
+[[ -n ${key[Delete]}   ]] && bindkey ${key[Delete]}   delete-char
+[[ -n ${key[Home]}     ]] && bindkey ${key[Home]}     beginning-of-line
+[[ -n ${key[End]}      ]] && bindkey ${key[End]}      end-of-line
+[[ -n ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
+[[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
 
 autoload -U history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 
-[[ ${key[Up]}    ]] && bindkey ${key[Up]}    history-beginning-search-backward-end
-[[ ${key[Down]}  ]] && bindkey ${key[Down]}  history-beginning-search-forward-end
-[[ ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
-[[ ${key[Right]} ]] && bindkey ${key[Right]} forward-char
+[[ -n ${key[Up]}    ]] && bindkey ${key[Up]}    history-beginning-search-backward-end
+[[ -n ${key[Down]}  ]] && bindkey ${key[Down]}  history-beginning-search-forward-end
+[[ -n ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
+[[ -n ${key[Right]} ]] && bindkey ${key[Right]} forward-char
 
 # Make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
