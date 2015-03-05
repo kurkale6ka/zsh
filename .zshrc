@@ -80,7 +80,7 @@ precmd() {
 }
 
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
-RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(3V.%F{purple}.%F{yellow})%(?..%F{red})%m%f %T'
+RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(3V.%F{magenta}.%F{yellow})%(?..%F{red})%m%f %T'
 
 ## Directory + file aliases: cd, autojump, to...
 alias -- -='cd - >/dev/null'
