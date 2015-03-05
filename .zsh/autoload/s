@@ -19,6 +19,6 @@ case $# in
 
    (0)
       # Run a root shell
-      sudo -E /usr/bin/zsh 2>/dev/null || sudo /usr/bin/zsh
+      sudo -E /usr/bin/env zsh 2>/dev/null || sudo /usr/bin/env zsh
       ;;
 esac
