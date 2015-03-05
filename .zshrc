@@ -90,7 +90,7 @@ alias 2='cd ../..'
 alias 3='cd ../../..'
 alias 4='cd ../../../..'
 
-. /etc/profile.d/autojump.zsh
+[[ -f /etc/profile.d/autojump.zsh ]] && . /etc/profile.d/autojump.zsh
 alias c=j
 
 alias to=touch
