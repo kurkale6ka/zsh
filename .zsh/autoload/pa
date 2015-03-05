@@ -1,5 +1,7 @@
 # Multiline PATH display, showing unique entries only
 
-typeset -U path
+typeset -a _path
+_path=($path)
+typeset -U _path
 
-print -l $path
+print -l $_path
