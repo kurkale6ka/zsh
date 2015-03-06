@@ -1,0 +1,3 @@
+#compdef cssh
+
+_arguments "*:Hosts:($(awk '/^[^ #]/ {print $1}' ~/.clusterssh/clusters))"
