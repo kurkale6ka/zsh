@@ -12,7 +12,7 @@ HISTSIZE=7000
 SAVEHIST=7000
 
 fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
-autoload ~/.zsh/autoload/**/*(.:t)
+autoload ~/.zsh/autoload/**/[^_]*(.:t)
 
 ## Colors
 [[ $TERM == xterm ]] && TERM='xterm-256color'
