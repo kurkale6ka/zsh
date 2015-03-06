@@ -15,6 +15,8 @@ fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
 autoload ~/.zsh/autoload/**/*(.:t)
 
 ## Colors
+[[ $TERM == xterm ]] && TERM='xterm-256color'
+
 # These can't reside in .zprofile since there is no terminal for tput
      Bold="$(tput bold)"
 Underline="$(tput smul)"
@@ -220,7 +222,6 @@ alias ua=unalias
 
 # Application aliases
 alias open=xdg-open
-alias weechat='TERM=xterm-256color weechat'
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
 alias bc='bc -ql'
