@@ -81,8 +81,8 @@ precmd() {
    psvar[4]=$vcs_info_msg_0_
 }
 
-PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{yellow}%n %f%# '
-RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(3V.%F{magenta}.%F{yellow})%(?..%F{red})%m%f %T'
+PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{221}%n %f%# '
+RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(3V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
 
 ## Directory + file aliases: cd, autojump, to...
 alias -- -='cd - >/dev/null'
