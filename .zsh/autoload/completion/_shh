@@ -1,0 +1,3 @@
+#compdef ssh
+
+_arguments "*:Hosts:($(nodeset -ea))"
