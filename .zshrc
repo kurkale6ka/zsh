@@ -273,6 +273,8 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
+zstyle ':completion:*:descriptions' format '%F{170}%d%f'
+zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
 
 # extensions ignored in <tab> completion
 zstyle ':completion:*' ignored-patterns '*~'
