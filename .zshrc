@@ -20,15 +20,9 @@ autoload ~/.zsh/autoload/**/[^_]*(.:t)
 # These can't reside in .zprofile since there is no terminal for tput
      Bold="$(tput bold)"
 Underline="$(tput smul)"
-   Purple="$(tput setaf 5)"
-    Green="$(tput setaf 2)"
      Blue="$(tput setaf 4)"
-      Red="$(tput setaf 1)"
-  LPurple="$(printf %s $Bold; tput setaf 5)"
    LGreen="$(printf %s $Bold; tput setaf 2)"
     LBlue="$(printf %s $Bold; tput setaf 4)"
-     LRed="$(printf %s $Bold; tput setaf 1)"
-    LCyan="$(printf %s $Bold; tput setaf 6)"
     Reset="$(tput sgr0)"
 
 # Colored man pages
