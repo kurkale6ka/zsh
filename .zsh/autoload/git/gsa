@@ -17,4 +17,5 @@ do
    fi
    [[ $repo != zsh ]] && echo
 done
+return 0
 )
