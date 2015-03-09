@@ -5,7 +5,7 @@ for repo in *~bash-cd(/)
 do
    if cd ~/github/$repo
    then
-      echo "$Bold=== $repo ===$Reset"
+      print -P "%B=== $repo ===%b"
 
       if (($#)) # fetch if branch ahead of remote
       then
