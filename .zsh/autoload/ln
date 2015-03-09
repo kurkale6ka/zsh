@@ -1,0 +1,6 @@
+if (($#))
+then
+   command ln $@
+else
+   ll *(@D)
+fi

@@ -179,13 +179,6 @@ alias l1='ls -FB1 --color=auto'
 
 alias lr="tree -aAC -I '*~' --noreport"
 
-ln() {
-   if (($#))
-   then command ln $@
-   else ll *(@D)
-   fi
-}
-
 ## Help
 alias mm='man -k'
 
