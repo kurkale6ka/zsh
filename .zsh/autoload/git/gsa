@@ -5,17 +5,25 @@ for repo in *~bash-cd(/)
 do
    if cd ~/github/$repo
    then
-      print -P "%B=== $repo ===%b"
+      gs="$(git status --porcelain -b)"
 
-      if (($#)) # fetch if branch ahead of remote
+      if grep -q behind <<< $gs
       then
-         git fetch
-      else
-         git -c color.ui=false status -sb | head -n1
+         print -nP "%B$repo%b: git fetch? (y/n) "
+         read answer
+         [[ $answer == y* ]] && git fetch
+      fi
+
+      if (( $(wc -l <<< $gs) > 1 ))
+      then
+         print -P "=== %B$repo%b ==="
+
          git status -s
+
+         [[ $repo != zsh ]] && echo
       fi
    fi
-   [[ $repo != zsh ]] && echo
 done
+
 return 0
 )
