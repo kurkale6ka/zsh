@@ -14,33 +14,43 @@ SAVEHIST=7000
 fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
 autoload ~/.zsh/autoload/**/[^_]*(.:t)
 
-## Colors
-[[ $TERM == xterm ]] && TERM='xterm-256color'
+## Prompts
+autoload -Uz vcs_info
 
-# These can't reside in .zprofile since there is no terminal for tput
-     Bold="$(tput bold)"
-Underline="$(tput smul)"
-     Blue="$(tput setaf 4)"
-   LGreen="$(printf %s $Bold; tput setaf 2)"
-    LBlue="$(printf %s $Bold; tput setaf 4)"
-    Reset="$(tput sgr0)"
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' formats 'λ %b' # branch
 
-# Colored man pages
-export LESS_TERMCAP_mb=$LGreen # begin blinking
-export LESS_TERMCAP_md=$LBlue  # begin bold
-export LESS_TERMCAP_me=$Reset  # end mode
+precmd() {
+   psvar[3]=$SSH_CONNECTION
 
-# so -> stand out - info box
-export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
-# se -> stand out end
-export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
+   local vcs_info_msg_0_
+   vcs_info
+   psvar[4]=$vcs_info_msg_0_
+}
 
-# us -> underline start
-export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
-# ue -> underline end
-export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
+PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{221}%n %f%# '
+RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(3V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
 
-[[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
+## Completion
+setopt menu_complete # select the first item straight away
+
+zmodload zsh/complist
+bindkey -M menuselect '^M' .accept-line
+
+compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
+autoload -Uz compinit && compinit
+
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
+zstyle ':completion:*:descriptions' format '%F{170}%d%f'
+zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
+
+# extensions ignored in <tab> completion
+zstyle ':completion:*' ignored-patterns '*~'
+
+compdef m=man
 
 ## Vim and ed
 if command -v nvim >/dev/null 2>&1
@@ -60,23 +70,6 @@ alias ed='ed -v -p:'
 ## sudo
 alias  sd=sudo
 alias sde=sudoedit
-
-## Prompts
-autoload -Uz vcs_info
-
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' formats 'λ %b' # branch
-
-precmd() {
-   psvar[3]=$SSH_CONNECTION
-
-   local vcs_info_msg_0_
-   vcs_info
-   psvar[4]=$vcs_info_msg_0_
-}
-
-PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{221}%n %f%# '
-RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(3V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
 
 ## Directory + file aliases: cd, autojump, to...
 alias -- -='cd - >/dev/null'
@@ -126,6 +119,34 @@ alias setsticky='chmod  +t'
 alias cg=chgrp
 alias co=chown
 alias cm=chmod
+
+## Man + ls colors
+[[ $TERM == xterm ]] && TERM='xterm-256color'
+
+# These can't reside in .zprofile since there is no terminal for tput
+     Bold="$(tput bold)"
+Underline="$(tput smul)"
+     Blue="$(tput setaf 4)"
+   LGreen="$(printf %s $Bold; tput setaf 2)"
+    LBlue="$(printf %s $Bold; tput setaf 4)"
+    Reset="$(tput sgr0)"
+
+# Colored man pages
+export LESS_TERMCAP_mb=$LGreen # begin blinking
+export LESS_TERMCAP_md=$LBlue  # begin bold
+export LESS_TERMCAP_me=$Reset  # end mode
+
+# so -> stand out - info box
+export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
+# se -> stand out end
+export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
+
+# us -> underline start
+export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
+# ue -> underline end
+export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
+
+[[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
 ## ls
 alias  l.='ls -Fd   --color=auto .*~.*~'
@@ -255,27 +276,6 @@ alias akw=awk
 alias rmp=rpm
 alias shh=ssh
 alias xlcip=xclip
-
-## Completion
-setopt menu_complete # select the first item straight away
-
-zmodload zsh/complist
-bindkey -M menuselect '^M' .accept-line
-
-compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
-autoload -Uz compinit && compinit
-
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
-zstyle ':completion:*:descriptions' format '%F{170}%d%f'
-zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
-
-# extensions ignored in <tab> completion
-zstyle ':completion:*' ignored-patterns '*~'
-
-compdef m=man
 
 ## tmux
 alias tmux='tmux -2'
