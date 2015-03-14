@@ -301,6 +301,8 @@ key[Right]=${terminfo[kcuf1]}
 [[ -n ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
 [[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
 
+bindkey "\e[Z" reverse-menu-complete # <S-Tab> to go back in a menu selection
+
 autoload -U history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
