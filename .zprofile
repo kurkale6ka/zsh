@@ -2,8 +2,6 @@
 # Author: Dimitar Dimitrov
 #         kurkale6ka
 
-export SHELL=/usr/bin/zsh
-
 path=(~/bin $path)
 typeset -U path # remove any duplicates from the array
 
