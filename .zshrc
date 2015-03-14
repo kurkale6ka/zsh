@@ -148,7 +148,7 @@ export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
 
 [[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
-## ls
+## ls and echo
 alias  l.='ls -Fd   --color=auto .*~.*~'
 alias ll.='ls -Fdhl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M" .*~.*~'
 
@@ -178,6 +178,8 @@ alias llk='ls -FBShl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 alias l1='ls -FB1 --color=auto'
 
 alias lr="tree -aAC -I '*~' --noreport"
+
+alias e=echo
 
 ## Help
 alias mm='man -k'
