@@ -1,8 +1,8 @@
 case $# in
    (2)
       # Run the previous command by replacing old with new
-      # s old new [number|cmd]
-      fc -s $1=$2 $3
+      # s old new
+      fc -e - $1=$2
       ;;
 
    (1)
