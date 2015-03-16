@@ -397,9 +397,11 @@ bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
 ### ^xn Directory statistics
-bindkey -s '^xn' 'ls -d *(om[1]D)\eb^f'
-bindkey -s '^xo' '(setopt nullglob; unset oldest; for file in *^@; do [[ $file -ot $oldest || ! $oldest ]] && oldest=$file; done; echo $oldest)^x^x'
-bindkey -s '^x*' '(setopt nullglob dotglob; inodes=(*[\^\~]); echo There are ${#inodes[@]} inodes)'
+bindkey -s '^xn' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
+
+bindkey -s '^xo' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
+
+bindkey -s '^x*' 'inodes=(*~*~(D)); echo There are ${#inodes} inodes'
 
 ### ^xp printf
 bindkey -s '^xp' "printf '%s\\\n' "
