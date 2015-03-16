@@ -19,6 +19,15 @@ case $# in
 
    (0)
       # Run a root shell
-      sudo -E /usr/bin/env zsh 2>/dev/null || sudo /usr/bin/env zsh
+      local ver="$(sudo -V | head -n1 | cut -d' ' -f3)"
+      local maj="$(cut -d. -f1 <<< $ver)"
+      local min="$(cut -d. -f2 <<< $ver)"
+
+      if ((maj > 0 && min > 6))
+      then
+         sudo -E /usr/bin/env zsh
+      else
+         sudo /usr/bin/env zsh
+      fi
       ;;
 esac
