@@ -19,11 +19,7 @@ case $# in
 
    (0)
       # Run a root shell
-      local ver="$(sudo -V | head -n1 | cut -d' ' -f3)"
-      local maj="$(cut -d. -f1 <<< $ver)"
-      local min="$(cut -d. -f2 <<< $ver)"
-
-      if ((maj > 0 && min > 6))
+      if sudo -E echo -n 2>/dev/null # check if -E is available
       then
          sudo -E /usr/bin/env zsh
       else
