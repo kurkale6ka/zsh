@@ -6,28 +6,31 @@
 #
 # Run as root
 
-local _user=mitko
-local downloads=~/Downloads
+(
+_user=mitko
+downloads=/home/$_user/Downloads
 
-local pkg="$(echo $downloads/*.tar.gz(om[1]))"
+pkg="$(echo $downloads/*.tar.gz(om[1]))"
 pkg=${pkg##*/}
 
-if cd /usr/local/src
-then
-   mv $downloads/$pkg .
-   tar zxvf $pkg
-   rm $pkg
-   chown -R $_user:$_user ${pkg%%.*}
-fi
+cd /usr/local/src || return 1
+
+mv $downloads/$pkg .
+
+tar zxf $pkg && rm $pkg
+
+chown -R $_user:$_user ${pkg%%.*}
 
 if cd ${pkg%%.*}
 then
-   sudo -u$_user makepkg -s
-
-   if [[ $1 == -d ]]
+   if sudo -u$_user makepkg -s
    then
-      pacman --asdeps -U ${pkg%%.*}*.tar.xz
-   else
-      pacman -U ${pkg%%.*}*.tar.xz
+      if [[ $1 == -d ]]
+      then
+         pacman --asdeps -U ${pkg%%.*}*.tar.xz
+      else
+         pacman -U ${pkg%%.*}*.tar.xz
+      fi
    fi
 fi
+)
