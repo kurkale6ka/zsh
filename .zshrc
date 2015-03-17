@@ -11,7 +11,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=7000
 SAVEHIST=7000
 
-fpath=(~/.zsh/autoload ~/.zsh/autoload/* $fpath)
+fpath=(~/.zsh/autoload ~/.zsh/autoload/*(/) $fpath)
 autoload ~/.zsh/autoload/**/[^_]*(.:t)
 
 ## Prompts
