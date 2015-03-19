@@ -3,6 +3,7 @@
 
 setopt extended_glob
 setopt auto_pushd
+setopt correct
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
@@ -263,14 +264,6 @@ alias gd='git diff --word-diff=color'
 alias gf='git fetch'
 alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
-
-## Typos
-alias cta=cat
-alias ecex=exec
-alias akw=awk
-alias rmp=rpm
-alias shh=ssh
-alias xlcip=xclip
 
 ## tmux
 alias tmux='tmux -2'
