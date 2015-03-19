@@ -22,15 +22,15 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' formats 'λ %b' # branch
 
 precmd() {
-   psvar[3]=$SSH_CONNECTION
+   psvar[1]=$SSH_CONNECTION
 
    local vcs_info_msg_0_
    vcs_info
-   psvar[4]=$vcs_info_msg_0_
+   psvar[2]=$vcs_info_msg_0_
 }
 
-PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %4v\n%F{221}%n %f%# '
-RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(3V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
+PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %2v\n%F{221}%n %f%# '
+RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
 
 ## Completion
 setopt menu_complete # select the first item straight away
