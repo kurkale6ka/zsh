@@ -87,8 +87,11 @@ alias 2='cd ../..'
 alias 3='cd ../../..'
 alias 4='cd ../../../..'
 
-[[ -f /etc/profile.d/autojump.zsh ]] && . /etc/profile.d/autojump.zsh
-alias c=j
+if [[ -f /etc/profile.d/autojump.zsh ]]
+then
+   . /etc/profile.d/autojump.zsh
+   alias c=j
+fi
 
 alias to=touch
 alias md='command mkdir -p --'
