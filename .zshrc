@@ -12,8 +12,15 @@ HISTFILE=~/.zsh_history
 HISTSIZE=7000
 SAVEHIST=7000
 
+## Paths
 fpath=(~/.zsh/autoload ~/.zsh/autoload/*(/) $fpath)
 autoload ~/.zsh/autoload/**/[^_]*(.:t)
+
+if ((EUID == 0))
+then
+   path=(/root/bin /sbin /usr/sbin /usr/local/sbin $path)
+   typeset -U path
+fi
 
 ## Prompts
 autoload -Uz vcs_info
