@@ -51,11 +51,14 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# ls f/b/b<tab> results in fob/bar/bing/ fob/baz/bing/ foo/bar/bing/ ... vs (fob|foo)/b/b
+zstyle ':completion:*' list-suffixes true
+
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
 zstyle ':completion:*:descriptions' format '%F{170}%d%f'
 zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
 
-# extensions ignored in <tab> completion
 zstyle ':completion:*' ignored-patterns '*~'
 
 compdef m=man
