@@ -44,7 +44,7 @@ export LESS='-i -r -s -W -M -PM?f%f - :.?L%L lines, .?ltL\:%lt:.?pB, %pB\% : .?e
 
 # Needs installing x11-ssh-askpass
 # TODO: fix keyboard layout issue
-if [[ -n $SSH_ASKPASS ]] && test -x "$(command -v keychain)"
+if [[ -n $SSH_ASKPASS && -x =keychain ]]
 then
    setxkbmap -layout gb
    eval "$(keychain --eval --agents ssh -Q --quiet id_rsa id_rsa_git)"
