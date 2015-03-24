@@ -51,6 +51,7 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-separator '#' # --<tab> # description
 
 # ls f/b/b<tab> results in fob/bar/bing/ fob/baz/bing/ foo/bar/bing/ ... vs (fob|foo)/b/b
 zstyle ':completion:*' list-suffixes true
