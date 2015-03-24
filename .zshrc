@@ -34,6 +34,9 @@ precmd() {
    local vcs_info_msg_0_
    vcs_info
    psvar[2]=$vcs_info_msg_0_
+
+   # Set the terminal title to [$PWD] host
+   print -nP '\e]0;[%~] %m\a'
 }
 
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %2v\n%F{221}%n %f%# '
