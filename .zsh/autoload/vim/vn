@@ -1,17 +1,17 @@
-if command -v nvim
+if (( $+commands[nvim] ))
 then
    nvim=nvim
 else
    nvim=vim
-fi >/dev/null 2>&1
+fi
 
-if command -v vimx
+if (( $+commands[vimx] ))
 then
    my_gvim=vimx
-elif command -v gvim
+elif (( $+commands[gvim] ))
 then
    my_gvim=gvim
-fi >/dev/null 2>&1
+fi
 
 if (($#))
 then

@@ -64,7 +64,7 @@ zstyle ':completion:*' ignored-patterns '*~'
 compdef m=man
 
 ## Vim and ed
-if command -v nvim >/dev/null 2>&1
+if (( $+commands[nvim] ))
 then nvim='nvim -u ~/.vimrc'
 else nvim='vim -u ~/.vimrc'
 fi
@@ -213,7 +213,8 @@ alias lo='command locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep or silver searcher aliases
-if command -v ag >/dev/null 2>&1; then
+if (( $+commands[ag] ))
+then
    alias g='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
    alias gr='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
    alias ag='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
@@ -225,7 +226,8 @@ fi
 alias _=combine
 
 ## Calendar
-if command -v ncal >/dev/null 2>&1; then
+if (( $+commands[ncal] ))
+then
    alias  cal='env LC_TIME=bg_BG.utf8 ncal -3 -M -C'
    alias call='env LC_TIME=bg_BG.utf8 ncal -y -M -C'
 else

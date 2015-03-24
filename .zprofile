@@ -16,7 +16,7 @@ export LC_COLLATE=C
 umask 022
 
 ## Vim
-if command -v nvim >/dev/null 2>&1
+if (( $+commands[nvim] ))
 then nvim=nvim
 else nvim=vim
 fi
