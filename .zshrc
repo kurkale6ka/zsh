@@ -60,8 +60,12 @@ zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' list-suffixes true
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
+
 zstyle ':completion:*:descriptions' format '%F{170}%d%f'
 zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
+
+# Group matches in related categories
+zstyle ':completion:*' group-name ''
 
 zstyle ':completion:*' ignored-patterns '*~'
 
