@@ -142,6 +142,13 @@ alias cg=chgrp
 alias co=chown
 alias cm=chmod
 
+## Mac OS utilities (brew install coreutils)
+if gls 1>/dev/null 2>&1
+then
+   alias ls=gls
+   alias dircolors=gdircolors
+fi
+
 ## Man + ls colors
 [[ $TERM == xterm ]] && TERM='xterm-256color'
 
