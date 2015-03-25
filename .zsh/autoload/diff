@@ -1,4 +1,4 @@
-if [[ -t 1 ]] && (( $+commands[colordiff] ))
+if [[ -o interactive ]] && (( $+commands[colordiff] ))
 then
    colordiff $@
 else
