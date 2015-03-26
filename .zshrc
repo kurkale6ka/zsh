@@ -145,8 +145,10 @@ alias cm=chmod
 ## Mac OS utilities (brew install coreutils)
 if gls 1>/dev/null 2>&1
 then
-   alias ls=gls
-   alias dircolors=gdircolors
+   for a in ls dircolors
+   do
+      alias $a=g$a
+   done
 fi
 
 ## Man + ls colors
