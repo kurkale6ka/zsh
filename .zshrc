@@ -51,6 +51,7 @@ bindkey -M menuselect '^M' .accept-line
 compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
 autoload -Uz compinit && compinit
 
+zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
