@@ -69,6 +69,8 @@ zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
 zstyle ':completion:*' group-name ''
 
 zstyle ':completion:*' ignored-patterns '*~'
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
 if ((EUID == 0))
 then
