@@ -56,19 +56,17 @@ zstyle ':completion:*' menu select=2
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-separator '#' # --<tab> # description
+zstyle ':completion:*' ignored-patterns '*~'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
 
 # ls f/b/b<tab> results in fob/bar/bing/ fob/baz/bing/ foo/bar/bing/ ... vs (fob|foo)/b/b
 zstyle ':completion:*' list-suffixes true
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
-
-zstyle ':completion:*:descriptions' format '%F{170}%d%f'
-zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
-
 # Group matches in related categories
 zstyle ':completion:*' group-name ''
 
-zstyle ':completion:*' ignored-patterns '*~'
+zstyle ':completion:*:descriptions' format '%F{170}%d%f'
+zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
