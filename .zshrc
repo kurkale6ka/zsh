@@ -42,11 +42,153 @@ precmd() {
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %2v\n%F{221}%n %f%# '
 RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
 
+## zle
+bindkey -e # emacs like line editing
+
+# Home keys
+typeset -A key
+
+key[Insert]=${terminfo[kich1]}
+key[Delete]=${terminfo[kdch1]}
+key[Home]=${terminfo[khome]}
+key[End]=${terminfo[kend]}
+key[PageUp]=${terminfo[kpp]}
+key[PageDown]=${terminfo[knp]}
+key[Up]=${terminfo[kcuu1]}
+key[Down]=${terminfo[kcud1]}
+key[Left]=${terminfo[kcub1]}
+key[Right]=${terminfo[kcuf1]}
+
+[[ -n ${key[Insert]}   ]] && bindkey ${key[Insert]}   overwrite-mode
+[[ -n ${key[Delete]}   ]] && bindkey ${key[Delete]}   delete-char
+[[ -n ${key[Home]}     ]] && bindkey ${key[Home]}     beginning-of-line
+[[ -n ${key[End]}      ]] && bindkey ${key[End]}      end-of-line
+[[ -n ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
+[[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
+
+# History navigation
+autoload -U history-search-end
+
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+
+[[ -n ${key[Up]}   ]] && bindkey ${key[Up]}    history-beginning-search-backward-end
+[[ -n ${key[Down]} ]] && bindkey ${key[Down]}  history-beginning-search-forward-end
+
+# Left and right arrows
+[[ -n ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
+[[ -n ${key[Right]} ]] && bindkey ${key[Right]} forward-char
+
+# Make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
+then
+   function zle-line-init () {
+      printf '%s' "${terminfo[smkx]}"
+   }
+   function zle-line-finish () {
+      printf '%s' "${terminfo[rmkx]}"
+   }
+   zle -N zle-line-init
+   zle -N zle-line-finish
+fi
+
+# Use EDITOR/VISUAL to edit the command line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+## zle snippets
+
+### ^x[ Array
+bindkey -s '^x[' '${[@]}\e4^b'
+
+### ^x= bc
+bindkey -s '^x=' "command bc <<< 'scale=20; '^b"
+
+### ^x/ find
+bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
+
+### ^x\ GNU parallel
+bindkey -s '^x\\' " | parallel -X ^@ {} ^x^x"
+
+### ^x0 IPs
+bindkey -s '^x0' '127.0.0.1'
+bindkey -s '^x1' '10.0.0.'
+bindkey -s '^x7' '172.16.0.'
+bindkey -s '^x9' '192.168.0.'
+
+### ^x- Ranges
+bindkey -s '^x-' '{1\e ..}^b'
+bindkey -s '^x.' '{1\e ..}^b'
+
+### ^x| Output in columns
+bindkey -s '^x|' ' | column -t'
+
+### ^x_ /dev/null
+bindkey -s '^x_' '/dev/null'
+
+### ^xa awk
+bindkey -s '^xa' "awk '/^@/ {print $}' \e3^b"
+bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
+
+### ^xb Braces
+bindkey -s '^xb' '(())\e2^b'
+bindkey -s '^xB' '{}^b'
+bindkey -s '^x]' '[[]]\e2^b'
+
+### ^xc Counting row occurrences in a stream
+bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
+
+### ^xd Diff
+bindkey -s '^xd' 'diff -uq^@ --from-file '
+
+### ^xe ed
+bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
+bindkey -s '^xE' "printf '%s\\\n' H 0i ^@ . wq | 'ed' -s "
+
+### ^xf Loops
+bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb^b'
+bindkey -s '^xF' 'for ((i = 0; i < ^@; i++)); do  $i; done\e2\eb^b'
+bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
+bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
+
+### ^xg groff
+bindkey -s '^xg' ' | groff -man -Tascii | less^m'
+
+### ^xm File renaming (mv)
+bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"Ta/'.\\\{-}'/l1l0\" -c'se ft=sh' -^x^x"
+bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
+
+### ^xn Directory statistics
+bindkey -s '^xn' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
+
+bindkey -s '^xo' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
+
+bindkey -s '^x*' 'inodes=(*~*~(D)); echo There are ${#inodes} inodes'
+
+### ^xp printf
+bindkey -s '^xp' "printf '%s\\\n' "
+
+### ^x` Backticks
+bindkey -s '^x`' '$()^b'
+
+### ^xs systemd
+bindkey -s '^xs' 'systemctl status'
+
+### ^xt tcpdump
+bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
+
+### ^xT Test
+bindkey -s '^xT' ' && echo hmm'
+
 ## Completion
 setopt menu_complete # select the first item straight away
 
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line
+
+bindkey "\e[Z" reverse-menu-complete # <S-Tab> to go back in a menu selection
 
 compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
 autoload -Uz compinit && compinit
@@ -318,145 +460,6 @@ alias tm='tmux -2'
 alias tl='tmux ls'
 alias ta='tmux attach-session'
 alias tn='tmux new -s'
-
-## zle (~readline)
-
-bindkey -e # emacs like line editing
-
-typeset -A key
-
-key[Insert]=${terminfo[kich1]}
-key[Delete]=${terminfo[kdch1]}
-key[Home]=${terminfo[khome]}
-key[End]=${terminfo[kend]}
-key[PageUp]=${terminfo[kpp]}
-key[PageDown]=${terminfo[knp]}
-key[Up]=${terminfo[kcuu1]}
-key[Down]=${terminfo[kcud1]}
-key[Left]=${terminfo[kcub1]}
-key[Right]=${terminfo[kcuf1]}
-
-[[ -n ${key[Insert]}   ]] && bindkey ${key[Insert]}   overwrite-mode
-[[ -n ${key[Delete]}   ]] && bindkey ${key[Delete]}   delete-char
-[[ -n ${key[Home]}     ]] && bindkey ${key[Home]}     beginning-of-line
-[[ -n ${key[End]}      ]] && bindkey ${key[End]}      end-of-line
-[[ -n ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
-[[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
-
-bindkey "\e[Z" reverse-menu-complete # <S-Tab> to go back in a menu selection
-
-autoload -U history-search-end
-
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-
-[[ -n ${key[Up]}    ]] && bindkey ${key[Up]}    history-beginning-search-backward-end
-[[ -n ${key[Down]}  ]] && bindkey ${key[Down]}  history-beginning-search-forward-end
-[[ -n ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
-[[ -n ${key[Right]} ]] && bindkey ${key[Right]} forward-char
-
-# Make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
-then
-   function zle-line-init () {
-      printf '%s' "${terminfo[smkx]}"
-   }
-   function zle-line-finish () {
-      printf '%s' "${terminfo[rmkx]}"
-   }
-   zle -N zle-line-init
-   zle -N zle-line-finish
-fi
-
-# Use EDITOR/VISUAL to edit the command line
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^x^e' edit-command-line
-
-## zle snippets
-
-### ^x[ Array
-bindkey -s '^x[' '${[@]}\e4^b'
-
-### ^x= bc
-bindkey -s '^x=' "command bc <<< 'scale=20; '^b"
-
-### ^x/ find
-bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
-
-### ^x\ GNU parallel
-bindkey -s '^x\\' " | parallel -X ^@ {} ^x^x"
-
-### ^x0 IPs
-bindkey -s '^x0' '127.0.0.1'
-bindkey -s '^x1' '10.0.0.'
-bindkey -s '^x7' '172.16.0.'
-bindkey -s '^x9' '192.168.0.'
-
-### ^x- Ranges
-bindkey -s '^x-' '{1\e ..}^b'
-bindkey -s '^x.' '{1\e ..}^b'
-
-### ^x| Output in columns
-bindkey -s '^x|' ' | column -t'
-
-### ^x_ /dev/null
-bindkey -s '^x_' '/dev/null'
-
-### ^xa awk
-bindkey -s '^xa' "awk '/^@/ {print $}' \e3^b"
-bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
-
-### ^xb Braces
-bindkey -s '^xb' '(())\e2^b'
-bindkey -s '^xB' '{}^b'
-bindkey -s '^x]' '[[]]\e2^b'
-
-### ^xc Counting row occurrences in a stream
-bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
-
-### ^xd Diff
-bindkey -s '^xd' 'diff -uq^@ --from-file '
-
-### ^xe ed
-bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
-bindkey -s '^xE' "printf '%s\\\n' H 0i ^@ . wq | 'ed' -s "
-
-### ^xf Loops
-bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb^b'
-bindkey -s '^xF' 'for ((i = 0; i < ^@; i++)); do  $i; done\e2\eb^b'
-bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
-bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
-
-### ^xg groff
-bindkey -s '^xg' ' | groff -man -Tascii | less^m'
-
-### ^xm File renaming (mv)
-bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"Ta/'.\\\{-}'/l1l0\" -c'se ft=sh' -^x^x"
-bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
-
-### ^xn Directory statistics
-bindkey -s '^xn' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
-
-bindkey -s '^xo' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
-
-bindkey -s '^x*' 'inodes=(*~*~(D)); echo There are ${#inodes} inodes'
-
-### ^xp printf
-bindkey -s '^xp' "printf '%s\\\n' "
-
-### ^x` Backticks
-bindkey -s '^x`' '$()^b'
-
-### ^xs systemd
-bindkey -s '^xs' 'systemctl status'
-
-### ^xt tcpdump
-bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
-
-### ^xT Test
-bindkey -s '^xT' ' && echo hmm'
 
 ## Business specific or system dependant stuff
 [[ -r ~/.zshrc_after ]] && . ~/.zshrc_after
