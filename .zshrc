@@ -215,7 +215,7 @@ zstyle ':completion:*' list-suffixes true
 zstyle ':completion:*' group-name ''
 
 zstyle ':completion:*:descriptions' format '%F{170}%d%f'
-zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
+zstyle ':completion:*:warnings' format 'No matches for: %B%d%b'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
