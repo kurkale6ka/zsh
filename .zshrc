@@ -194,6 +194,9 @@ bindkey '^xh' _complete_help # show tags in current context
 compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
 autoload -Uz compinit && compinit
 
+# zstyle context style '...' '...'
+#        \
+#         :completion:function:completer:command:argument:tag
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select=2
