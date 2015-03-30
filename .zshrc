@@ -198,7 +198,7 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select=2
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors 'ma=01;07;35' ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*~'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
