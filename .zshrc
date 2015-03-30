@@ -214,19 +214,19 @@ zstyle ':completion:*:warnings' format '%BNo matches for: %d%b'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
+zstyle ':completion:*:processes' format '%BPID EUSER START CMD%b'
 if ((EUID == 0))
 then
-   zstyle ':completion:*:*:kill:*' command 'command ps faxww o pid,euser,start_time,cmd'
+   zstyle ':completion:*:processes' command 'command ps faxww o pid,euser,start_time,cmd'
 else
-   zstyle ':completion:*:*:kill:*' command 'command ps fxww o pid,euser,start_time,cmd'
+   zstyle ':completion:*:processes' command 'command ps fxww o pid,euser,start_time,cmd'
 fi
 
 # =(#b)..(pattern1)..(pattern2)..=format0=format1=format2
 #      ..(pattern1)..(pattern2).. must match the whole line
 # format0 is for everything unmatched
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]##) ##[^ ]## ##([^ ]##)?##=0=32=34'
-
-zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:processes' list-colors '=(#b) #([0-9]##) ##[^ ]## ##([^ ]##)?##=0=32=34'
+zstyle ':completion:*:processes' force-list always
 
 compdef m=man
 
