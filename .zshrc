@@ -206,6 +206,8 @@ zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*~'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
 
+zstyle -e ':completion:*' hosts 'reply=($(nodeset -ea 2>/dev/null))'
+
 # ls f/b/b<tab> results in fob/bar/bing/ fob/baz/bing/ foo/bar/bing/ ... vs (fob|foo)/b/b
 zstyle ':completion:*' list-suffixes true
 
