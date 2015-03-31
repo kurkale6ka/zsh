@@ -219,6 +219,7 @@ zstyle ':completion:*' list-suffixes true
 # Group matches in related categories
 zstyle ':completion:*' group-name ''
 
+zstyle ':completion:*' auto-description 'Help: %d'
 zstyle ':completion:*:descriptions' format '%F{170}%d%f'
 zstyle ':completion:*:warnings' format 'No matches for: %B%d%b'
 zstyle ':completion:*:manuals' separate-sections true
