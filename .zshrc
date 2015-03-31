@@ -209,6 +209,7 @@ zstyle ':completion:*' list-colors 'ma=01;07;35' ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*(~|.swp|.o)'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
+zstyle ':completion:*' insert-tab false
 
 zstyle -e ':completion:*' hosts 'reply=($(nodeset -ea 2>/dev/null))'
 zstyle -e ':completion:*:cssh:*' hosts "reply=($(awk '/^[^#]/ {print $1}' ~/.clusterssh/clusters 2>/dev/null))"
