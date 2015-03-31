@@ -148,8 +148,8 @@ bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
 bindkey -s '^xE' "printf '%s\\\n' H 0i ^@ . wq | 'ed' -s "
 
 ### ^xf Loops
-bindkey -s '^xf' 'for i in ^@; do  $i; done\e2\eb^b'
-bindkey -s '^xF' 'for ((i = 0; i < ^@; i++)); do  $i; done\e2\eb^b'
+bindkey -s '^xf' 'for i in '
+bindkey -s '^xF' 'for i in ^@; do  $i; done\e2\eb^b'
 bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
 bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
 
