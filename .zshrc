@@ -42,6 +42,44 @@ precmd() {
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %2v\n%F{221}%n %f%# '
 RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
 
+## Mac OS utilities (brew install coreutils)
+if gls 1>/dev/null 2>&1
+then
+   for a in ls dircolors
+   do
+      alias $a=g$a
+   done
+fi
+
+## Colors
+[[ $TERM == xterm ]] && TERM='xterm-256color'
+
+# These can't reside in .zprofile since there is no terminal for tput
+     Bold="$(tput bold)"
+Underline="$(tput smul)"
+     Blue="$(tput setaf 4)"
+   LGreen="$(printf %s $Bold; tput setaf 2)"
+    LBlue="$(printf %s $Bold; tput setaf 4)"
+    Reset="$(tput sgr0)"
+
+### Man
+export LESS_TERMCAP_mb=$LGreen # begin blinking
+export LESS_TERMCAP_md=$LBlue  # begin bold
+export LESS_TERMCAP_me=$Reset  # end mode
+
+# so -> stand out - info box
+export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
+# se -> stand out end
+export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
+
+# us -> underline start
+export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
+# ue -> underline end
+export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
+
+### Ls
+[[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
+
 ## zle
 bindkey -e # emacs like line editing
 
@@ -315,43 +353,6 @@ alias setsticky='chmod  +t'
 alias cg=chgrp
 alias co=chown
 alias cm=chmod
-
-## Mac OS utilities (brew install coreutils)
-if gls 1>/dev/null 2>&1
-then
-   for a in ls dircolors
-   do
-      alias $a=g$a
-   done
-fi
-
-## Man + ls colors
-[[ $TERM == xterm ]] && TERM='xterm-256color'
-
-# These can't reside in .zprofile since there is no terminal for tput
-     Bold="$(tput bold)"
-Underline="$(tput smul)"
-     Blue="$(tput setaf 4)"
-   LGreen="$(printf %s $Bold; tput setaf 2)"
-    LBlue="$(printf %s $Bold; tput setaf 4)"
-    Reset="$(tput sgr0)"
-
-# Colored man pages
-export LESS_TERMCAP_mb=$LGreen # begin blinking
-export LESS_TERMCAP_md=$LBlue  # begin bold
-export LESS_TERMCAP_me=$Reset  # end mode
-
-# so -> stand out - info box
-export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
-# se -> stand out end
-export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
-
-# us -> underline start
-export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
-# ue -> underline end
-export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
-
-[[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
 ## ls and echo
 alias  l.='ls -Fd   --color=auto .*~.*~'
