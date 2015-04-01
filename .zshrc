@@ -187,6 +187,8 @@ setopt menu_complete # select the first item straight away
 
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line
+bindkey -M menuselect "\e[1;5B" accept-and-infer-next-history # ^<Down> to enter a directory
+bindkey -M menuselect "\e[1;5A" undo # ^<Up> to get out of a directory
 
 bindkey "\e[Z" reverse-menu-complete # <S-Tab> to go back in a menu selection
 bindkey '^xh' _complete_help # show tags in current context
