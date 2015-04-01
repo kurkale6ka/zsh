@@ -40,7 +40,7 @@ precmd() {
 }
 
 PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %2v\n%F{221}%n %f%# '
-RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%(?..%F{red})%m%f %T'
+RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
 
 ## Mac OS utilities (brew install coreutils)
 if gls 1>/dev/null 2>&1
