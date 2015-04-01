@@ -190,6 +190,7 @@ bindkey -M menuselect '^M' .accept-line
 
 bindkey "\e[Z" reverse-menu-complete # <S-Tab> to go back in a menu selection
 bindkey '^xh' _complete_help # show tags in current context
+bindkey '^i' expand-or-complete-prefix # myf<tab>xxx -> myfilexxx
 
 compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
 autoload -Uz compinit && compinit
