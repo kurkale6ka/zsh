@@ -231,6 +231,7 @@ bindkey -M menuselect "\e[1;5A" undo # ^<Up> to get out of a directory
 bindkey "\e[Z" reverse-menu-complete # <S-Tab> to go back in a menu selection
 bindkey '^xh' _complete_help # show tags in current context
 bindkey '^i' expand-or-complete-prefix # myf<tab>xxx -> myfilexxx
+bindkey '^u' backward-kill-line
 
 compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
 autoload -Uz compinit && compinit
