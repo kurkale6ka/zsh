@@ -222,6 +222,7 @@ bindkey -s '^xT' ' && echo hmm'
 
 ## Completion
 setopt menu_complete # select the first item straight away
+setopt auto_param_keys # use [ after completing a ${parameter}
 
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line
