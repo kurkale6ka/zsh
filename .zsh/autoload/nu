@@ -1,8 +1,7 @@
 # Update Neovim
 (
    cd /usr/local/src/neovim-git || exit 1
-   if makepkg -s
-   then
-      sudo pacman -U *.pkg.tar.xz(om[1])
-   fi
+
+   makepkg -s
+   sudo pacman -U *.pkg.tar.xz(om[1])
 )
