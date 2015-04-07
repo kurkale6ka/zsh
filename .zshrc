@@ -62,25 +62,25 @@ Underline="$(tput smul)"
     LBlue="$(printf %s $Bold; tput setaf 4)"
     Reset="$(tput sgr0)"
 
-### Man
-export LESS_TERMCAP_mb=$LGreen # begin blinking
-export LESS_TERMCAP_md=$LBlue  # begin bold
-export LESS_TERMCAP_me=$Reset  # end mode
+# Viewing man pages with less
+export LESS_TERMCAP_mb=$LGreen # blinking start
+export LESS_TERMCAP_md=$LBlue  # bold     start
+export LESS_TERMCAP_me=$Reset  #          end
 
-# so -> stand out - info box
-export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
+# so -> stand out start
 # se -> stand out end
+export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
 export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
 
 # us -> underline start
-export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
 # ue -> underline end
+export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
 export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
 
-### Ls
+# Ls
 [[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
-## zle
+## zle bindings
 bindkey -e # emacs like line editing
 
 # Home keys
@@ -108,10 +108,10 @@ key[Right]=${terminfo[kcuf1]}
 autoload -U history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
+zle -N history-beginning-search-forward-end  history-search-end
 
-[[ -n ${key[Up]}   ]] && bindkey ${key[Up]}    history-beginning-search-backward-end
-[[ -n ${key[Down]} ]] && bindkey ${key[Down]}  history-beginning-search-forward-end
+[[ -n ${key[Up]}   ]] && bindkey ${key[Up]}   history-beginning-search-backward-end
+[[ -n ${key[Down]} ]] && bindkey ${key[Down]} history-beginning-search-forward-end
 
 # Left and right arrows
 [[ -n ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
@@ -139,7 +139,7 @@ bindkey '^x^e' edit-command-line
 ## zle snippets
 
 ### ^x= bc
-bindkey -s '^x=' "command bc <<< 'scale=20; '^b"
+bindkey -s '^x=' "bc <<< 'scale=20; '^b"
 
 ### ^x/ find
 bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
@@ -280,18 +280,15 @@ zstyle ':completion:*:processes' force-list always
 
 compdef m=man
 
-## Vim and ed
+## (n)Vim and ed
 if (( $+commands[nvim] ))
 then nvim='nvim -u ~/.vimrc'
 else nvim='vim -u ~/.vimrc'
 fi
 
 alias v=$nvim
-alias vd="$nvim -d"
-alias vt="$nvim -t"
 
-alias -g L="| $nvim -"
-alias vl="ls -FB1 L"
+alias -g L="| v -"
 
 alias ed='ed -v -p:'
 
@@ -299,7 +296,7 @@ alias ed='ed -v -p:'
 alias  sd=sudo
 alias sde=sudoedit
 
-## Directory + file aliases: cd, autojump, to...
+## cd
 alias -- -='cd - >/dev/null'
 
 alias 1='cd ..'
@@ -313,32 +310,15 @@ then
    alias c=j
 fi
 
-alias to=touch
-alias md='command mkdir -p --'
+## File system operations
+alias md='mkdir -p --'
 alias pw='pwd -P'
 
-## Networking: myip, iptables, netstat
-alias myip='curl icanhazip.com'
+alias to=touch
 
-# Security
-alias il='iptables -nvL --line-numbers'
-alias nn=netstat
-
-## Processes and jobs
-ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
-pfields=pid,stat,euser,egroup,start_time,cmd
-
-alias pp="command ps faxww o $ppfields --headers"
-alias pg="command ps o $pfields --headers | head -1 && ps faxww o $pfields | command grep -v grep | command grep -iEB1 --color=auto"
-alias ppg="command ps o $ppfields --headers | head -1 && ps faxww o $ppfields | command grep -v grep | command grep -iEB1 --color=auto"
-
-alias k=kill
-alias pk='pkill -f'
-alias kg='kill -- -'
-
-# jobs
-alias z=fg
-alias -- --='fg %-'
+# cp and rm aliases
+alias y='cp -i --'
+alias d='rm -i --preserve-root --'
 
 ## Permissions + debug
 alias zx='zsh -xv'
@@ -350,6 +330,29 @@ alias setsticky='chmod  +t'
 alias cg=chgrp
 alias co=chown
 alias cm=chmod
+
+## Partitions
+alias umn=umount
+alias fu='sudo fuser -mv' # what uses the named files, sockets, or filesystems
+
+## Networking + firewall aliases
+alias myip='curl icanhazip.com'
+
+alias il='iptables -nvL --line-numbers'
+
+## Processes and jobs
+ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
+pfields=pid,stat,euser,egroup,start_time,cmd
+
+alias pg="command ps o $pfields --headers | head -1 && ps faxww o $pfields | grep -v grep | grep -iEB1 --color=auto"
+alias ppg="command ps o $ppfields --headers | head -1 && ps faxww o $ppfields | grep -v grep | grep -iEB1 --color=auto"
+
+alias k=kill
+alias kg='kill -- -'
+
+# jobs
+alias z=fg
+alias -- --='fg %-'
 
 ## ls and echo
 alias  l.='ls -Fd   --color=auto .*~.*~'
@@ -382,7 +385,17 @@ alias l1='ls -FB1 --color=auto'
 
 alias lr="tree -aAC -I '*~' --noreport"
 
+alias vl="ls -FB1 L"
+
 alias e=echo
+
+## Head/Tail and cat
+alias h=head
+
+alias t=tail
+alias tf='tail -f -n0'
+
+alias cn='cat -n --'
 
 ## Help
 alias mm='man -k'
@@ -393,12 +406,8 @@ alias pf='~/github/help/it/printf.sh'     # printf help
 # print info about a command, alias, function...
 alias '?=whence -ca --'
 
-## cp and rm aliases
-alias y='cp -i --'
-alias d='rm -i --preserve-root --'
-
 ## Find stuff and diffs
-alias lo='command locate -i'
+alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep or silver searcher aliases
@@ -408,53 +417,19 @@ then
    alias gr='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
    alias ag='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
 else
-   alias g='command grep -niE --color=auto --exclude="*~" --exclude tags'
-   alias gr='command grep -nIriE --color=auto --exclude="*~" --exclude tags'
+   alias g='grep -niE --color=auto --exclude="*~" --exclude tags'
+   alias gr='grep -nIriE --color=auto --exclude="*~" --exclude tags'
 fi
 
+alias vd='v -d'
 alias _=combine
 
-## Calendar
-if (( $+commands[ncal] ))
-then
-   alias  cal='env LC_TIME=bg_BG.utf8 ncal -3 -M -C'
-   alias call='env LC_TIME=bg_BG.utf8 ncal -y -M -C'
-else
-   alias  cal='env LC_TIME=bg_BG.utf8 cal -m3'
-   alias call='env LC_TIME=bg_BG.utf8 cal -my'
-fi
-
-## os
-alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
-
-## umount and fuser aliases
-alias umn=umount
-alias fu='sudo fuser -mv'
-
-## Various app aliases
-alias  a=alias
-alias ua=unalias
-
-# Application aliases
+## Various applications aliases
 alias open=xdg-open
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
-alias bc='bc -ql'
-
-# More aliases
 alias msg=dmesg
-alias cmd=command
-alias hg='history | command grep -iE --color=auto'
-
-alias pl=perl
-alias py=python
-alias rb=irb
-
-## Tail and cat aliases
-alias t=tail
-alias tf='tail -f -n0'
-
-alias cn='cat -n --'
+alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
 
 ## Git
 alias gc='git commit -v'
@@ -470,11 +445,18 @@ alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
 
 ## tmux
-alias tmux='tmux -2'
-alias tm='tmux -2'
 alias tl='tmux ls'
 alias ta='tmux attach-session'
-alias tn='tmux new -s'
+
+## Calendar
+if (( $+commands[ncal] ))
+then
+   alias  cal='env LC_TIME=bg_BG.utf8 ncal -3 -M -C'
+   alias call='env LC_TIME=bg_BG.utf8 ncal -y -M -C'
+else
+   alias  cal='env LC_TIME=bg_BG.utf8 cal -m3'
+   alias call='env LC_TIME=bg_BG.utf8 cal -my'
+fi
 
 ## Business specific or system dependant stuff
 [[ -r ~/.zshrc_after ]] && . ~/.zshrc_after
