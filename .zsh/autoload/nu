@@ -2,6 +2,12 @@
 (
    cd /usr/local/src/neovim-git || exit 1
 
-   makepkg -s
-   sudo pacman -U *.pkg.tar.xz(om[1])
+   if (($#))
+   then
+      # Cleanup: leave the 2 most recent nvim images only
+      rm *.pkg.tar.xz(Om[1,-3])
+   else
+      makepkg -s
+      sudo pacman -U *.pkg.tar.xz(om[1])
+   fi
 )
