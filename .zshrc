@@ -138,9 +138,6 @@ bindkey '^x^e' edit-command-line
 
 ## zle snippets
 
-### ^x[ Array
-bindkey -s '^x[' '${[@]}\e4^b'
-
 ### ^x= bc
 bindkey -s '^x=' "command bc <<< 'scale=20; '^b"
 
@@ -173,6 +170,7 @@ bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
 ### ^xb Braces
 bindkey -s '^xb' '(())\e2^b'
 bindkey -s '^xB' '{}^b'
+bindkey -s '^x[' '[[]]\e2^b'
 bindkey -s '^x]' '[[]]\e2^b'
 
 ### ^xc Counting row occurrences in a stream
@@ -190,9 +188,6 @@ bindkey -s '^xf' 'for i in '
 bindkey -s '^xF' 'for i in ^@; do  $i; done\e2\eb^b'
 bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
 bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
-
-### ^xg groff
-bindkey -s '^xg' ' | groff -man -Tascii | less^m'
 
 ### ^xm File renaming (mv)
 bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"Ta/'.\\\{-}'/l1l0\" -c'se ft=sh' -^x^x"
