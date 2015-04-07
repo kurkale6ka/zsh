@@ -206,7 +206,7 @@ bindkey -s '^xo' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
 bindkey -s '^x*' 'inodes=(*(ND)); echo There are ${#inodes} inodes'
 
 ### ^xp printf
-bindkey -s '^xp' "printf '%s\\\n' "
+bindkey -s '^xp' "print -l "
 
 ### ^x` Backticks
 bindkey -s '^x`' '$()^b'
