@@ -242,7 +242,8 @@ zstyle ':completion:*:approximate:::' max-errors 3 numeric
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' menu select=2
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' select-prompt '%S%F{186}Scrolling active: current selection at %p%f%s'
+zstyle ':completion:*' list-prompt '%S%F{186}Scrolling active: current selection at %p (<s-tab> to go up)%s' # needed by zsh -<tab>
 zstyle ':completion:*' list-colors 'ma=01;07;35' ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*(~|.swp|.o)'
