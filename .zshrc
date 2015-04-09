@@ -1,12 +1,14 @@
 #! /usr/bin/env zsh
 # Author: kurkale6ka <Dimitar Dimitrov>
 
-setopt extended_glob
 setopt auto_pushd
 setopt correct
+setopt extended_glob
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
+
+unsetopt flow_control # no ^s freezing the screen
 
 HISTFILE=~/.zsh_history
 HISTSIZE=7000
