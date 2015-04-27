@@ -140,6 +140,8 @@ bindkey '^x^e' edit-command-line
 
 ## zle snippets
 
+zle_highlight=(region:none special:standout suffix:bold isearch:underline)
+
 ### ^x= bc
 bindkey -s '^x=' "bc <<< 'scale=20; '^b"
 
