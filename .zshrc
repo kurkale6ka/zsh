@@ -439,6 +439,7 @@ alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
 alias msg=dmesg
 alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
+alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 
 ## Git
 alias gc='git commit -v'
