@@ -390,7 +390,11 @@ alias l1='ls -FB1 --color=auto'
 
 alias lr="tree -aAC -I '*~' --noreport"
 
-alias vl="ls -FB1 L"
+alias vl='ls -FB1 L'
+
+# Links (there is also ln() as an autoload)
+alias ln.='ll .*(@)'
+alias lnn='ll *(@D)'
 
 alias e=echo
 
