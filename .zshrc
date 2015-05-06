@@ -8,6 +8,7 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
 setopt auto_name_dirs # shorter names in CWD without cd ~dir
+setopt noclobber # prevent > from truncating an existing file
 
 unsetopt flow_control # no ^s freezing the screen
 
