@@ -286,6 +286,7 @@ zstyle ':completion:*:processes' list-colors '=(#b) #([0-9]##) ##[^ ]## ##([^ ]#
 zstyle ':completion:*:processes' force-list always
 
 compdef m=man
+compdef v=vim nvim=vim
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
