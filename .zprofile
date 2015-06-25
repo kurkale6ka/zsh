@@ -49,3 +49,6 @@ then
    setxkbmap -layout gb
    eval "$(keychain --eval --agents ssh -Q --quiet id_rsa id_rsa_git)"
 fi
+
+# Business specific or system dependant stuff
+[ -r ~/.zprofile_after ] && . ~/.zprofile_after
