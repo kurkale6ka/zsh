@@ -392,7 +392,7 @@ alias llk='ls -FBShl --color=auto --time-style="+${Blue}@$Reset %d-%b-%y %H:%M"'
 # A single column
 alias l1='ls -FB1 --color=auto'
 
-alias lr="tree -aAC -I '*~' --noreport"
+alias lr="tree -aAC -I '*~|*.swp' --noreport"
 
 alias vl='ls -FB1 L'
 
