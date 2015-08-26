@@ -31,7 +31,7 @@ fi
 autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' formats 'λ %b' # branch
+zstyle ':vcs_info:*' formats 'λ-%b' # branch
 
 precmd() {
    psvar[1]=$SSH_CONNECTION
