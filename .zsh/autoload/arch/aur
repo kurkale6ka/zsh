@@ -1,35 +1,97 @@
-# Install an AUR package downloaded in ~/Downloads
+# AUR packages management
+#
+# Update a package
+# Install a package downloaded in ~/Downloads
 #
 # Usage:
+#    aur -u {package}
+#
+#    OR
+#
 #    aur
 #    aur -d (install as a dependence)
 #
 # Run as root
 
 (
-_user=mitko
-downloads=/home/$_user/Downloads
+setopt extended_glob
 
-pkg="$(echo $downloads/*.tar.gz(om[1]))"
-pkg=${pkg##*/}
+## Colors
+_bld=$(tput bold)
+_red=$(printf %s $_bld; tput setaf 1)
+_res=$(tput sgr0)
+
+## Help
+_help() {
+read -r -d $'\0' info << 'HELP'
+Usage:
+   aur -u {package}
+
+   OR
+
+   aur
+   aur -d (install as a dependence)
+HELP
+
+if (($1 == 0))
+then echo $info
+else echo $info >&2
+fi
+
+exit $1
+}
+
+## Checks
+[[ $1 == -(h|-h)* ]] && _help 0
+
+# Arguments
+if (($# > 2))
+then
+   echo "${_red}Wrong number of arguments$_res!" >&2
+   _help 1
+fi
 
 cd /usr/local/src || return 1
 
-mv $downloads/$pkg .
-
-tar zxf $pkg && rm $pkg
-
-chown -R $_user:$_user ${pkg%%.*}
-
-if cd ${pkg%%.*}
+# Update a package
+if [[ $1 == *u ]]
 then
-   if sudo -u$_user makepkg -s
+   if cd $2
    then
-      if [[ $1 == -d ]]
+      makepkg -s
+      sudo pacman -U *.pkg.tar.xz(om[1])
+
+      # Cleanup: leave the 2 most recent images only
+      rm *.pkg.tar.xz(Om[1,-3])
+   fi
+
+# Install a package
+else
+   _user=mitko
+   downloads=/home/$_user/Downloads
+
+   pkg="$(echo $downloads/*.tar.gz(om[1]))"
+   pkg=${pkg##*/}
+
+   mv $downloads/$pkg .
+
+   if tar zxf $pkg
+   then
+      rm $pkg
+   fi
+
+   chown -R $_user:$_user ${pkg%%.*}
+
+   if cd ${pkg%%.*}
+   then
+      if sudo -u$_user makepkg -s
       then
-         pacman --asdeps -U ${pkg%%.*}*.tar.xz
-      else
-         pacman -U ${pkg%%.*}*.tar.xz
+         if [[ $1 == *d ]]
+         then
+            pacman --asdeps -U ${pkg%%.*}*.tar.xz
+         else
+            pacman -U ${pkg%%.*}*.tar.xz
+         fi
       fi
    fi
 fi
