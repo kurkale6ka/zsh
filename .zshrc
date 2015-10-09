@@ -298,6 +298,7 @@ fi
 alias v=$nvim
 
 alias -g L="| v -"
+alias -g J="| python -mjson.tool"
 
 alias ed='ed -v -p:'
 
