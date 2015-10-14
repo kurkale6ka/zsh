@@ -350,6 +350,8 @@ alias myip='curl icanhazip.com'
 
 alias il='iptables -nvL --line-numbers'
 
+reg() { whois -H $1 | egrep -A1 -i registrar:; }
+
 ## Processes and jobs
 ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 pfields=pid,stat,euser,egroup,start_time,cmd
