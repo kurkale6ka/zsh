@@ -44,7 +44,7 @@ precmd() {
    print -nP '\e]0;[%~] %m\a'
 }
 
-PROMPT=$'\n[%B%(!.%F{red}.%F{blue})%~%f%b] %2v\n%F{221}%n %f%# '
+PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{9}.%F{221})%n%f %# '
 RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
 
 ## Mac OS utilities (brew install coreutils)
