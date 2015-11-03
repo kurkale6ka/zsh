@@ -1,0 +1,10 @@
+local dir
+
+if [[ -n $1 ]]
+then
+   dir=$(print -l $1/**/*(/) | fzf -0 +m)
+else
+   dir=$(print -l **/*(/) | fzf -0 +m)
+fi
+
+[[ -d $dir ]] && cd $dir
