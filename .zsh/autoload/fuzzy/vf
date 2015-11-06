@@ -4,5 +4,5 @@ files=($(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1 -m))
 
 if [[ -n $files ]]
 then
-   v -- ${files[@]}
+   v -- $files
 fi
