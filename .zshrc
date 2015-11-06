@@ -291,7 +291,7 @@ compdef v=vim nvim=vim
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
-then nvim='nvim -u ~/.vimrc'
+then nvim='nvim -u ~/.config/nvim/init.vim'
 else nvim='vim -u ~/.vimrc'
 fi
 
