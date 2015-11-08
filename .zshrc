@@ -477,6 +477,9 @@ else
    alias call='env LC_TIME=bg_BG.utf8 cal -my'
 fi
 
+## fzf
+[[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
+
 ## Business specific or system dependant stuff
 [[ -r ~/.zshrc_after ]] && . ~/.zshrc_after
 
