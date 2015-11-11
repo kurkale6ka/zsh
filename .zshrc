@@ -85,7 +85,7 @@ export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
 # Ls
 [[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
 
-## zle bindings
+## zle bindings and terminal key settings
 bindkey -e # emacs like line editing
 
 # Home keys
@@ -140,6 +140,9 @@ fi
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
+
+# pangoterm
+bindkey -s '^[OM' '^M'
 
 ## zle snippets
 
