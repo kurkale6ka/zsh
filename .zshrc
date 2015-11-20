@@ -143,6 +143,7 @@ bindkey '^x^e' edit-command-line
 
 # pangoterm
 bindkey -s '^[OM' '^M'
+bindkey -s '^[[54;5u' '^^'
 
 ## zle snippets
 
