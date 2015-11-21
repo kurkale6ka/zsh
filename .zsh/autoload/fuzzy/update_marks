@@ -1,0 +1,29 @@
+# Helper for c (fuzzy bookmarked cd)
+
+# mkdir -p ~/.local/share/marks
+#
+# sqlite3 ~/.local/share/marks/marks.sqlite << 'INIT'
+# CREATE TABLE marks (
+#   dir VARCHAR(200) UNIQUE,
+#   weight INTEGER
+# );
+#
+# CREATE INDEX _dir ON marks (dir);
+# INIT
+
+local db
+local weight
+
+db=~/.local/share/marks/marks.sqlite
+
+# Get weight for the current directory
+weight="$(sqlite3 $db "SELECT weight FROM marks WHERE dir = '$(pwd -P)';")"
+
+if [[ -n $weight ]]
+then
+   ((weight++))
+else
+   weight=1
+fi
+
+sqlite3 $db "INSERT or REPLACE into marks (dir, weight) values (\"$(pwd -P)\", $weight);"

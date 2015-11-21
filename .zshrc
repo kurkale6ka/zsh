@@ -320,11 +320,8 @@ alias 2='cd ../..'
 alias 3='cd ../../..'
 alias 4='cd ../../../..'
 
-if [[ -f /etc/profile.d/autojump.zsh ]]
-then
-   . /etc/profile.d/autojump.zsh
-   alias c=j
-fi
+# Hook functions
+chpwd_functions+=(update_marks)
 
 ## File system operations
 alias md='mkdir -p --'

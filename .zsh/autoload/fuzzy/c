@@ -1,0 +1,28 @@
+# Fuzzy cd based on visited locations only (bookmarks)
+
+local db
+local dir
+
+db=~/.local/share/marks/marks.sqlite
+
+# Statistics
+if [[ $1 == -s ]]
+then
+   sqlite3 $db 'SELECT * FROM marks ORDER BY weight DESC;' | column -t -s'|'
+   return 0
+fi
+
+if (($# > 0))
+then
+   dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%$1%' ORDER BY weight DESC;" | fzf +s -0 -1)"
+   # TODO:
+   #   consider file names
+   #   file="$(locate -Ai -0 $ALL_NON_CONTAINED_PATHS_FROM_DB $@ | grep -z -vE '~$' | fzf +s --read0 -0 -1)"
+else
+   dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1)"
+fi
+
+if [[ -n $dir ]]
+then
+   cd -- $dir
+fi
