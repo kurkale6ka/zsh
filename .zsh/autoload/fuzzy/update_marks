@@ -26,4 +26,4 @@ else
    weight=1
 fi
 
-sqlite3 $db "INSERT or REPLACE into marks (dir, weight) values (\"$(pwd -P)\", $weight);"
+sqlite3 $db "INSERT or REPLACE into marks (dir, weight) values ('$(pwd -P)', $weight);"
