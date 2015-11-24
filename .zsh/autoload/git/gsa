@@ -1,4 +1,7 @@
 (
+# Don't update my cd bookmarks for automated cds
+chpwd_functions=()
+
 cd ~/github || return 1
 
 for repo in *~bash-cd(/)
