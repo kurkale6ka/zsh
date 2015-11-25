@@ -47,13 +47,12 @@ precmd() {
 PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{9}.%F{221})%n%f %# '
 RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
 
-## Mac OS utilities (brew install coreutils)
-if gls 1>/dev/null 2>&1
+## Mac OS specific
+if [[ $(uname) == Darwin ]]
 then
-   for a in ls dircolors
-   do
-      alias $a=g$a
-   done
+   # Prefer GNU commands to the BSD ones
+   path=("$(brew --prefix coreutils)"/libexec/gnubin /usr/local/bin $path)
+   typeset -U path
 fi
 
 ## Colors
