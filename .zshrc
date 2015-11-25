@@ -435,8 +435,8 @@ then
    alias gr='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
    alias ag='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
 else
-   alias g='grep -niE --color=auto --exclude="*~" --exclude tags'
-   alias gr='grep -nIriE --color=auto --exclude="*~" --exclude tags'
+   alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
+   alias gr='grep -IriE --color=auto --exclude="*~" --exclude tags'
 fi
 
 alias vd='v -d'
