@@ -50,10 +50,40 @@ RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
 ## Mac OS specific
 if [[ $(uname) == Darwin ]]
 then
-   # Prefer GNU commands to the BSD ones
-   path=("$(brew --prefix coreutils)"/libexec/gnubin /usr/local/bin $path)
-   typeset -U path
+   # Amend paths to get GNU commands vs the default BSD ones
+   path=(/usr/local/bin $path)
+   path=("$(brew --prefix coreutils)"/libexec/gnubin $path)
+
+   manpath=("$(brew --prefix coreutils)"{/libexec/gnuman,/share/man} $manpath)
+   for pkg in ed findutils ag ctags tree gnu-sed homebrew/dupes/grep vim
+   do
+      manpath=("$(brew --prefix $pkg)"/share/man $manpath)
+   done
+
+   typeset -U path manpath
+
+   # BSD ps
+   ppfields=pid,ppid,pgid,sess,tty,tpgid,stat,user,group,start,command
+   pfields=pid,stat,user,group,start,command
+
+   alias pg="command ps -o $pfields -h | head -1 && ps axww -o $pfields | grep -v grep | grep -iEB1 --color=auto"
+   alias ppg="command ps -o $ppfields -h | head -1 && ps axww -o $ppfields | grep -v grep | grep -iEB1 --color=auto"
+else
+   # Linux ps
+   ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
+   pfields=pid,stat,euser,egroup,start_time,cmd
+
+   alias pg="command ps o $pfields --headers | head -1 && ps faxww o $pfields | grep -v grep | grep -iEB1 --color=auto"
+   alias ppg="command ps o $ppfields --headers | head -1 && ps faxww o $ppfields | grep -v grep | grep -iEB1 --color=auto"
 fi
+
+## Processes and jobs (see Mac section too ^)
+alias k=kill
+alias kg='kill -- -'
+
+# jobs
+alias z=fg
+alias -- --='fg %-'
 
 ## Colors
 [[ $TERM == xterm ]] && TERM='xterm-256color'
@@ -301,7 +331,6 @@ fi
 alias v=$nvim
 alias vg="xclip <<< 'se nocp is hls ic scs inf nu sc report=0 dy+=lastline lz so=2 mouse=a nojs ai hid wmnu ls=2 bs=2 ve=all nosol | nn <c-l> :nohls<cr><c-l> | sy on | filet plugin indent on'"
 
-
 alias -g L="| v -"
 alias -g J="| python -mjson.tool"
 
@@ -353,20 +382,6 @@ alias myip='curl icanhazip.com'
 alias il='iptables -nvL --line-numbers'
 
 reg() { whois -H $1 | egrep -A1 -i registrar:; }
-
-## Processes and jobs
-ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
-pfields=pid,stat,euser,egroup,start_time,cmd
-
-alias pg="command ps o $pfields --headers | head -1 && ps faxww o $pfields | grep -v grep | grep -iEB1 --color=auto"
-alias ppg="command ps o $ppfields --headers | head -1 && ps faxww o $ppfields | grep -v grep | grep -iEB1 --color=auto"
-
-alias k=kill
-alias kg='kill -- -'
-
-# jobs
-alias z=fg
-alias -- --='fg %-'
 
 ## ls and echo
 alias  l.='ls -Fd   --color=auto .*~.*~'

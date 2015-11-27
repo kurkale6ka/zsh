@@ -1,7 +1,7 @@
 # Search (or sync)
 if (($#))
 then
-   if [[ $1 == (-|aux|fax|faux)* ]]
+   if [[ $1 == (-|aux|fax|faux|axw)* ]]
    then command ps $@
    else pacman -Ss $@
    fi
