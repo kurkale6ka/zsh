@@ -2,31 +2,15 @@
 # Don't update my cd bookmarks for automated cds
 chpwd_functions=()
 
-cd ~/github || return 1
-
-for repo in *~bash-cd(/)
+for repo in ~/github/*(/)
 do
-   if cd ~/github/$repo
+   if cd $repo
    then
-      gs="$(git status --porcelain -b)"
-
-      # Fetch
-      if grep -q behind <<< $gs
+      if [[ -n $(git status --porcelain) ]] || git status -sb | grep -qE ']$'
       then
-         print -nP "%B$repo%b: git fetch? (y/n) "
-         read answer
-         [[ $answer == y* ]] && git fetch
-      fi
-
-      # Status
-      if (( $(wc -l <<< $gs) > 1 ))
-      then
-         print -P "=== %B$repo%b ==="
-
-         git status -s
+         print -nP "%F{45}${repo:t}%f: "
+         git status -sb
       fi
    fi
 done
-
-return 0
 )
