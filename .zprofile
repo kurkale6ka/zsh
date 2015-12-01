@@ -49,3 +49,5 @@ fi
 
 # Business specific or system dependant stuff
 [ -r ~/.zprofile_after ] && . ~/.zprofile_after
+
+# [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
