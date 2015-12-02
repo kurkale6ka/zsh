@@ -446,9 +446,9 @@ alias ldapsearch='ldapsearch -x -LLL'
 # Grep or silver searcher aliases
 if (( $+commands[ag] ))
 then
-   alias g='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
-   alias gr='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
-   alias ag='ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
+   alias g='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
+   alias gr='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
+   alias ag='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
 else
    alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
    alias gr='grep -IriE --color=auto --exclude="*~" --exclude tags'
