@@ -31,6 +31,8 @@ export MYGVIMRC=~/.gvimrc
 export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 
+export LOCATE_PATH=~/var/mlocate.db
+
 # -i   : ignore case
 # -r/R : raw control characters
 # -s   : Squeeze multiple blank lines
