@@ -433,8 +433,8 @@ alias cn='cat -n --'
 ## Help
 alias mm='man -k'
 
-alias rg='cat ~/github/help/it/regex.txt' # Regex  help
-alias pf='~/github/help/it/printf.sh'     # printf help
+alias rg='cat ~/github/help/regex.txt' # Regex  help
+alias pf='~/github/help/printf.sh'     # printf help
 
 # print info about a command, alias, function...
 alias '?=whence -ca --'
