@@ -8,7 +8,7 @@ db=~/.local/share/marks/marks.sqlite
 # Statistics
 if [[ $1 == -s ]]
 then
-   sqlite3 $db 'SELECT * FROM marks ORDER BY weight DESC;' | column -t -s'|'
+   sqlite3 $db 'SELECT * FROM marks ORDER BY weight DESC;' | column -t -s'|' | less
    return 0
 fi
 
