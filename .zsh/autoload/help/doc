@@ -1,15 +1,15 @@
 # Search for help topics in my personal documentation
 
 case $1 in
-   rg|regex)
+   (rg|regex)
       cat /home/mitko/github/help/regex.txt
       return ;;
 
-   pf|printf)
+   (pf|printf)
       /home/mitko/github/help/printf.sh
       return ;;
 
-   sort)
+   (sort)
       cat /home/mitko/github/help/sort.txt
       return ;;
 esac
@@ -19,7 +19,7 @@ typeset -a matches
 while read -r
 do
    matches+=($REPLY)
-done < <(ag -lS --ignore '*install*' --ignore '*readme*' --ignore '*license*' $1 ~/help/it)
+done < <(ag -l -S --hidden --ignore .git --ignore misc --ignore '*install*' --ignore 'README*' --ignore 'LICENSE' $1 ~/help)
 
 # For a single match, open the help file
 if (( ${#matches} == 1 ))
@@ -27,6 +27,6 @@ then
    v $matches -c"0/$1" -c'noh|norm zv<cr>'
 elif (( ${#matches} > 1 ))
 then
-   ag -S --color-line-number="00;32" --color-path="00;35" --color-match="01;31" \
+   ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31" \
       $1 $matches
 fi
