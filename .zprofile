@@ -31,7 +31,10 @@ export MYGVIMRC=~/.gvimrc
 export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 
-export LOCATE_PATH=~/var/mlocate.db
+if [[ $(uname) != Darwin ]]
+then
+   export LOCATE_PATH=~/var/mlocate.db
+fi
 
 # -i   : ignore case
 # -r/R : raw control characters
@@ -44,12 +47,12 @@ export LOCATE_PATH=~/var/mlocate.db
 # ex: ?L%L lines, . - if number of lines known: display %L lines,
 export LESS='-i -r -s -W -M -PM?f%f - :.?L%L lines, .?ltL\:%lt:.?pB, %pB\% : .?e(Bottom)%t'
 
-if [[ -x =keychain ]]
+if (( $+commands[keychain] ))
 then
    eval "$(keychain --eval --agents ssh -Q --quiet id_rsa id_rsa_git)"
 fi
 
-# Business specific or system dependant stuff
-[ -r ~/.zprofile_after ] && . ~/.zprofile_after
+# Local zprofile file
+[[ -r ~/.zprofile_after ]] && . ~/.zprofile_after
 
 # [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
