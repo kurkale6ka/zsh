@@ -17,8 +17,11 @@ HISTSIZE=7000
 SAVEHIST=7000
 
 ## Paths
-fpath=(~/.zsh/autoload ~/.zsh/autoload/*(/) $fpath)
-autoload ~/.zsh/autoload/**/[^_]*(.:t)
+if [[ -d ~/.zsh/autoload ]]
+then
+   fpath=(~/.zsh/autoload ~/.zsh/autoload/*(/) $fpath)
+   autoload ~/.zsh/autoload/**/[^_]*(.:t)
+fi
 
 if ((EUID == 0))
 then
