@@ -31,7 +31,7 @@ export MYGVIMRC=~/.gvimrc
 export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 
-if [[ $(uname) != Darwin ]]
+if [[ -e ~/var/mlocate.db ]]
 then
    export LOCATE_PATH=~/var/mlocate.db
 fi
