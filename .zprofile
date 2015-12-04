@@ -1,6 +1,4 @@
 #! /usr/bin/env zsh
-# Author: Dimitar Dimitrov
-#         kurkale6ka
 
 path=(~/bin $path)
 typeset -U path # remove any duplicates from the array

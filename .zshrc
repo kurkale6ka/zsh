@@ -1,5 +1,4 @@
 #! /usr/bin/env zsh
-# Author: kurkale6ka <Dimitar Dimitrov>
 
 setopt auto_pushd
 setopt correct
@@ -495,7 +494,7 @@ fi
 ## fzf
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
-## Business specific or system dependant stuff
+## Local zshrc file
 [[ -r ~/.zshrc_after ]] && . ~/.zshrc_after
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
