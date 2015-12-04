@@ -55,4 +55,4 @@ fi
 # Local zprofile file
 [[ -r ~/.zprofile_after ]] && . ~/.zprofile_after
 
-# [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
+[[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
