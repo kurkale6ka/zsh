@@ -51,6 +51,6 @@ then
 fi
 
 # Local zprofile file
-[[ -r ~/.zprofile_after ]] && . ~/.zprofile_after
+[[ -r $XDG_CONFIG_HOME/zsh/profile.after ]] && . $XDG_CONFIG_HOME/zsh/profile.after
 
 [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx

@@ -3,7 +3,7 @@
 local db
 local dir
 
-db=~/.local/share/marks/marks.sqlite
+db=$XDG_DATA_HOME/marks/marks.sqlite
 
 # Statistics
 if [[ $1 == -s ]]

@@ -1,8 +1,8 @@
 # Helper for c (fuzzy bookmarked cd)
 
-# mkdir -p ~/.local/share/marks
+# mkdir -p $XDG_DATA_HOME/marks
 #
-# sqlite3 ~/.local/share/marks/marks.sqlite << 'INIT'
+# sqlite3 $XDG_DATA_HOME/marks/marks.sqlite << 'INIT'
 # CREATE TABLE marks (
 #   dir VARCHAR(200) UNIQUE,
 #   weight INTEGER
@@ -14,7 +14,7 @@
 local db
 local weight
 
-db=~/.local/share/marks/marks.sqlite
+db=$XDG_DATA_HOME/marks/marks.sqlite
 
 # Get weight for the current directory
 weight="$(sqlite3 $db "SELECT weight FROM marks WHERE dir = '$(pwd -P)';")"

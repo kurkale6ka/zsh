@@ -12,15 +12,15 @@ setopt interactivecomments
 
 unsetopt flow_control # no ^s freezing the screen
 
-HISTFILE=~/.zsh_history
+export HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=7000
 SAVEHIST=7000
 
 ## Paths
-if [[ -d ~/.zsh/autoload ]]
+if [[ -d $XDG_CONFIG_HOME/zsh/autoload ]]
 then
-   fpath=(~/.zsh/autoload ~/.zsh/autoload/*(/) $fpath)
-   autoload ~/.zsh/autoload/**/[^_]*(.:t)
+   fpath=($XDG_CONFIG_HOME/zsh/autoload $XDG_CONFIG_HOME/zsh/autoload/*(/) $fpath)
+   autoload $XDG_CONFIG_HOME/zsh/autoload/**/[^_]*(.:t)
 fi
 
 if ((EUID == 0))
@@ -326,7 +326,7 @@ compdef v=vim nvim=vim
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
-then nvim='nvim -u ~/.config/nvim/init.vim'
+then nvim="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 else nvim='vim -u ~/.vimrc'
 fi
 
@@ -498,6 +498,6 @@ fi
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
 ## Local zshrc file
-[[ -r ~/.zshrc_after ]] && . ~/.zshrc_after
+[[ -r $XDG_CONFIG_HOME/zsh/rc.after ]] && . $XDG_CONFIG_HOME/zsh/rc.after
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='

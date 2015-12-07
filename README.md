@@ -2,11 +2,20 @@
 
 ## fuzzy cd based on visited locations only (bookmarks)
 
-All of the following is needed:
+All of the following is needed:  
+**Install in** `~/.zshenv`:
 ```sh
-mkdir -p ~/.local/share/marks
+# XDG data home
+if [[ -z $XDG_DATA_HOME ]]
+then
+   export XDG_DATA_HOME=$HOME/.local/share
+fi
+```
+**Then run**:
+```sh
+mkdir -p $XDG_DATA_HOME/marks
 
-sqlite3 ~/.local/share/marks/marks.sqlite << 'INIT'
+sqlite3 $XDG_DATA_HOME/marks/marks.sqlite << 'INIT'
 CREATE TABLE marks (
   dir VARCHAR(200) UNIQUE,
   weight INTEGER
@@ -15,12 +24,13 @@ CREATE TABLE marks (
 CREATE INDEX _dir ON marks (dir);
 INIT
 ```
-* [the fuzzy cd function](https://github.com/kurkale6ka/zsh/blob/master/.zsh/autoload/fuzzy/c)
-* [the bookmarks update function](https://github.com/kurkale6ka/zsh/blob/master/.zsh/autoload/fuzzy/update_marks)
+**Functions + hook**:
+* [the fuzzy cd function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
+* [the bookmarks update function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
 * the zsh hook function: `chpwd_functions+=(update_marks)` in `~/.zshrc`
 
+**Usage**:
 ```
-Usage:
      c
   or c pattern
   or c -s
@@ -28,5 +38,5 @@ Usage:
 
 ## fuzzy cd to anywhere + fuzzy file opening with nvim
 
-* https://github.com/kurkale6ka/zsh/blob/master/.zsh/autoload/fuzzy/cf
-* https://github.com/kurkale6ka/zsh/blob/master/.zsh/autoload/fuzzy/vf
+* https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf
+* https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf
