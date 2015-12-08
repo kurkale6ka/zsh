@@ -1,0 +1,40 @@
+# Usage:
+#    ccleanup [-e /excluded/directory]
+
+local sql
+local dirs
+local _dirs
+local ans
+
+# Exclude a directory from deletion
+if [[ $1 == -e ]]
+then
+   sql="select dir from marks where dir != '$2';"
+else
+   sql='select dir from marks;'
+fi
+
+dirs=()
+_dirs=()
+while read -r
+do
+   if [[ ! -d $REPLY ]]
+   then
+      dirs+=(${REPLY})
+      _dirs+=(${(qq)REPLY})
+   fi
+done < <(sqlite3 $XDG_DATA_HOME/marks/marks.sqlite $sql)
+
+if [[ -n $dirs ]]
+then
+   print -l 'Deprecated directories:\n' $dirs'\n'
+
+   read 'ans?Delete? (y/n) '
+
+   if [[ $ans == y ]]
+   then
+      sqlite3 $XDG_DATA_HOME/marks/marks.sqlite "delete from marks where dir in (${(j:,:)_dirs});"
+   fi
+else
+   echo 'Nothing to cleanup'
+fi

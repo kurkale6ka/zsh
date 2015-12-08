@@ -27,6 +27,7 @@ INIT
 **Functions + hook**:
 * [the fuzzy cd function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
 * [the bookmarks update function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
+* [cleanup](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/ccleanup)
 * the zsh hook function: `chpwd_functions+=(update_marks)` in `~/.zshrc`
 
 **Usage**:
@@ -34,6 +35,10 @@ INIT
      c
   or c pattern
   or c -s
+
+TODO:
+  consider file names
+  file="$(locate -Ai -0 $ALL_NON_CONTAINED_PATHS_FROM_DB $@ | grep -z -vE '~$' | fzf +s --read0 -0 -1)"
 ```
 
 ## fuzzy cd to anywhere + fuzzy file opening with nvim
