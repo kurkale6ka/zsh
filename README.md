@@ -1,9 +1,13 @@
-# Fuzzy stuff using [fzf](https://github.com/junegunn/fzf)
+# Fuzzy cd based on bookmarks
 
-## fuzzy cd based on visited locations only (bookmarks)
+**SUMMARY**  
+_Every cd is bookmarked and assigned a weight so you can later on jump to it quickly_
 
 All of the following is needed:  
-**Install in** `~/.zshenv`:
+
+**Install** [fzf](https://github.com/junegunn/fzf)
+
+**Put this snippet in** `~/.zshenv`:
 ```sh
 # XDG data home
 if [[ -z $XDG_DATA_HOME ]]
@@ -37,11 +41,11 @@ INIT
   or c -s
 
 TODO:
-  consider file names
+  take file names into consideration
   file="$(locate -Ai -0 $ALL_NON_CONTAINED_PATHS_FROM_DB $@ | grep -z -vE '~$' | fzf +s --read0 -0 -1)"
 ```
 
-## fuzzy cd to anywhere + fuzzy file opening with nvim
+## And the generic version...
 
-* https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf
-* https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf
+* [Generic fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf)
+* [Generic fuzzy file opening](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf)
