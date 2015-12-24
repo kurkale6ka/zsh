@@ -37,7 +37,7 @@ INIT
 **Usage**:
 ```
      c
-  or c pattern
+  or c pattern ...
   or c -s
 
 TODO:

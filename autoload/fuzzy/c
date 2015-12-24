@@ -14,7 +14,9 @@ fi
 
 if (($# > 0))
 then
-   dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%$1%' ORDER BY weight DESC;" | fzf +s -0 -1)"
+   # Note: for more than 2 arguments, not all permutations are tried.
+   # So for c 1 2 3, %1%2%3% and %3%2%1% are only tried.
+   dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC;" | fzf +s -0 -1)"
 else
    dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1)"
 fi
