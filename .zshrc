@@ -178,7 +178,7 @@ bindkey -s '^[[54;5u' '^^'
 
 ## zle snippets
 
-zle_highlight=(region:none special:standout suffix:bold isearch:underline)
+zle_highlight=(region:none special:standout suffix:bold isearch:underline paste:none)
 
 ### ^x= bc
 bindkey -s '^x=' "bc <<< 'scale=20; '^b"
