@@ -6,14 +6,10 @@
 # examples:
 #    cecho -fblue -bgreen -su message
 #    cecho -fylw:221 message # 256 colors support (ylw: is optional)
-# TODO: allow reading from a heredoc
-local _bld
-local _udl
-local _res
 
-_bld="$(tput bold || tput md)"
-_udl="$(tput smul || tput us)"
-_res="$(tput sgr0 || tput me)"
+local _bld="$(tput bold || tput md)"
+local _udl="$(tput smul || tput us)"
+local _res="$(tput sgr0 || tput me)"
 
 OPTIND=1
 
@@ -45,7 +41,9 @@ _get_color() {
         cyan) color=6 ;;
        white) color=7 ;;
       [0-9]*) color=$1 ;;
-           *) echo 'Unrecognized color' 1>&2 ;;
+           *) echo 'Unrecognized color' 1>&2
+              return 2
+              ;;
    esac
 }
 
@@ -63,7 +61,26 @@ then
    bg="$(tput setab $color || tput AB $color)"
 fi
 
+# If no arguments are given, read from STDIN
+if (($# == 0))
+then
+   local messages
+
+   messages=()
+   while read -r
+   do
+      messages+=($REPLY)
+   done
+fi
+
 [[ -n $_b ]] && echo -n $_bld
 [[ -n $_u ]] && echo -n $_udl
 
-echo ${fg}${bg}${@}${_res}
+if (($# != 0))
+then
+   echo ${fg}${bg}${@}${_res}
+else
+   print -n ${fg}${bg}
+   print -l ${messages}
+   print -n ${_res}
+fi
