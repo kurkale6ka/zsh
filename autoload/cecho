@@ -4,6 +4,7 @@
 #               underlined (-u)
 #              fg/bg color (-f/-b)
 #      no trailing newline (-n)
+#           set a variable (-v, use cset for this)
 #
 # Examples:
 # cecho -fblue -bgreen -su message
@@ -36,9 +37,9 @@ _get_color() {
 ## options
 OPTIND=1
 
-local opt _opt
+local opt _opt _cset
 
-while getopts 'suf:b:n' opt
+while getopts 'suf:b:nv' opt
 do
    case $opt in
        s) local _bld="$(tput bold || tput md)" ;;
@@ -50,6 +51,7 @@ do
           local _bg="$(tput setab $color || tput AB $color)"
           ;;
        n) _opt=-n ;;
+       v) _cset=1 ;;
       \?) echo "Invalid option: -$OPTARG" 1>&2
           return 1 ;;
    esac
@@ -62,17 +64,31 @@ shift $((OPTIND-1))
 ## Output
 local _res="$(tput sgr0 || tput me)"
 
-# Without arguments, read from STDIN
-if (($# == 0))
+if ((_cset))
 then
-   echo -n ${_bld}${_udl}${_fg}${_bg}
-   while read -r
-   do
-      echo $REPLY
-   done
-   echo -n ${_res}
+   if (($# == 0))
+   then
+      local var val
+      while read -r var val
+      do
+         eval $var="'${_bld}${_udl}${_fg}${_bg}${val}${_res}'"
+      done
+   else
+      eval $1="'${_bld}${_udl}${_fg}${_bg}${@:2}${_res}'"
+   fi
 else
-   echo $_opt ${_bld}${_udl}${_fg}${_bg}${@}${_res}
+   # Without arguments, read from STDIN
+   if (($# == 0))
+   then
+      echo -n ${_bld}${_udl}${_fg}${_bg}
+      while read -r
+      do
+         echo $REPLY
+      done
+      echo -n ${_res}
+   else
+      echo $_opt ${_bld}${_udl}${_fg}${_bg}${@}${_res}
+   fi
 fi
 
 # vim: fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
