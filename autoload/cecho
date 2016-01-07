@@ -1,8 +1,9 @@
 # Colorful messages
 #    supports setting the following attributes:
-#      fg/bg color (-f/-b)
-#             bold (-s for strong)
-#       underlined (-u)
+#                     bold (-s for strong)
+#               underlined (-u)
+#              fg/bg color (-f/-b)
+#      no trailing newline (-n)
 #
 # Examples:
 # cecho -fblue -bgreen -su message
@@ -35,18 +36,20 @@ _get_color() {
 ## options
 OPTIND=1
 
-local opt
-while getopts 'usb:f:' opt
+local opt _opt
+
+while getopts 'suf:b:n' opt
 do
    case $opt in
+       s) local _bld="$(tput bold || tput md)" ;;
+       u) local _udl="$(tput smul || tput us)" ;;
        f) _get_color ${OPTARG#*:}
           local _fg="$(tput setaf $color || tput AF $color)"
           ;;
        b) _get_color ${OPTARG#*:}
           local _bg="$(tput setab $color || tput AB $color)"
           ;;
-       s) local _bld="$(tput bold || tput md)" ;;
-       u) local _udl="$(tput smul || tput us)" ;;
+       n) _opt=-n ;;
       \?) echo "Invalid option: -$OPTARG" 1>&2
           return 1 ;;
    esac
@@ -69,7 +72,7 @@ then
    done
    echo -n ${_res}
 else
-   echo ${_bld}${_udl}${_fg}${_bg}${@}${_res}
+   echo $_opt ${_bld}${_udl}${_fg}${_bg}${@}${_res}
 fi
 
 # vim: fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
