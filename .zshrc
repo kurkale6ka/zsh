@@ -90,28 +90,25 @@ alias -- --='fg %-'
 ## Colors
 [[ $TERM == xterm ]] && TERM='xterm-256color'
 
+# Colored man pages with less
 # These can't reside in .zprofile since there is no terminal for tput
-     Bold="$(tput bold)"
-Underline="$(tput smul)"
-     Blue="$(tput setaf 4)"
-   LGreen="$(printf %s $Bold; tput setaf 2)"
-    LBlue="$(printf %s $Bold; tput setaf 4)"
-    Reset="$(tput sgr0)"
+_bld="$(tput bold)"
+_udl="$(tput smul)"
+_lgrn=$_bld"$(tput setaf 2)"
+_lblu=$_bld"$(tput setaf 4)"
+_res="$(tput sgr0)"
 
-# Viewing man pages with less
-export LESS_TERMCAP_mb=$LGreen # blinking start
-export LESS_TERMCAP_md=$LBlue  # bold     start
-export LESS_TERMCAP_me=$Reset  #          end
+export LESS_TERMCAP_mb=$_lgrn # light green for blink
+export LESS_TERMCAP_md=$_lblu # light blue for bold
+export LESS_TERMCAP_me=$_res
 
-# so -> stand out start
-# se -> stand out end
-export LESS_TERMCAP_so="$(printf %s $Bold; tput setaf 3; tput setab 4)"
-export LESS_TERMCAP_se="$(tput rmso; printf %s $Reset)"
+# Stand out (reverse)
+export LESS_TERMCAP_so=$_bld"$(tput setaf 3; tput setab 4)" # yellow on blue bg
+export LESS_TERMCAP_se="$(tput rmso)"$_res
 
-# us -> underline start
-# ue -> underline end
-export LESS_TERMCAP_us="$(printf %s%s $Bold$Underline; tput setaf 5)"
-export LESS_TERMCAP_ue="$(tput rmul; printf %s $Reset)"
+# Underline
+export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5)" # purple
+export LESS_TERMCAP_ue="$(tput rmul)"$_res
 
 # Ls
 [[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
