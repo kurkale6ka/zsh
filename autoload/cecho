@@ -42,18 +42,18 @@ _get_color() {
 ## options
 OPTIND=1
 
-local opt _fmt
+local opt _bld _udl _fg _bg _fmt _cset
 
 while getopts 'suf:b:np:v' opt
 do
    case $opt in
-       s) local _bld="$(tput bold || tput md)" ;;
-       u) local _udl="$(tput smul || tput us)" ;;
+       s) _bld="$(tput bold || tput md)" ;;
+       u) _udl="$(tput smul || tput us)" ;;
        f) _get_color ${OPTARG#*:}
-          local _fg="$(tput setaf $color || tput AF $color)"
+          _fg="$(tput setaf $color || tput AF $color)"
           ;;
        b) _get_color ${OPTARG#*:}
-          local _bg="$(tput setab $color || tput AB $color)"
+          _bg="$(tput setab $color || tput AB $color)"
           ;;
        n) # format already set by -p
           if [[ -n $_fmt ]]
@@ -71,7 +71,7 @@ do
              _fmt=$OPTARG
           fi
           ;;
-       v) local _cset=1 ;;
+       v) _cset=1 ;;
       \?) echo "Invalid option: -$OPTARG" 1>&2
           return 1 ;;
    esac
