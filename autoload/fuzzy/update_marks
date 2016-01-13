@@ -11,13 +11,10 @@
 # CREATE INDEX _dir ON marks (dir);
 # INIT
 
-local db
-local weight
-
-db=$XDG_DATA_HOME/marks/marks.sqlite
+local db=$XDG_DATA_HOME/marks/marks.sqlite
 
 # Get weight for the current directory
-weight="$(sqlite3 $db "SELECT weight FROM marks WHERE dir = '$(pwd -P)';")"
+local weight="$(sqlite3 $db "SELECT weight FROM marks WHERE dir = '$(pwd -P)';")"
 
 if [[ -n $weight ]]
 then

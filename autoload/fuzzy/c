@@ -1,9 +1,6 @@
 # Fuzzy cd based on visited locations only (bookmarks)
 
-local db
-local dir
-
-db=$XDG_DATA_HOME/marks/marks.sqlite
+local db=$XDG_DATA_HOME/marks/marks.sqlite
 
 # Statistics
 if [[ $1 == -s ]]
@@ -16,9 +13,9 @@ if (($# > 0))
 then
    # Note: for more than 2 arguments, not all permutations are tried.
    # So for c 1 2 3, %1%2%3% and %3%2%1% are only tried.
-   dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC;" | fzf +s -0 -1)"
+   local dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC;" | fzf +s -0 -1)"
 else
-   dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1)"
+   local dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1)"
 fi
 
 if [[ -n $dir ]]

@@ -1,21 +1,18 @@
 # Usage:
 #    ccleanup [-e /excluded/directory]
 
-local sql
-local dirs
-local _dirs
-local ans
-
 # Exclude a directory from deletion
 if [[ $1 == -e ]]
 then
-   sql="select dir from marks where dir != '$2';"
+   local sql="select dir from marks where dir != '$2';"
 else
-   sql='select dir from marks;'
+   local sql='select dir from marks;'
 fi
 
+local dirs _dirs
 dirs=()
 _dirs=()
+
 while read -r
 do
    if [[ ! -d $REPLY ]]
@@ -29,6 +26,7 @@ if [[ -n $dirs ]]
 then
    print -l 'Deprecated directories:\n' $dirs'\n'
 
+   local ans
    read 'ans?Delete? (y/n) '
 
    if [[ $ans == y ]]
