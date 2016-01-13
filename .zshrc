@@ -383,8 +383,8 @@ alias il='iptables -nvL --line-numbers'
 reg() { whois -H $1 | egrep -A1 -i registrar:; }
 
 ## ls and echo
-cset -fblue     _ls_date '%d-%b-%y'
-cset -fgreen:72 _ls_time '%H:%M'
+cset -fblue   _ls_date '%d-%b-%y'
+cset -fbk:238 _ls_time '%H:%M'
 
 alias  l.='ls -Fd   --color=auto .*~.*~'
 alias ll.='ls -Fdhl --color=auto --time-style="+$_ls_date $_ls_time" .*~.*~'
