@@ -1,58 +1,33 @@
-## Local variables
-
-local _bld
-local _res
-local _grn
-local _blu
-local _red
-local _Blu
-local _Red
-local info
-local _only_files
-local _du_all_opt
-local _nb_lines
-local opt
-local old_sort
-local _du_arg
-local _sort_arg
-local _align
-local _files
-local size
-local _size
-local date
-local hour
-local file
-local _file
-local _len
-
-## Colors
-
-_bld=$(tput bold)
-_res=$(tput sgr0)
-
-_grn=$(tput setaf 2)
-_blu=$(tput setaf 4)
-_red=$(tput setaf 1)
-
-_Blu=$(printf %s $_bld; tput setaf 4)
-_Red=$(printf %s $_bld; tput setaf 1)
-
 ## Help
-
 _help() {
 
+local dot _N nb
+cset -sfblue  dot .
+cset -s       _N  N
+cset -sfgreen nb 20
+
+local files dirs both lines1 lines2
+cset -fgreen << COLORS
+files  # files only
+dirs   # directories only
+both   # files & directories
+lines1 # lines of output (
+lines2   by default)
+COLORS
+
+local info
 # NB:
 #    To get files only, a mixed output of both files and directories (du -a)
 #    gets filtered. So with -f -n3, if the biggest 3 inodes are 2 directories
 #    and one file, we get a single file despite using -n3
 read -r -d $'\0' info << HELP
 Usage:
-   ${_bld}duu${_res}     ${_grn}# files only${_res}
-   ${_bld}duu${_res} -d  ${_grn}# directories only${_res}
-   ${_bld}duu${_res} -a  ${_grn}# files & directories${_res}
-   ${_bld}duu${_res} -n${_bld}N${_res} ${_grn}# lines of output (${_bld}20${_res} ${_grn}by default)${_res}
+   duu     ${files}
+   duu -d  ${dirs}
+   duu -a  ${both}
+   duu -n${_N} ${lines1}${nb} ${lines2}
 
-Note: ${_bld}.${_res} is used by default but a different directory can also be specified
+Note: ${dot} is used by default but a different directory can also be specified
 HELP
 
 if (($1 == 0))
@@ -62,15 +37,15 @@ fi
 }
 
 ## Options
-
-_nb_lines=20
+local _nb_lines=20
 
 # Show files only by default
-_only_files=1
-_du_all_opt=a
+local _only_files=1
+local _du_all_opt=a
 
 OPTIND=1
 
+local opt
 while getopts ':hadn:' opt
 do
    case $opt in
@@ -100,7 +75,8 @@ shift $((OPTIND-1))
 
 ## Main
 
-old_sort=1
+local old_sort=1
+local _du_arg _sort_arg
 
 if sort --help | grep -q human-numeric
 then
@@ -112,9 +88,11 @@ else
    _sort_arg=n
 fi
 
-_align=0
+local _align=0
+local _size unit _len _file _files
 _files=()
 
+local size date hour file
 # du's output
 while read -r size date hour file
 do
@@ -139,10 +117,10 @@ do
       fi
 
       case $unit in
-         (K) unit=${_grn}${unit}${_res} ;;
-         (M) unit=${_blu}${unit}${_res} ;;
-         (G) unit=${_red}${unit}${_res} ;;
-         (*) unit=${_Red}${unit}${_res}
+         (K) cset -fgreen unit $unit ;;
+         (M) cset -fblue  unit $unit ;;
+         (G) cset -fred   unit $unit ;;
+         (*) cset -sfred  unit $unit
       esac
    fi
 
