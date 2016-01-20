@@ -11,6 +11,7 @@ setopt noclobber # prevent > from truncating an existing file
 setopt interactivecomments
 
 unsetopt flow_control # no ^s freezing the screen
+unsetopt case_glob
 
 export HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=7000
