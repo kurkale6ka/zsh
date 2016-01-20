@@ -351,6 +351,10 @@ alias 4='cd ../../../..'
 # Hook functions
 chpwd_functions+=(update_marks)
 
+## Safer cp/mv (problem with these is I don't usually check the destination)
+alias cp='cp -i'
+alias mv='mv -i'
+
 ## File system operations
 alias md='mkdir -p --'
 alias pw='pwd -P'
