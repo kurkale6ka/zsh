@@ -49,3 +49,23 @@ TODO:
 
 * [Generic fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf)
 * [Generic fuzzy file opening](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf)
+
+# XDG setup
+
+`/etc/zsh/zshenv`:
+```sh
+# XDG configuration home
+if [[ -z $XDG_CONFIG_HOME ]]
+then
+   export XDG_CONFIG_HOME=$HOME/.config
+fi
+
+# XDG data home
+if [[ -z $XDG_DATA_HOME ]]
+then
+   export XDG_DATA_HOME=$HOME/.local/share
+fi
+
+# zsh dot files
+export ZDOTDIR=$XDG_CONFIG_HOME/zsh
+```
