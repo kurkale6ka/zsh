@@ -1,23 +1,6 @@
-## Copy a user dir to a remote server using rsync
+# rsync with git excludes
 
-if (($# != 3))
-then
-   echo 'Usage: rs {user} {server} {dir}' 1>&2
-   return 1
-fi
-
-if [[ $1 == root ]]
-then
-   local home=''
-else
-   local home=home/
-fi
-
-rsync -e "ssh -v -l $1"                               \
-      -v                                              \
-      --recursive                                     \
-      --links                                         \
-      --stats                                         \
-      --progress                                      \
-      --exclude-from ~/config/dotfiles/.rsync_exclude \
-      ${3%/}/ $2:/$home$1/${3%/}
+rsync -f".- $HOME/.gitignore" \
+      -f':- .gitignore'       \
+      -f'- .git'              \
+      $@
