@@ -219,6 +219,9 @@ bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
 ### ^xd Diff
 bindkey -s '^xd' 'diff -uq^@ --from-file '
 
+### ^xD du
+bindkey -s '^xD' 'du -Shax | sort -hr | head -n30'
+
 ### ^xe ed
 bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
 bindkey -s '^xE' "printf '%s\\\n' H 0i ^@ . wq | 'ed' -s "

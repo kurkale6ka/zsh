@@ -137,6 +137,8 @@ do
 
    (( _len > _align )) && _align=$_len
 
+# du -Shax | sort -hr | head -n100
+# du -Sax  | sort -nr | head -n100
 done < <(du -S${_du_arg}${_du_all_opt}x --time --time-style=+'%d-%b-%y %H:%M' --exclude='.git' --exclude='.hg' --exclude='.svn' --exclude='vendor/bundle' --exclude='shared/bundle' -- $@ | sort -${_sort_arg}r | head -n$_nb_lines)
 
 if (( ! old_sort ))
