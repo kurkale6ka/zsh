@@ -216,11 +216,9 @@ bindkey -s '^x]' '[[]]\e2^b'
 ### ^xc Counting row occurrences in a stream
 bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
 
-### ^xd Diff
-bindkey -s '^xd' 'diff -uq^@ --from-file '
-
-### ^xD du
-bindkey -s '^xD' 'du -Shax | sort -hr | head -n30'
+### ^xd diff
+bindkey -s '^xd' 'diff -u <() <(^@)\eb\e2^b'
+bindkey -s '^xD' 'diff -uq^@ --from-file '
 
 ### ^xe ed
 bindkey -s '^xe' "printf '%s\\\n' H ^@ wq | 'ed' -s "
@@ -334,8 +332,8 @@ fi
 alias v=$nvim
 alias vg="xclip <<< 'se nocp is hls ic scs inf nu sc report=0 dy+=lastline lz so=2 mouse=a nojs ai hid wmnu ls=2 bs=2 ve=all nosol | nn <c-l> :nohls<cr><c-l> | sy on | filet plugin indent on'"
 
-alias -g L="| v -"
-alias -g J="| python -mjson.tool"
+alias -g V='| v -'
+alias -g J='| python -mjson.tool'
 
 alias ed='ed -v -p:'
 
