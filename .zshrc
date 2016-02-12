@@ -239,7 +239,7 @@ bindkey -s '^xn' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
 
 bindkey -s '^xo' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
 
-bindkey -s '^x*' 'inodes=(*(ND)); echo There are ${#inodes} inodes'
+bindkey -s '^x*' 'inodes=(*(NDoN)); echo There are ${#inodes} items'
 
 ### ^xp printf
 bindkey -s '^xp' "print -l "
