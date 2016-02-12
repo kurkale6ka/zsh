@@ -353,17 +353,17 @@ alias 4='cd ../../../..'
 chpwd_functions+=(update_marks)
 
 ## File system operations
-alias md='mkdir -p --'
+alias md='mkdir -p'
 alias pw='pwd -P'
 
 alias to=touch
 
 ## Safer cp/mv + rm
 # problem with these is I don't usually check the destination
-alias cp='cp -i --'
-alias mv='mv -i --'
+alias cp='cp -i'
+alias mv='mv -i'
 
-alias d='rm -i --preserve-root --'
+alias d='rm -i --preserve-roo'
 
 ## Permissions + debug
 alias zx='zsh -xv'
@@ -421,7 +421,7 @@ alias l1='ls -FB1 --color=auto'
 
 alias lr="tree -FAC -I '*~|*.swp' --noreport"
 
-alias vl='ls -FB1 L'
+alias vl='ls -FB1 V'
 
 # Links (there is also ln() as an autoload)
 alias ln.='ll .*(@)'
@@ -435,7 +435,7 @@ alias h=head
 alias t=tail
 alias tf='tail -f -n0'
 
-alias cn='cat -n --'
+alias cn='cat -n'
 
 ## Help
 alias mm='man -k'
@@ -444,7 +444,7 @@ alias rg='cat ~/github/help/regex.txt' # Regex  help
 alias pf='~/github/help/printf.sh'     # printf help
 
 # print info about a command, alias, function...
-alias '?=whence -ca --'
+alias '?=whence -ca'
 
 ## Find stuff and diffs
 alias lo='locate -i'
