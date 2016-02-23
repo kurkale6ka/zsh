@@ -7,7 +7,7 @@ All of the following is needed:
 
 **Install** [fzf](https://github.com/junegunn/fzf)
 
-**Put this snippet in** `~/.zshenv`:
+**Put this snippet in** `/etc/zsh/zshenv` (or `~/.zshenv`):
 ```sh
 # XDG data home
 if [[ -z $XDG_DATA_HOME ]]
@@ -39,16 +39,12 @@ INIT
      c
   or c pattern ...
   or c -s
-
-TODO:
-  take file names into consideration
-  file="$(locate -Ai -0 $ALL_NON_CONTAINED_PATHS_FROM_DB $@ | grep -z -vE '~$' | fzf +s --read0 -0 -1)"
 ```
 
 ## And the generic version...
 
-* [Generic fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf)
-* [Generic fuzzy file opening](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf)
+* [cf: generic fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf)
+* [vf: generic fuzzy file opening with nvim](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf)
 
 # XDG setup
 
