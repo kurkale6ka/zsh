@@ -1,4 +1,4 @@
-# Fuzzy cd based on visited locations only (bookmarks)
+# Fuzzy cd based on visited locations (bookmarks) or 'updatedb' indexed files
 
 local db=$XDG_DATA_HOME/marks/marks.sqlite
 
@@ -21,4 +21,16 @@ fi
 if [[ -n $dir ]]
 then
    cd -- $dir
+else
+   # 'updatedb' indexed files
+   local file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
+   if [[ -n $file ]]
+   then
+      if [[ -d $file ]]
+      then
+         cd -- $file
+      else
+         cd -- ${file:h}
+      fi
+   fi
 fi

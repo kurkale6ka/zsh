@@ -1,4 +1,4 @@
-# Fuzzy cd based on bookmarks
+# Fuzzy cd based on bookmarks or 'updatedb' indexed files
 
 _Every cd is bookmarked and assigned a weight so you can later on jump to it quickly_
 
@@ -40,11 +40,6 @@ c             # choose to cd from all marks
 c pattern ... # cd to a matching path
 c -s          # statistics
 ```
-
-## And the generic version...
-
-* [cf: generic fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/cf)
-* [vf: generic fuzzy file opening with nvim](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/vf)
 
 # XDG setup
 
