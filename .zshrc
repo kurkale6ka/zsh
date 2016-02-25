@@ -18,10 +18,10 @@ HISTSIZE=7000
 SAVEHIST=7000
 
 ## Paths
-if [[ -d $XDG_CONFIG_HOME/zsh/autoload ]]
+if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
-   fpath=($XDG_CONFIG_HOME/zsh/autoload $XDG_CONFIG_HOME/zsh/autoload/*(/) $fpath)
-   autoload $XDG_CONFIG_HOME/zsh/autoload/**/[^_]*(.:t)
+   fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
+   autoload $XDG_CONFIG_HOME/zsh/{autoload,after}/**/[^_]*(N.:t)
 fi
 
 if ((EUID == 0))
