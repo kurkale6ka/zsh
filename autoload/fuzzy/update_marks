@@ -13,8 +13,16 @@
 
 local db=$XDG_DATA_HOME/marks/marks.sqlite
 
+# update_marks is executed whenever PWD changes => last command 'was' a cd $_
+if [[ -d $_ ]]
+then
+   local _cwd=$_
+else
+   local _cwd=$PWD
+fi
+
 # Get weight for the current directory
-local weight="$(sqlite3 $db "SELECT weight FROM marks WHERE dir = '$(pwd -P)';")"
+local weight="$(sqlite3 $db "SELECT weight FROM marks WHERE dir = '$_cwd';")"
 
 if [[ -n $weight ]]
 then
@@ -23,4 +31,4 @@ else
    weight=1
 fi
 
-sqlite3 $db "INSERT or REPLACE into marks (dir, weight) values ('$(pwd -P)', $weight);"
+sqlite3 $db "INSERT or REPLACE into marks (dir, weight) values ('$_cwd', $weight);"
