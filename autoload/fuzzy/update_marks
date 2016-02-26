@@ -1,16 +1,5 @@
 # Helper for c (fuzzy bookmarked cd)
 
-# mkdir -p $XDG_DATA_HOME/marks
-#
-# sqlite3 $XDG_DATA_HOME/marks/marks.sqlite << 'INIT'
-# CREATE TABLE marks (
-#   dir VARCHAR(200) UNIQUE,
-#   weight INTEGER
-# );
-#
-# CREATE INDEX _dir ON marks (dir);
-# INIT
-
 local db=$XDG_DATA_HOME/marks/marks.sqlite
 
 # update_marks is executed whenever PWD changes => last command 'was' a cd $_
