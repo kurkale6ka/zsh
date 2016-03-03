@@ -1,0 +1,34 @@
+# Delete backup files~
+
+# delete in current directory only
+if (($# == 0))
+then
+   locate -0br '~$' | grep -z "$PWD" | xargs -0 rm
+   return 0
+fi
+
+OPTIND=1
+
+local opt
+while getopts ':sah' opt
+do
+   case $opt in
+       # show all files~
+       s) locate -br '~$' | less ;;
+
+       # delete all files~
+       a) locate -0br '~$' | xargs -0 rm ;;
+
+       h)
+cat << 'HELP'
+lcleanup    # delete files~ in current directory
+lcleanup -s # show stats
+         -a # delete files~ anywhere
+         -h # help
+HELP
+;;
+
+      \?) echo "Invalid option: -$OPTARG" 1>&2
+          return 1 ;;
+   esac
+done
