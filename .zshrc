@@ -235,9 +235,11 @@ bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
 ### ^xn Directory statistics
-bindkey -s '^xn' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
+bindkey -s '^xn' '*(om[1]D)^i'
+bindkey -s '^xN' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
 
-bindkey -s '^xo' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
+bindkey -s '^xo' '*(Om[1]D)^i'
+bindkey -s '^xO' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
 
 bindkey -s '^x*' 'inodes=(*(NDoN)); echo There are ${#inodes} items'
 
@@ -288,8 +290,11 @@ zstyle ':completion:*' list-prompt '%S%F{186}Scrolling active: current selection
 zstyle ':completion:*' list-colors 'ma=01;07;35' ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*(~|.swp|.o)'
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # cd ~/dow<tab> -> cd ~/Downloads
 zstyle ':completion:*' insert-tab false
+
+# cd ~/dow<tab> -> cd ~/Downloads
+# gz<tab> -> updates.tar.gz
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 
 zstyle -e ':completion:*' hosts 'reply=($(nodeset -ea 2>/dev/null))'
 zstyle -e ':completion:*:cssh:*' hosts "reply=($(awk '/^[^#]/ {print $1}' ~/.clusterssh/clusters 2>/dev/null))"
