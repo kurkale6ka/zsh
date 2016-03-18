@@ -236,10 +236,10 @@ bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
 ### ^xn Directory statistics
 bindkey -s '^xn' '*(om[1]D)^i'
-bindkey -s '^xN' 'echo -n "Newest: "; ld *(om[1]D)\eb^f'
+bindkey -s '^xN' 'cecho -fb:39 "Newest: "; lld *(om[1]D)\eb^f'
 
 bindkey -s '^xo' '*(Om[1]D)^i'
-bindkey -s '^xO' 'echo -n "Oldest: "; ld *(Om[1]D)\eb^f'
+bindkey -s '^xO' 'cecho -fb:39 "Oldest: "; lld *(Om[1]D)\eb^f'
 
 bindkey -s '^x*' 'inodes=(*(NDoN)); echo There are ${#inodes} items'
 
