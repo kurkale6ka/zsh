@@ -51,6 +51,9 @@ then
    _help 1
 fi
 
+# Don't update my cd bookmarks for automated cds
+chpwd_functions=()
+
 cd /usr/local/src || return 1
 
 # Update a package
