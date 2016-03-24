@@ -293,8 +293,12 @@ zstyle ':completion:*' ignored-patterns '*(~|.swp|.o)'
 zstyle ':completion:*' insert-tab false
 
 # cd ~/dow<tab> -> cd ~/Downloads
-# gz<tab> -> updates.tar.gz
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
+# ll tar<tab> -> ll updates.tar.gz
+# mv 01srt<tab> -> mv subtitles01_movieX.srt
+zstyle ':completion:*' matcher-list '' \
+                                    'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
+                                    '+l:|=* r:|=*' \
+                                    'r:[[:ascii:]]||[[:ascii:]]=**'
 
 zstyle -e ':completion:*' hosts 'reply=($(nodeset -ea 2>/dev/null))'
 zstyle -e ':completion:*:cssh:*' hosts "reply=($(awk '/^[^#]/ {print $1}' ~/.clusterssh/clusters 2>/dev/null))"
