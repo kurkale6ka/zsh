@@ -292,11 +292,11 @@ zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*(~|.swp|.o)'
 zstyle ':completion:*' insert-tab false
 
-# cd ~/dow<tab> -> cd ~/Downloads
+# cd ~/my-dow<tab> -> cd ~/my_Downloads
 # ll tar<tab> -> ll updates.tar.gz
 # mv 01srt<tab> -> mv subtitles01_movieX.srt
 zstyle ':completion:*' matcher-list '' \
-                                    'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
+                                    'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' \
                                     '+l:|=* r:|=*' \
                                     'r:[[:ascii:]]||[[:ascii:]]=**'
 
