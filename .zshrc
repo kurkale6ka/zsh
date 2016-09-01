@@ -244,7 +244,11 @@ bindkey -s '^xO' 'cecho -fb:39 "Oldest: "; lld *(Om[1]D)\eb^f'
 bindkey -s '^x*' 'inodes=(*(NDoN)); echo There are ${#inodes} items'
 
 ### ^xp printf
-bindkey -s '^xp' "print -l "
+bindkey -s '^xp' 'print -l '
+
+### ^xr/R rsync
+bindkey -s '^xr' "rsync -ain -e'ssh -q' "
+bindkey -s '^xR' "-f'- '^b"
 
 ### ^x` Backticks
 bindkey -s '^x`' '$()^b'
