@@ -17,6 +17,8 @@ export HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=7000
 SAVEHIST=7000
 
+TERMINAL=xfce4-terminal
+
 ## Paths
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
