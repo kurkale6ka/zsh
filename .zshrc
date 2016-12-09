@@ -294,7 +294,9 @@ zstyle ':completion:*' list-prompt '%S%F{186}Scrolling active: current selection
 zstyle ':completion:*' list-colors 'ma=01;07;35' ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-separator '#' # --<tab> # description
 zstyle ':completion:*' ignored-patterns '*(~|.swp|.o)'
-zstyle ':completion:*' insert-tab false
+
+# insert a tab vs displaying an overly long completion list when no characters on the left
+zstyle ':completion:*' insert-tab true
 
 # cd ~/my-dow<tab> -> cd ~/my_Downloads
 # ll tar<tab> -> ll updates.tar.gz
