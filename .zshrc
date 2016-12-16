@@ -340,11 +340,12 @@ compdef v=vim nvim=vim
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
-then nvim="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
-else nvim='vim -u ~/.vimrc'
+then
+   alias v=nvim
+else
+   alias v='vim -u ~/.vimrc'
 fi
 
-alias v=$nvim
 alias vg="xclip <<< 'se nocp is hls ic scs inf nu sc report=0 dy+=lastline lz so=2 mouse=a nojs ai hid wmnu ls=2 bs=2 ve=all nosol | nn <c-l> :nohls<cr><c-l> | sy on | filet plugin indent on'"
 
 alias -g V='| v -'
