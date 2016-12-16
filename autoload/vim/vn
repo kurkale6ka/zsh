@@ -1,51 +1,51 @@
-if (( $+commands[nvim] ))
+# Start (n)vim using defaults
+# Usage: vn    [file(s)]
+#        vn -v [file(s)] (use vim even when nvim is installed)
+
+# nvim or vim
+if (( $+commands[nvim] )) && [[ $1 != -v ]]
 then
-   nvim=nvim
+   ed=nvim
+   ini=init.vim
+   if (($#))
+   then
+      # edit files using default settings
+      $ed -u NONE $@
+      return
+   else
+      local opts
+      typeset -A opts
+      opts["$ed no $ini, no plugins"]='nvim -n -u NONE           '
+      opts["$ed    $ini, no plugins"]='nvim -n         --noplugin'
+   fi
 else
-   nvim=vim
+   ed=vim
+   ini=.vimrc
+   if (($# > 1)) || { (($# == 1)) && [[ $1 != -v ]]; }
+   then
+      $ed -NX -u NONE $@
+      return
+   else
+      local opts
+      typeset -A opts
+      opts["$ed no $ini, no plugins"]='vim -nNX -u NONE               '
+      opts["$ed    $ini, no plugins"]='vim -nNX -u ~/.vimrc --noplugin'
+   fi
 fi
 
-if (( $+commands[vimx] ))
-then
-   my_gvim=vimx
-elif (( $+commands[gvim] ))
-then
-   my_gvim=gvim
-fi
-
-if (($#))
-then
-   $nvim -NX -u NONE $@
-   return
-fi
-
-local opt opts
-
-local    nvm=$nvim
-local    nvi=${Bold}$nvim$Reset
-local    gvi=${Bold}gvim$Reset
-local  vimrc=${LGreen}.vimrc$Reset   _vimrc=~/.vimrc
-local gvimrc=${LGreen}.gvimrc$Reset _gvimrc=~/.gvimrc
-local plugin=${LGreen}plugins$Reset
-
- opts=("$nvi no .vimrc,           , no plugins ( \vim -nNX -u NONE                              )")
-opts+=("$nvm    $vimrc,           , no plugins ( \vim -nNX -u ~/.vimrc --noplugin               )")
-opts+=("$gvi no .vimrc, no .gvimrc, no plugins ( \gvim -nN -u NONE                              )")
-opts+=("gvim    $vimrc, no .gvimrc,    $plugin ( \gvim -nN -u ~/.vimrc -U NONE                  )")
-opts+=("gvim no .vimrc,    $gvimrc, no plugins ( \gvim -nN -u /dev/null -U ~/.gvimrc --noplugin )")
-opts+=("gvim    $vimrc, no .gvimrc, no plugins ( \gvim -nN -u ~/.vimrc -U NONE --noplugin       )")
-opts+=("gvim    $vimrc,    $gvimrc, no plugins ( \gvim -nN -u ~/.vimrc -U ~/.gvimrc --noplugin  )")
-
-select opt in $opts
+local l k v
+for k v in ${(Qkv)opts}
 do
-   case $opt in
-      ${opts[1]})    $nvim -nNX -u NONE                            ; break;;
-      ${opts[2]})    $nvim -nNX -u $_vimrc               --noplugin; break;;
-      ${opts[3]}) $my_gvim -nN  -u NONE                            ; break;;
-      ${opts[4]}) $my_gvim -nN  -u $_vimrc   -U NONE               ; break;;
-      ${opts[5]}) $my_gvim -nN  -u /dev/null -U $_gvimrc --noplugin; break;;
-      ${opts[6]}) $my_gvim -nN  -u $_vimrc   -U NONE     --noplugin; break;;
-      ${opts[7]}) $my_gvim -nN  -u $_vimrc   -U $_gvimrc --noplugin; break;;
-               *) printf '\nInvalid choice!\n' >&2
+   printf "$((++l))) %s ( %s )\n" $k $v
+done
+
+unset choice
+while [[ $choice != [12] ]]
+do
+   read 'choice?# '
+   case $choice in
+      (1) ${(z)opts["$ed no $ini, no plugins"]} ;;
+      (2) ${(z)opts["$ed    $ini, no plugins"]} ;;
+      (*) printf '\nInvalid selection! Choose 1 or 2.\n' >&2
    esac
 done
