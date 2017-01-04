@@ -13,8 +13,8 @@ unsetopt flow_control # no ^s freezing the screen
 unsetopt case_glob
 
 export HISTFILE=$XDG_DATA_HOME/zsh/history
-HISTSIZE=7000
-SAVEHIST=7000
+HISTSIZE=11000
+SAVEHIST=11000
 
 ## Paths
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
