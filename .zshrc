@@ -170,6 +170,19 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
 
+# Bash like custom Ctrl + w delete
+custom-backward-kill-word () {
+  local WORDCHARS=${WORDCHARS}'`"+:@'"'"'|\,'
+  WORDCHARS=${WORDCHARS}'-/.'
+  zle backward-kill-word
+}
+
+zle -N custom-backward-kill-word
+bindkey '^W' custom-backward-kill-word
+
+# Remove -/. from words to improve alt + backspace/d
+WORDCHARS=${WORDCHARS//[-\/.]}
+
 # pangoterm
 bindkey -s '^[OM' '^M'
 bindkey -s '^[[54;5u' '^^'
