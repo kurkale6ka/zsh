@@ -16,6 +16,8 @@ export HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=11000
 SAVEHIST=11000
 
+alias zn='zsh -f'
+
 ## Paths
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
@@ -181,10 +183,6 @@ bindkey '^W' custom-backward-kill-word
 
 # Remove -/. from words to improve alt + backspace/d
 WORDCHARS=${WORDCHARS//[-\/.]}
-
-# pangoterm
-bindkey -s '^[OM' '^M'
-bindkey -s '^[[54;5u' '^^'
 
 ## zle snippets
 
@@ -376,6 +374,11 @@ alias 1='cd ..'
 alias 2='cd ../..'
 alias 3='cd ../../..'
 alias 4='cd ../../../..'
+alias 5='cd ../../../../..'
+alias 6='cd ../../../../../..'
+alias 7='cd ../../../../../../..'
+alias 8='cd ../../../../../../../..'
+alias 9='cd ../../../../../../../../..'
 
 # Hook functions
 chpwd_functions+=(update_marks)
