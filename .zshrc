@@ -6,9 +6,9 @@ setopt extended_glob
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
-setopt auto_name_dirs # shorter names in CWD without cd ~dir
 setopt interactivecomments
 
+unsetopt auto_name_dirs # shorter names in CWD
 unsetopt flow_control # no ^s freezing the screen
 unsetopt case_glob
 
