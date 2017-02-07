@@ -118,29 +118,29 @@ export LESS_TERMCAP_ue="$(tput rmul)"$_res
 # Linux virtual console colors
 if [[ $TERM == linux ]]
 then
-   # echo -en "\e]P0262626" #  0. black
-   # echo -en "\e]P8605958" #  8. darkgrey
+   echo -en "\e]P0262626" #  0. black
+   echo -en "\e]P8605958" #  8. darkgrey
 
-   # echo -en "\e]P18c4665" #  1. darkred
-   # echo -en "\e]P9fa8072" #  9. red
+   echo -en "\e]P18c4665" #  1. darkred
+   echo -en "\e]P9cd5c5c" #  9. red
 
    echo -en "\e]P2287373" #  2. darkgreen
-   echo -en "\e]PA7ccd7c" # 10. green -
+   echo -en "\e]PA7ccd7c" # 10. green
 
-   # echo -en "\e]P37c7c99" #  3. brown
-   # echo -en "\e]PB9e9ecb" # 11. yellow
+   echo -en "\e]P3ffa54f" #  3. brown
+   echo -en "\e]PBeedc82" # 11. yellow
 
    echo -en "\e]P43465A4" #  4. darkblue
-   echo -en "\e]PC87ceeb" # 12. blue -
+   echo -en "\e]PC87ceeb" # 12. blue
 
-   # echo -en "\e]P55e468c" #  5. darkmagenta
-   # echo -en "\e]PDf0a0c0" # 13. magenta
+   echo -en "\e]P55e468c" #  5. darkmagenta
+   echo -en "\e]PDee799f" # 13. magenta
 
-   # echo -en "\e]P631658c" #  6. darkcyan
-   # echo -en "\e]PE6096bf" # 14. cyan
+   echo -en "\e]P631658c" #  6. darkcyan
+   echo -en "\e]PE76eec6" # 14. cyan
 
-   # echo -en "\e]P7302028" #  7. lightgrey
-   # echo -en "\e]PFbebebe" # 15. white
+   echo -en "\e]P7787878" #  7. lightgrey
+   echo -en "\e]PFbebebe" # 15. white
 
    clear # reset to default input colours
 fi
