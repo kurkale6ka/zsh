@@ -48,8 +48,14 @@ precmd() {
    print -nP '\e]0;[%~] %m\a'
 }
 
-PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{9}.%F{221})%n%f %# '
-RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
+if [[ $TERM != *linux* ]]
+then
+   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{9}.%F{221})%n%f %# '
+   RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
+else
+   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{red}.%F{yellow})%n%f %# '
+   RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(1V.%F{magenta}.%F{yellow})%m%f %(?..%F{red})%T'
+fi
 
 ## Mac OS specific
 if [[ $(uname) == Darwin ]]
