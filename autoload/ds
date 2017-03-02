@@ -1,0 +1,62 @@
+# ds
+# ds -d
+# ds -a
+# ds -t folder
+
+ds_dir() {
+   du -sxh --time --time-style=+'%d-%b-%y %H:%M' --exclude=.git $1
+}
+
+ds_dirs() {
+   local size folder
+   while read -r size folder
+   do
+      echo -n "$size "
+      ls -d --color -- ${folder#./}
+   done < <(du -xh --exclude=.git $1 | sort -hr | head -n20) | tee /tmp/ds_dirs
+}
+
+ds_files() {
+   local file
+   local -a files
+   while read -r _ file
+   do
+      files+=($file)
+   done < <(find $1 -xdev -name .git -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n20)
+   ls -FBShl --color --time-style='+%d-%b-%y %H:%M' -- ${files#./} | tee /tmp/ds_files
+}
+
+[[ -n $2 && ! -d $2 ]] && return 1
+
+OPTIND=1
+
+local opt
+while getopts ':dat' opt
+do
+   case $opt in
+      (d)
+         ds_dirs ${2:-.}
+         return 0
+         ;;
+      (a)
+         ds_files ${2:-.}
+         echo
+         ds_dirs ${2:-.}
+         return 0
+         ;;
+      (t)
+         ds_dir ${2:-.}
+         return 0
+         ;;
+      (\?)
+         echo "Invalid option: -$OPTARG" >&2
+         return 2
+         ;;
+   esac
+done
+
+shift $((OPTIND-1))
+
+[[ -n $1 && ! -d $1 ]] && return 3
+
+ds_files ${1:-.}
