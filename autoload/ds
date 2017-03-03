@@ -1,66 +1,63 @@
+# Display largest files/directories
 # ds
 # ds -[fdt]
 
-(($# == 1)) && { [[ $1 == -[fdt] || -d $1 ]] || return 1; }
-(($# == 2)) && { [[ $1 == -[fdt] && -d $2 ]] || return 2; }
-(($# < 3)) || return 3
+[[ $1 == -h || $1 == --help ]] && {
+cat << HELP
+Usage:
+ds
+ds -[fdt] (files, directories, total)
+HELP
+return 0
+}
 
-setopt local_options local_traps
-trap 'return 4; unfunction ds_files ds_dirs ds_clean' INT
+# Files
+if (($# == 0)) || [[ -d $1 ]] || { [[ $1 == -f ]] && [[ -d $2 || -z $2 ]]; }
+then
+   if [[ $1 != -f ]]
+   then
+      local start=${1:-.}
+   else
+      local start=${2:-.}
+   fi
 
-ds_files() {
    local file
    local -a files
    while read -r _ file
    do
       files+=($file)
-   done < <(find ${1:-.} -xdev -name .git -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n15)
+   done < <(find $start -xdev -name .git -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n15)
+
    if [[ -n $files ]]
    then
       ls -FBShl --color --time-style='+%d-%b-%y %H:%M' -- ${files#./} | tee /tmp/ds_files
    else
-      return 5
+      return 1
    fi
-}
+fi
 
-ds_dirs() {
+# Directories
+if (($# == 0)) || [[ -d $1 ]] || { [[ $1 == -d ]] && [[ -d $2 || -z $2 ]]; }
+then
+   if [[ $1 != -d ]]
+   then
+      local start=${1:-.}
+   else
+      local start=${2:-.}
+   fi
+
+   { (($# == 0)) || [[ -d $1 ]]; } && echo
+
    local size folder
    while read -r size folder
    do
       echo -n "$size "
       ls -d --color -- ${folder#./}
-   done < <(du -xh --exclude=.git ${1:-.} | sort -hr | head -n15) | tee /tmp/ds_dirs
-}
-
-ds_clean() {
-   unfunction ds_files ds_dirs
-}
-
-if (($# == 0)) || [[ $1 != -? ]]
-then
-   if ds_files $1
-   then
-      echo
-      ds_dirs $1
-   fi
-   ds_clean; unfunction ds_clean; return 0
+   done < <(du -xh --exclude=.git $start | sort -hr | head -n15) | tee /tmp/ds_dirs
 fi
 
-OPTIND=1
-
-local opt
-while getopts ':fdt' opt
-do
-   case $opt in
-      (f) ds_files $2 ;;
-      (d) ds_dirs  $2 ;;
-      (t) du -sxh --time --time-style=+'%d-%b-%y %H:%M' ${2:-.} ;;
-      (\?)
-         echo "Invalid option: -$OPTARG" >&2
-         ds_clean; unfunction ds_clean; return 6 ;;
-   esac
-done
-
-shift $((OPTIND-1))
-
-ds_clean; unfunction ds_clean
+# Folder total
+if [[ $1 == -t ]] && [[ -d $2 || -z $2 ]]
+then
+   du -sxh --time --time-style=+'%d-%b-%y %H:%M' ${2:-.}
+fi
