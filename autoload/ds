@@ -5,7 +5,8 @@
 (($# == 2)) && { [[ $1 == -[fdt] && -d $2 ]] || return 2; }
 (($# < 3)) || return 3
 
-TRAPINT() { unfunction ds_files ds_dirs ds_clean 2>/dev/null; return 4; }
+setopt local_options local_traps
+trap 'return 4; unfunction ds_files ds_dirs ds_clean' INT
 
 ds_files() {
    local file
@@ -14,7 +15,12 @@ ds_files() {
    do
       files+=($file)
    done < <(find ${1:-.} -xdev -name .git -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n15)
-   ls -FBShl --color --time-style='+%d-%b-%y %H:%M' -- ${files#./} | tee /tmp/ds_files
+   if [[ -n $files ]]
+   then
+      ls -FBShl --color --time-style='+%d-%b-%y %H:%M' -- ${files#./} | tee /tmp/ds_files
+   else
+      return 5
+   fi
 }
 
 ds_dirs() {
@@ -32,8 +38,11 @@ ds_clean() {
 
 if (($# == 0)) || [[ $1 != -? ]]
 then
-   ds_files $1; echo
-   ds_dirs  $1
+   if ds_files $1
+   then
+      echo
+      ds_dirs $1
+   fi
    ds_clean; unfunction ds_clean; return 0
 fi
 
@@ -48,7 +57,7 @@ do
       (t) du -sxh --time --time-style=+'%d-%b-%y %H:%M' ${2:-.} ;;
       (\?)
          echo "Invalid option: -$OPTARG" >&2
-         ds_clean; unfunction ds_clean; return 5 ;;
+         ds_clean; unfunction ds_clean; return 6 ;;
    esac
 done
 
