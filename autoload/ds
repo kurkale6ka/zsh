@@ -3,10 +3,6 @@
 # ds -d
 # ds -t folder
 
-ds_dir() {
-   du -sxh --time --time-style=+'%d-%b-%y %H:%M' $1
-}
-
 ds_dirs() {
    local size folder
    while read -r size folder
@@ -36,11 +32,12 @@ do
    case $opt in
       (f) ds_files ${2:-.}; return 0 ;;
       (d) ds_dirs  ${2:-.}; return 0 ;;
-      (t) ds_dir   ${2:-.}; return 0 ;;
+      (t)
+         du -sxh --time --time-style=+'%d-%b-%y %H:%M' ${2:-.}
+         return 0 ;;
       (\?)
          echo "Invalid option: -$OPTARG" >&2
-         return 2
-         ;;
+         return 2 ;;
    esac
 done
 
