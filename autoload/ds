@@ -3,15 +3,6 @@
 # ds -d
 # ds -t folder
 
-ds_dirs() {
-   local size folder
-   while read -r size folder
-   do
-      echo -n "$size "
-      ls -d --color -- ${folder#./}
-   done < <(du -xh --exclude=.git $1 | sort -hr | head -n15) | tee /tmp/ds_dirs
-}
-
 ds_files() {
    local file
    local -a files
@@ -20,6 +11,15 @@ ds_files() {
       files+=($file)
    done < <(find $1 -xdev -name .git -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n15)
    ls -FBShl --color --time-style='+%d-%b-%y %H:%M' -- ${files#./} | tee /tmp/ds_files
+}
+
+ds_dirs() {
+   local size folder
+   while read -r size folder
+   do
+      echo -n "$size "
+      ls -d --color -- ${folder#./}
+   done < <(du -xh --exclude=.git $1 | sort -hr | head -n15) | tee /tmp/ds_dirs
 }
 
 [[ -n $2 && ! -d $2 ]] && return 1
