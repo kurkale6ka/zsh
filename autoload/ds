@@ -26,7 +26,7 @@ then
    while read -r _ file
    do
       files+=($file)
-   done < <(find $start -xdev -name .git -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n15)
+   done < <(find $start -xdev \( -name .git -o -path '*vendor/bundle' -o -path '*shared/bundle' \) -prune -o -type f -printf '%p\0' | xargs -0 du -h | sort -hr | head -n15)
 
    if [[ -n $files ]]
    then
@@ -53,7 +53,7 @@ then
    do
       echo -n "$size "
       ls -d --color -- ${folder#./}
-   done < <(du -xh --exclude=.git $start | sort -hr | head -n15) | tee /tmp/ds_dirs
+   done < <(du -xh $start | sort -hr | head -n15) | tee /tmp/ds_dirs
 fi
 
 # Folder total
