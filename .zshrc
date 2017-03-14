@@ -531,6 +531,10 @@ fi
 alias vd='v -d'
 alias _=combine
 
+## pacman
+alias pacs=pacsearch
+alias pacsync='pacaur -Syu'
+
 ## Various applications aliases
 alias open=xdg-open
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
