@@ -575,6 +575,6 @@ fi
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
 ## Local zshrc file
-[[ -r $XDG_CONFIG_HOME/zsh/rc.after ]] && . $XDG_CONFIG_HOME/zsh/rc.after
+[[ -r $XDG_CONFIG_HOME/zsh/.zshrc_after ]] && . $XDG_CONFIG_HOME/zsh/.zshrc_after
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
