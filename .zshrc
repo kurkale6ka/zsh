@@ -71,20 +71,6 @@ then
    done
 
    typeset -U path manpath
-
-   # BSD ps
-   ppfields=pid,ppid,pgid,sess,tty,tpgid,stat,user,group,start,command
-   pfields=pid,stat,user,group,start,command
-
-   alias pg="command ps -o $pfields -h | head -1 && ps axww -o $pfields | grep -v grep | grep -iEB1 --color=auto"
-   alias ppg="command ps -o $ppfields -h | head -1 && ps axww -o $ppfields | grep -v grep | grep -iEB1 --color=auto"
-else
-   # Linux ps
-   ppfields=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
-   pfields=pid,stat,euser,egroup,start_time,cmd
-
-   alias pg="command ps o $pfields --headers | head -1 && ps faxww o $pfields | grep -v grep | grep -iEB1 --color=auto"
-   alias ppg="command ps o $ppfields --headers | head -1 && ps faxww o $ppfields | grep -v grep | grep -iEB1 --color=auto"
 fi
 
 ## Processes and jobs (see Mac section too ^)
