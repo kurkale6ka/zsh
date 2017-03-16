@@ -518,8 +518,14 @@ alias vd='v -d'
 alias _=combine
 
 ## pacman
-alias pacs=pacsearch
-alias pacsync='pacaur -Syu'
+if (( $+commands[pacaur] ))
+then
+   alias pacs='pacaur -Ss'
+   alias pacsync='pacaur -Syu'
+else
+   alias pacs=pacsearch
+   alias pacsync='pacman -Syu'
+fi
 
 ## Various applications aliases
 alias open=xdg-open

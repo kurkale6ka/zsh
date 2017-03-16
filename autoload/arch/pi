@@ -1,5 +1,12 @@
 # Install
+if (( $+commands[pacaur] ))
+then
+   local pac=pacaur
+else
+   local pac=pacman
+fi
+
 if [[ $1 == *.pkg.tar.xz ]]
-then pacman -U $@
-else pacman -S $@
+then $pac -U $@
+else $pac -S $@
 fi
