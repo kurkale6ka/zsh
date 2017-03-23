@@ -1,5 +1,3 @@
-#! /usr/bin/env zsh
-
 setopt auto_pushd
 setopt correct
 setopt extended_glob
