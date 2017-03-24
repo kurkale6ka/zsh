@@ -1,6 +1,21 @@
-# rsync with git excludes
+# rsync with git excludes and remote deletes
+#
+# Usage:
+#   rs -ai source destination
+#
+# Example:
+# syncing of my ~/github folder:
+#
+# rs -ai ~/github/bash             DST:~/github
+# rs -ai ~/github/config           DST:~/github
+# rs -ai ~/github/scripts/mkconfig DST:~/github
+# rs -ai ~/github/zsh              DST:~/github
+#
+# rsvim -ai ~/github/vim DST:~/github
 
-rsync -f".- $HOME/.gitignore" \
-      -f':- .gitignore'       \
-      -f'- .git'              \
+rsync --no-o --no-g --delete-excluded -e'ssh -q' \
+      -f".- $HOME/.gitignore"                    \
+      -f':- .gitignore'                          \
+      -f'- .gitignore'                           \
+      -f'- .git'                                 \
       $@
