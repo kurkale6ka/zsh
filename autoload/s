@@ -23,7 +23,7 @@ case $# in
       then
          sudo -E /usr/bin/env zsh
       else
-         sudo /usr/bin/env zsh
+         sudo    /usr/bin/env zsh
       fi
       ;;
 esac
