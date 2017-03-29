@@ -401,7 +401,11 @@ alias 8='cd ../../../../../../../..'
 alias 9='cd ../../../../../../../../..'
 
 # Hook functions
-chpwd_functions+=(update_marks)
+if [[ -w $XDG_DATA_HOME/marks/marks.sqlite ]]
+then
+   chpwd_functions+=(update_marks)
+   typeset -U chpwd_functions
+fi
 
 ## File system operations
 alias md='mkdir -p'
