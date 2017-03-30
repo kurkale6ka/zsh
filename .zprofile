@@ -1,5 +1,3 @@
-#! /usr/bin/env zsh
-
 path=(~/bin $path)
 typeset -U path # remove any duplicates from the array
 
@@ -53,6 +51,6 @@ then
 fi
 
 # Local zprofile file
-[[ -r $XDG_CONFIG_HOME/zsh/profile.after ]] && . $XDG_CONFIG_HOME/zsh/profile.after
+[[ -r $XDG_CONFIG_HOME/zsh/.zprofile_after ]] && . $XDG_CONFIG_HOME/zsh/.zprofile_after
 
 [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
