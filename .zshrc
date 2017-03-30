@@ -418,8 +418,6 @@ alias to=touch
 alias cp='cp -i'
 alias mv='mv -i'
 
-alias d='rm -i --preserve-root'
-
 ## Permissions + debug
 alias zx='zsh -xv'
 
