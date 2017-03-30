@@ -11,18 +11,30 @@ fi
 
 if (($# > 0))
 then
-   # Note: for more than 2 arguments, not all permutations are tried.
-   # So for c 1 2 3, %1%2%3% and %3%2%1% are only tried.
-   local dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC;" | fzf +s -0 -1 || echo $pipestatus[2])"
+   if (( $+commands[fzf] ))
+   then
+      # Note: for more than 2 arguments, not all permutations are tried.
+      # So for c 1 2 3, %1%2%3% and %3%2%1% are only tried.
+      local dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC;" | fzf +s -0 -1 || echo $pipestatus[2])"
+   else
+      local dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC LIMIT 1;")"
+      [[ -z $dir ]] && dir=1
+   fi
 else
-   local dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1 || echo $pipestatus[2])"
+   if (( $+commands[fzf] ))
+   then
+      local dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1 || echo $pipestatus[2])"
+   else
+      local dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC LIMIT 1;")"
+      [[ -z $dir ]] && dir=1
+   fi
 fi
 
 if [[ -d $dir ]]
 then
    cd -- $dir
 # Only use locate if there were no matches, not if 'Ctrl+c' was used for instance
-elif ((dir == 1))
+elif ((dir == 1)) && (( $+commands[fzf] ))
 then
    # 'updatedb' indexed files
    local file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
