@@ -1,17 +1,13 @@
+# Fuzzy cd under the current directory, including dot folders
+# usage fd [pattern]
+
 local dir
 
-# Couldn't make this to work:
-# local excludes
-# excludes=(.git .svn)
-# ${(j:|:)excludes}
-
-if [[ -n $1 ]]
+if (($#))
 then
-   dir=$(print -l $1/(^.(git|svn)/)#^.(git|svn)(D/) | fzf -0 +m)
+   dir=$(print -l **/*${(j.*.)@}*~.git(/*)#(/D) | fzf -0 -1 +m)
 else
-   # (^.git/)# is equivalent to ^.git/ zero or more times so:
-   #  ^.git/^.git/^.git/^.git/
-   dir=$(print -l (^.(git|svn)/)#^.(git|svn)(D/) | fzf -0 +m)
+   dir=$(print -l **/*~.git(/*)#(/D) | fzf -0 -1 +m)
 fi
 
-[[ -d $dir ]] && cd $dir
+[[ -d $dir ]] && cd -- $dir
