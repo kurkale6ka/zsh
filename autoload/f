@@ -1,6 +1,7 @@
 if (($# == 1))
 then
-   find . -xdev -name .git -prune -o -iname "*$1*" -printf '%M %u %g %P\n' | grep -vE '~$'
-else
-   find $@
+   find . -xdev -name .git -prune -o -iname "*$1*" ! -name '*~' -printf '%M %u %g %P\n'
+elif (($# == 0)) && (( $+commands[fzf] ))
+then
+   find . -xdev -name .git -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
 fi
