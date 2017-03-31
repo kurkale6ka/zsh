@@ -442,7 +442,7 @@ reg() { whois -H $1 | egrep -A1 -i registrar:; }
 
 ## ls and echo
 cset -fblue   _ls_date_old '%d %b'
-cset -fbk:238 _ls_year ' %Y'
+cset -fbk:238 _ls_year     ' %Y'
 
 cset -fblue   _ls_date '%d %b'
 cset -fbk:238 _ls_time '%H:%M'
