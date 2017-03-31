@@ -6,10 +6,7 @@
 # Example:
 # syncing of my ~/github folder:
 #
-# rs -ai ~/github/bash             DST:~/github
-# rs -ai ~/github/config           DST:~/github
-# rs -ai ~/github/scripts/mkconfig DST:~/github
-# rs -ai ~/github/zsh              DST:~/github
+# rs -ai ~/github/{bash,config,zsh,scripts/mkconfig} DST:~/github
 #
 # rsvim -ai ~/github/vim DST:~/github
 
