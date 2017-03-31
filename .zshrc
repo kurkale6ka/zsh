@@ -383,6 +383,51 @@ alias -g J='| python -mjson.tool'
 
 alias ed='ed -v -p:'
 
+## ls and echo
+cset -fblue   _ls_date_old '%d %b'
+cset -fbk:238 _ls_year     ' %Y'
+
+cset -fblue   _ls_date '%d %b'
+cset -fbk:238 _ls_time '%H:%M'
+
+alias  l.='ls -Fd   --color=auto .*~.*~'
+alias ll.="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time' .*~.*~"
+
+alias  l='ls -FB   --color=auto'
+alias ll="ls -FBhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
+
+alias  la='ls -FBA   --color=auto'
+alias lla="ls -FBAhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
+
+alias  ld='ls -FBd   --color=auto'
+alias lld="ls -FBdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
+
+alias  l/='ld *(/D)'
+alias ll/='lld *(/D)'
+
+alias  lx='ls -Fd   --color=auto *~*~(*D)'
+alias llx="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time' *~*~(*D)"
+
+alias  lm='ls -FBtr   --color=auto'
+alias llm="ls -FBhltr --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
+
+# Sort by size
+alias  lk='ls -FBS   --color=auto'
+alias llk="ls -FBShl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
+
+# A single column
+alias l1='ls -FB1 --color=auto'
+
+alias lr="tree -FAC -I '*~|*.swp' --noreport"
+
+alias vl='ls -FB1 V'
+
+# Links (there is also ln() as an autoload)
+alias ln.='ll .*(@)'
+alias lnn='ll *(@D)'
+
+alias e=echo
+
 ## sudo
 alias  sd=sudo
 alias sde=sudoedit
@@ -439,51 +484,6 @@ alias myip='curl icanhazip.com'
 alias il='iptables -nvL --line-numbers'
 
 reg() { whois -H $1 | egrep -A1 -i registrar:; }
-
-## ls and echo
-cset -fblue   _ls_date_old '%d %b'
-cset -fbk:238 _ls_year     ' %Y'
-
-cset -fblue   _ls_date '%d %b'
-cset -fbk:238 _ls_time '%H:%M'
-
-alias  l.='ls -Fd   --color=auto .*~.*~'
-alias ll.="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time' .*~.*~"
-
-alias  l='ls -FB   --color=auto'
-alias ll="ls -FBhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
-
-alias  la='ls -FBA   --color=auto'
-alias lla="ls -FBAhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
-
-alias  ld='ls -FBd   --color=auto'
-alias lld="ls -FBdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
-
-alias  l/='ld *(/D)'
-alias ll/='lld *(/D)'
-
-alias  lx='ls -Fd   --color=auto *~*~(*D)'
-alias llx="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time' *~*~(*D)"
-
-alias  lm='ls -FBtr   --color=auto'
-alias llm="ls -FBhltr --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
-
-# Sort by size
-alias  lk='ls -FBS   --color=auto'
-alias llk="ls -FBShl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
-
-# A single column
-alias l1='ls -FB1 --color=auto'
-
-alias lr="tree -FAC -I '*~|*.swp' --noreport"
-
-alias vl='ls -FB1 V'
-
-# Links (there is also ln() as an autoload)
-alias ln.='ll .*(@)'
-alias lnn='ll *(@D)'
-
-alias e=echo
 
 ## Head/Tail and cat
 alias h=head
