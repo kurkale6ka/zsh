@@ -1,9 +1,0 @@
-# br   - list backup files recursively
-# br r - and delete them
-
-if (($# == 0))
-then
-   l **/(*~~*.un~)(.D)
-else
-   rm **/(*~~*.un~)(.D)
-fi
