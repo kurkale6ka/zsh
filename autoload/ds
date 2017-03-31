@@ -30,7 +30,7 @@ then
 
    if [[ -n $files ]]
    then
-      ls -FBShl --color --time-style='+%d-%b-%y %H:%M' -- ${files#./} | tee /tmp/ds_files
+      ls -FBShl --color --time-style="+$_ls_date_old $_ls_year"$'\n'"$_ls_date $_ls_time" -- ${files#./} | tee /tmp/ds_files
    else
       return 1
    fi
