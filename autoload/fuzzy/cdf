@@ -5,9 +5,9 @@ local dir
 
 if (($#))
 then
-   dir=$(print -l (^.(git|svn|hg)/)#*${(j.*.)@}*(/D) | fzf -0 -1 +m)
+   dir=$(printf '%s\0' (^.(git|svn|hg)/)#*${(j.*.)@}*(/D) | fzf --read0 -0 -1 +m)
 else
-   dir=$(print -l (^.(git|svn|hg)/)#^.(git|svn|hg)(/D) | fzf -0 -1 +m)
+   dir=$(printf '%s\0' (^.(git|svn|hg)/)#^.(git|svn|hg)(/D) | fzf --read0 -0 -1 +m)
 fi
 
 [[ -d $dir ]] && cd -- $dir
