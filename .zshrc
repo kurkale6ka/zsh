@@ -285,12 +285,13 @@ bindkey -s '^x`' '$()^b'
 
 ### ^xs systemd
 bindkey -s '^xs' 'systemctl status'
+bindkey -s '^xS' 'systemctl ^@start\C-x\C-x'
 
 ### ^xt tcpdump
 bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
 
 ### ^xT Test
-bindkey -s '^xT' ' && echo hmm'
+bindkey -s '^xT' ' && echo ok'
 
 ## Completion
 setopt menu_complete # select the first item straight away
