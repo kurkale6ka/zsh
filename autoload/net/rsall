@@ -3,18 +3,22 @@
 # Usage:
 #   rsall [-u user] destination
 
-local user
 local opt
+local user
 
 OPTIND=1
 
 while getopts ':u:h' opt
 do
    case $opt in
-      (h) echo 'Usage: rsall [-u user] destination' ;;
-      (u) user=$OPTARG@ ;;
-      \?) echo "Invalid option: -$OPTARG" 1>&2
-          return 1 ;;
+       (h) echo 'Usage: rsall [-u user] destination'
+           return 0
+           ;;
+       (u) user=$OPTARG@
+           ;;
+      (\?) echo "Invalid option: -$OPTARG" 1>&2
+           return 1
+           ;;
    esac
 done
 
