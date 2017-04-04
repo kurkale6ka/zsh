@@ -376,7 +376,7 @@ if (( $+commands[nvim] ))
 then
    alias v=nvim
 else
-   alias v='vim -u ~/vim/.vimrc'
+   alias v='vim -u ~/github/vim/.vimrc'
 fi
 
 alias vg="xclip <<< 'se nocp is hls ic scs inf nu sc report=0 dy+=lastline lz so=2 mouse=a nojs ai hid wmnu ls=2 bs=2 ve=all nosol | nn <c-l> :nohls<cr><c-l> | sy on | filet plugin indent on'"

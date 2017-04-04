@@ -2,13 +2,6 @@
 #
 # Usage:
 #   rs -ai source destination
-#
-# Example:
-# syncing of my ~/github folder:
-#
-# rs -ai ~/github/{bash,config,zsh,scripts/mkconfig} DST:~/github
-#
-# rsvim -ai ~/github/vim DST:~/github
 
 rsync --no-o --no-g --delete-excluded -e'ssh -q' \
       -f".- $HOME/.gitignore"                    \
