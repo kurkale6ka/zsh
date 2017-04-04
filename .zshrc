@@ -240,8 +240,8 @@ bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
 ### ^xb Braces
 bindkey -s '^xb' '(())\e2^b'
 bindkey -s '^xB' '{}^b'
-bindkey -s '^x[' '[[]]\e2^b'
-bindkey -s '^x]' '[[]]\e2^b'
+bindkey -s '^x[' '[[  ]]\e3^b'
+bindkey -s '^x]' '[[  ]]\e3^b'
 
 ### ^xc Counting row occurrences in a stream
 bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
@@ -268,6 +268,8 @@ bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 bindkey -s '^xn' '*(om[1]D)^i'
 bindkey -s '^xN' 'cecho -fb:39 "Newest: "; lld *^@(om[1]D)'
 
+bindkey -s '^x\eOB' '~/Downloads/*(om[1]D)^i'
+
 bindkey -s '^xo' '*(Om[1]D)^i'
 bindkey -s '^xO' 'cecho -fb:39 "Oldest: "; lld *^@(Om[1]D)'
 
@@ -287,11 +289,11 @@ bindkey -s '^x`' '$()^b'
 bindkey -s '^xs' 'systemctl status'
 bindkey -s '^xS' 'systemctl ^@start\C-x\C-x'
 
-### ^xt tcpdump
-bindkey -s '^xt' 'tcpdump -iany -s0 -nnq '
+### ^xt Test
+bindkey -s '^xt' ' && echo ok'
 
-### ^xT Test
-bindkey -s '^xT' ' && echo ok'
+### ^xT tcpdump
+bindkey -s '^xT' 'tcpdump -iany -s0 -nnq '
 
 ## Completion
 setopt menu_complete # select the first item straight away
