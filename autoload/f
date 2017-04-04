@@ -1,7 +1,13 @@
+if (($# == 1 || $# == 0))
+then
+   local -a cvs
+   cvs=(.git .svn .hg)
+fi
+
 if (($# == 1))
 then
-   find . -xdev -name .git -prune -o -iname "*$1*" ! -name '*~' -printf '%M %u %g %P\n'
+   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f -iname "*$1*" ! -name '*~' -printf '%M %u %g %P\n'
 elif (($# == 0)) && (( $+commands[fzf] ))
 then
-   find . -xdev -name .git -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
+   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
 fi
