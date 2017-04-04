@@ -2,10 +2,14 @@
 # usage fd [pattern]
 
 local dir
+local -a cvs
+
+cvs=(.git .svn .hg)
 
 if (($#))
 then
-   dir=$(printf '%s\0' (^.(git|svn|hg)/)#*${(j.*.)@}*(/D) | fzf --read0 -0 -1 +m)
+   # **/*pattern*/**/*(/D) with CVS exclusions and edge cases gets too complicated
+   dir=$(find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type d \( -ipath "*${(j.*.)@}*" -o -ipath "*${(j.*.)${(aO)@}}*" \) -printf '%P\0' | fzf --read0 -0 -1 +m)
 else
    dir=$(printf '%s\0' (^.(git|svn|hg)/)#^.(git|svn|hg)(/D) | fzf --read0 -0 -1 +m)
 fi
