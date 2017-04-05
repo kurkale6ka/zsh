@@ -102,8 +102,8 @@ export LESS_TERMCAP_se="$(tput rmso)"$_res
 export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5)" # purple
 export LESS_TERMCAP_ue="$(tput rmul)"$_res
 
-# Ls
-[[ -r ~/.dir_colors ]] && eval "$(dircolors ~/.dir_colors)"
+# Set LS_COLORS
+eval "$(dircolors ~/github/config/dotfiles/.dir_colors)"
 
 # Linux virtual console colors
 if [[ $TERM == linux ]]
