@@ -13,7 +13,7 @@ export LC_COLLATE=C
 # directory default: 777 (drwxrwxrwx) => 755 (drwxr-xr-x)
 umask 022
 
-## Vim
+# Vim
 if (( $+commands[nvim] ))
 then nvim=nvim
 else nvim=vim
@@ -22,10 +22,7 @@ fi
 export EDITOR=$nvim
 export VISUAL=$nvim
 
-export MYVIMRC=~/.vimrc
-export MYGVIMRC=~/.gvimrc
-
-## ps
+# ps
 export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 
