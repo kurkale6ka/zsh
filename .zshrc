@@ -10,7 +10,7 @@ unsetopt auto_name_dirs # shorter names in CWD
 unsetopt flow_control # no ^s freezing the screen
 unsetopt case_glob
 
-export HISTFILE=$XDG_DATA_HOME/zsh/history
+HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=11000
 SAVEHIST=11000
 
