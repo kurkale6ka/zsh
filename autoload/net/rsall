@@ -26,5 +26,5 @@ shift $((OPTIND-1))
 
 xclip <<< '. ~/github/bash/.bash_profile; . ~/github/bash/.bashrc'
 
-rs    -ai ~/github/{bash,config,zsh,scripts/mkconfig.sh} ${user}$1:~/github
-rsvim -ai ~/github/vim                                   ${user}$1:~/github
+rs    -ai ~/github/{bash,config,zsh,scripts/mkconfig} ${user}$1:~/github
+rsvim -ai ~/github/vim                                ${user}$1:~/github
