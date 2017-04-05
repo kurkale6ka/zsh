@@ -11,10 +11,10 @@ OPTIND=1
 while getopts ':u:h' opt
 do
    case $opt in
-       (h) echo 'Usage: rsall [-u user] destination'
+      ( h) echo 'Usage: rsall [-u user] destination'
            return 0
            ;;
-       (u) user=$OPTARG@
+      ( u) user=$OPTARG@
            ;;
       (\?) echo "Invalid option: -$OPTARG" 1>&2
            return 1
@@ -24,7 +24,7 @@ done
 
 shift $((OPTIND-1))
 
-xclip <<< '. ~/github/bash/.bash_profile; . ~/github/bash/.bashrc'
+xclip <<< '. ~/github/bash/.bash_profile; exec bash --rcfile ~/github/bash/.bashrc'
 
 rs    -ai ~/github/{bash,config,zsh,scripts/mkconfig} ${user}$1:~/github
 rsvim -ai ~/github/vim                                ${user}$1:~/github
