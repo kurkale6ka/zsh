@@ -2,15 +2,15 @@
 
 case $1 in
    (rg|regex)
-      cat /home/mitko/github/help/regex.txt
+      cat $REPOS_BASE/help/regex.txt
       return ;;
 
    (pf|printf)
-      /home/mitko/github/help/printf.sh
+      $REPOS_BASE/help/printf.sh
       return ;;
 
    (sort)
-      cat /home/mitko/github/help/sort.txt
+      cat $REPOS_BASE/help/sort.txt
       return ;;
 esac
 
