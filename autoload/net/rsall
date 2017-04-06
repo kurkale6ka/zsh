@@ -1,4 +1,4 @@
-# Syncing of my ~/github folder:
+# Syncing of my repos folder:
 #
 # Usage:
 #   rsall [-u user] destination
@@ -24,7 +24,7 @@ done
 
 shift $((OPTIND-1))
 
-xclip <<< '. ~/github/bash/.bash_profile; exec bash --rcfile ~/github/bash/.bashrc'
+xclip <<< ". $REPOS_BASE/bash/.bash_profile; exec bash --rcfile $REPOS_BASE/bash/.bashrc"
 
-rs    -ai ~/github/{bash,config,zsh,scripts/mkconfig} ${user}$1:~/github
-rsvim -ai ~/github/vim                                ${user}$1:~/github
+rs    -ai $REPOS_BASE/{bash,config,zsh,scripts/mkconfig} ${user}$1:$REPOS_BASE
+rsvim -ai $REPOS_BASE/vim                                ${user}$1:$REPOS_BASE

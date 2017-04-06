@@ -1,7 +1,7 @@
 # rsync of my vim folder
 #
 # Usage:
-#   rsvim -ai ~/github/vim destination:~
+#   rsvim -ai $REPOS_BASE/vim destination:~
 #
 # note: -f':- .gitignore' can't be used as this way we also exclude patterns
 #       from the plugins .gitignore files and that is too much

@@ -2,7 +2,7 @@
 # Don't update my cd bookmarks for automated cds
 chpwd_functions=()
 
-for repo in ~/github/*(/)
+for repo in $REPOS_BASE/*(/)
 do
    if cd $repo
    then

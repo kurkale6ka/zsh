@@ -1,3 +1,8 @@
+# Repos
+REPOS_BASE=~/github
+export REPOS_BASE=${REPOS_BASE%/}
+
+# Put ~/bin in PATH
 path=(~/bin $path)
 typeset -U path # remove any duplicates from the array
 
