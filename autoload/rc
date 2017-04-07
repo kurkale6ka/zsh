@@ -1,0 +1,8 @@
+# Helper for creating a minimal .inputrc file
+local inputrc
+
+inputrc="printf '%s\n' "
+inputrc+="'\"\e[A\": history-search-backward' "
+inputrc+="'\"\e[B\": history-search-forward' >> ~/.inputrc"
+
+xclip -f <<< $inputrc
