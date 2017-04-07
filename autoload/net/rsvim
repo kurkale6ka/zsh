@@ -6,9 +6,9 @@
 # note: -f':- .gitignore' can't be used as this way we also exclude patterns
 #       from the plugins .gitignore files and that is too much
 
-rsync --no-o --no-g --delete-excluded -e'ssh -q' \
-      -f". $HOME/.vim/extra/excludes"            \
-      -f".- $HOME/.gitignore"                    \
-      -f'- .gitignore'                           \
-      -f'- .git'                                 \
+rsync --no-o --no-g --delete -e'ssh -q' \
+      -f". $HOME/.vim/extra/excludes"   \
+      -f".- $HOME/.gitignore"           \
+      -f'- .gitignore'                  \
+      -f'- .git'                        \
       $@

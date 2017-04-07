@@ -27,5 +27,9 @@ shift $((OPTIND-1))
 # Do not expand ~/ locally as the remote user may not be the same
 xclip <<< ". ~/${REPOS_BASE#~/}/bash/.bash_profile; exec bash --rcfile ~/${REPOS_BASE#~/}/bash/.bashrc"
 
-rs    -ai $REPOS_BASE/{bash,config,zsh,scripts/mkconfig} ${user}$1:~/${REPOS_BASE#~/}
-rsvim -ai $REPOS_BASE/vim                                ${user}$1:~/${REPOS_BASE#~/}
+rs -ai                                \
+   -f".- $REPOS_BASE/bash/.gitignore" \
+   $REPOS_BASE/{bash,config,zsh,scripts/mkconfig} ${user}$1:~/${REPOS_BASE#~/}
+
+rsvim -ai \
+   $REPOS_BASE/vim                                ${user}$1:~/${REPOS_BASE#~/}
