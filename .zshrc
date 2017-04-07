@@ -389,10 +389,10 @@ alias -g J='| python -mjson.tool'
 alias ed='ed -v -p:'
 
 ## ls and echo
-cset -fblue   _ls_date_old '%d %b'
+cset -fblue   _ls_date_old '%e %b'
 cset -fbk:238 _ls_year     ' %Y'
 
-cset -fblue   _ls_date '%d %b'
+cset -fblue   _ls_date '%e %b'
 cset -fbk:238 _ls_time '%H:%M'
 
 alias  l.='ls -Fd   --color=auto .*~.*~'
