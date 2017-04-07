@@ -16,9 +16,9 @@ done < <(ag -l -S --hidden --ignore .git --ignore .svn --ignore .hg --ignore mis
 # For a single match, open the help file
 if (( ${#matches} == 1 ))
 then
+   # TODO: send to running nvim
    v $matches -c"0/$1" -c'noh|norm zv<cr>'
 elif (( ${#matches} > 1 ))
 then
-   ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31" \
-      $1 $matches
+   ag $1 $matches
 fi
