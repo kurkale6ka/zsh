@@ -427,7 +427,7 @@ alias llk="ls -FBShl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_
 alias l1='ls -FB1 --color=auto'
 
 alias  lr="tree -FAC -I '*~|*.swp' --noreport"
-alias llr="ls -FBRhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time'"
+alias llr='ll **/*(-.,%,=ND)'
 
 alias vl='ls -FB1 V'
 
