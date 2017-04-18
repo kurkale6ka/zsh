@@ -395,6 +395,9 @@ cset -fbk:238 _ls_year     ' %Y'
 cset -fblue   _ls_date '%e %b'
 cset -fbk:238 _ls_time '%H:%M'
 
+# Make sure existing aliases won't prevent function definitions
+unalias ln sl 2>/dev/null
+
 alias  l.='ls -Fd   --color=auto .*~.*~'
 alias ll.="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_year\n$_ls_date $_ls_time' .*~.*~"
 
@@ -536,7 +539,7 @@ else
 fi
 
 ## Various applications aliases
-alias open=xdg-open
+[[ $(uname) != Darwin ]] && alias open=xdg-open
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
 alias msg=dmesg
