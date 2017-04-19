@@ -7,7 +7,6 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
 1. **Install** [fzf](https://github.com/junegunn/fzf)
 
 2. **XDG setup** (see below)  
-   _Note_: changing `ZDOTDIR` isn't necessary
 
 3. **Bookmarks database**:
 
@@ -26,7 +25,7 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
 
 4. **Autoload functions**:  
    _Pre-requirements_:  
-   https://github.com/kurkale6ka/zsh/blob/master/.zshrc#L21-L25 in `~/.zshrc`  
+   https://github.com/kurkale6ka/zsh/blob/master/.zshrc#L21-L26 in `~/.zshrc`  
    `mkdir -p $XDG_CONFIG_HOME/zsh/autoload/fuzzy`
      * [the fuzzy cd function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
      * [the bookmarks update function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
@@ -56,7 +55,4 @@ if [[ -z $XDG_DATA_HOME ]]
 then
    export XDG_DATA_HOME=$HOME/.local/share
 fi
-
-# zsh dot files
-export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 ```
