@@ -61,16 +61,15 @@ fi
 if [[ $(uname) == Darwin ]]
 then
    # Amend paths to get GNU commands vs the default BSD ones
-   path=(/usr/local/bin $path)
-   path=("$(brew --prefix coreutils)"/libexec/gnubin $path)
+   brew_prefix="$(brew --prefix coreutils)"
 
-   manpath=("$(brew --prefix coreutils)"{/libexec/gnuman,/share/man} $manpath)
-   for pkg in ed findutils ag ctags tree gnu-sed homebrew/dupes/grep vim
-   do
-      manpath=("$(brew --prefix $pkg)"/share/man $manpath)
-   done
+      path=(/usr/local/bin                      $path)
+      path=($brew_prefix/libexec/gnubin         $path)
+   manpath=($brew_prefix/libexec/gnuman         $manpath)
+   manpath=($brew_prefix:h/^coreutils/share/man $manpath)
 
    typeset -U path manpath
+   export MANPATH
 fi
 
 ## Processes and jobs (see Mac section too ^)
