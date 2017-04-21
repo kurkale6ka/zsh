@@ -17,9 +17,9 @@
 setopt extended_glob
 
 ## Colors
-_bld=$(tput bold)
-_red=$(printf %s $_bld; tput setaf 1)
-_res=$(tput sgr0)
+_bld=$(tput bold || tput md)
+_red=$_bld"$(tput setaf 1 || tput AF 1)"
+_res=$(tput sgr0 || tput me)
 
 ## Help
 _help() {
