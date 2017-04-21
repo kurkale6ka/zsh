@@ -34,8 +34,8 @@ fi
 ## Prompts
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' formats 'λ-%b' # branch
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' formats '%b' # branch
 
 precmd() {
    psvar[1]=$SSH_CONNECTION
@@ -50,7 +50,7 @@ precmd() {
 
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{9}.%F{221})%n%f %# '
+   PROMPT=$'\n[%B%F{blue}%~%f%b] %(2V.%F{238}λ-%f.)%2v\n%(!.%F{9}.%F{221})%n%f %# '
    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
 else
    PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{red}.%F{yellow})%n%f %# '
