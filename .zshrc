@@ -14,8 +14,6 @@ HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=11000
 SAVEHIST=11000
 
-REPOS_BASE=${REPOS_BASE:-~/github}
-
 alias zn='zsh -f'
 
 ## Paths
@@ -104,7 +102,7 @@ export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
 export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
 # Set LS_COLORS
-eval "$(dircolors $REPOS_BASE/config/dotfiles/.dir_colors)"
+[[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/config/dotfiles/.dir_colors)"
 
 # Linux virtual console colors
 if [[ $TERM == linux ]]
@@ -377,7 +375,7 @@ if (( $+commands[nvim] ))
 then
    alias v=nvim
 else
-   alias v="vim -u $REPOS_BASE/vim/.vimrc"
+   [[ -n $REPOS_BASE ]] && alias v="vim -u $REPOS_BASE/vim/.vimrc"
 fi
 
 alias vg="xclip <<< 'se nocp is hls ic scs inf nu sc report=0 dy+=lastline lz so=2 mouse=a nojs ai hid wmnu ls=2 bs=2 ve=all nosol | nn <c-l> :nohls<cr><c-l> | sy on | filet plugin indent on'"
@@ -504,8 +502,11 @@ alias cn='cat -n'
 ## Help
 alias mm='man -k'
 
-alias rg="cat $REPOS_BASE/help/regex.txt" # Regex  help
-alias pf=$REPOS_BASE'/help/printf.sh'     # printf help
+if [[ -n $REPOS_BASE ]]
+then
+   alias rg="cat $REPOS_BASE/help/regex.txt" # Regex  help
+   alias pf=$REPOS_BASE'/help/printf.sh'     # printf help
+fi
 
 # print info about a command, alias, function...
 alias '?=whence -ca'
