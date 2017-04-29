@@ -1,3 +1,9 @@
+if [[ -z $REPOS_BASE ]]
+then
+   print -P '%F{red}REPOS_BASE empty%f, exiting.' 1>&2
+   return 1
+fi
+
 (
 # Don't update my cd bookmarks for automated cds
 chpwd_functions=()
