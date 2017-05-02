@@ -68,6 +68,8 @@ then
 
    typeset -U path manpath
    export MANPATH
+
+   alias xclip=pbcopy
 fi
 
 ## Processes and jobs (see Mac section too ^)
