@@ -17,7 +17,7 @@ urlencode() {
 }
 
 gg() {
-   sudo -umitko xdg-open "https://www.google.co.uk/search?q=$(urlencode $@)" >/dev/null 2>&1
+   sudo -umitko open "https://www.google.co.uk/search?q=$(urlencode $@)" >/dev/null 2>&1
 }
 
 gg $@

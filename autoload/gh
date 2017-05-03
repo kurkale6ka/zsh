@@ -36,4 +36,4 @@ case $1 in
 esac
 giturl=${giturl%.git}/$_path
 
-xdg-open $giturl 2>/dev/null
+open $giturl 2>/dev/null

@@ -17,8 +17,8 @@ fi
 if (($# == 1))
 then
    ssh -fNL ${3:-8080}:localhost:${2:-80} $1 &&
-   xdg-open http://localhost:${3:-8080} 2>/dev/null
+   open http://localhost:${3:-8080} 2>/dev/null
 else
    ssh -fNL ${3:-$2}:localhost:$2 $1 &&
-   xdg-open http://localhost:${3:-$2} 2>/dev/null
+   open http://localhost:${3:-$2} 2>/dev/null
 fi
