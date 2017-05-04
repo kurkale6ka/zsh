@@ -61,10 +61,10 @@ then
    # Amend paths to get GNU commands vs the default BSD ones
    brew_prefix="$(brew --prefix coreutils)"
 
-      path=(/usr/local/bin                      $path)
-      path=($brew_prefix/libexec/gnubin         $path)
-   manpath=($brew_prefix/libexec/gnuman         $manpath)
-   manpath=($brew_prefix:h/^coreutils/share/man $manpath)
+   path=(/usr/local/bin              $path)
+   path=($brew_prefix/libexec/gnubin $path)
+
+   MANPATH=$brew_prefix/libexec/gnuman:"$(man -w)"
 
    typeset -U path manpath
    export MANPATH
