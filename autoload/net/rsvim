@@ -6,9 +6,16 @@
 # note: -f':- .gitignore' can't be used as this way we also exclude patterns
 #       from the plugins .gitignore files and that is too much
 
-rsync --no-o --no-g --delete -e'ssh -q' \
-      -f". $HOME/.vim/extra/excludes"   \
-      -f".- $HOME/.gitignore"           \
-      -f'- .gitignore'                  \
-      -f'- .git'                        \
+if [[ ! -d $REPOS_BASE/vim/plugged/csapprox ]]
+then
+   print -P '\n%F{red}The CSApprox plugin folder is missing. Please run the following in Vim%f:' 1>&2
+   echo "Plug 'godlygeek/csapprox'|PlugInstall" 1>&2
+   return 1
+fi
+
+rsync --no-o --no-g --delete -e'ssh -q'             \
+      -f". $REPOS_BASE/vim/extra/excludes"          \
+      -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
+      -f'- .gitignore'                              \
+      -f'- .git'                                    \
       $@
