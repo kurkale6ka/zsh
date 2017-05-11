@@ -81,8 +81,6 @@ alias z=fg
 alias -- --='fg %-'
 
 ## Colors
-[[ $TERM == xterm ]] && TERM='xterm-256color'
-
 # Colored man pages with less
 # These can't reside in .zprofile since there is no terminal for tput
 _bld="$(tput bold || tput md)"
