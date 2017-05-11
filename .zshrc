@@ -36,8 +36,6 @@ zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%b' # branch
 
 precmd() {
-   psvar[1]=$SSH_CONNECTION
-
    local vcs_info_msg_0_
    vcs_info
    psvar[2]=$vcs_info_msg_0_
@@ -45,6 +43,15 @@ precmd() {
    # Set the terminal title to [$PWD] host
    print -nP '\e]0;[%~] %m\a'
 }
+
+psvar[1]=1
+if [[ -z $SSH_CONNECTION ]]
+then
+   if ! who | 'grep' -v tmux | 'grep' -v ':S\.[0-9][0-9]*)' | 'grep' -q '(.*)'
+   then
+      psvar[1]=
+   fi
+fi
 
 if [[ $TERM != *linux* ]]
 then
