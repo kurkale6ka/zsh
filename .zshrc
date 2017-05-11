@@ -564,6 +564,7 @@ alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
 
 ## tmux
+alias tmux='tmux -2'
 alias tl='tmux ls'
 alias ta='tmux attach-session'
 
