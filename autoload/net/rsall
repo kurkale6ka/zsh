@@ -29,7 +29,7 @@ xclip <<< ". ~/${REPOS_BASE#~/}/bash/.bash_profile; exec bash --rcfile ~/${REPOS
 
 rs -ai                                \
    -f".- $REPOS_BASE/bash/.gitignore" \
-   $REPOS_BASE/{bash,config,zsh,scripts/mkconfig} ${user}$1:~/${REPOS_BASE#~/}
+   $REPOS_BASE/{bash,config,zsh,scripts/mk{config,db}} ${user}$1:~/${REPOS_BASE#~/}
 
 rsvim -ai \
-   $REPOS_BASE/vim                                ${user}$1:~/${REPOS_BASE#~/}
+   $REPOS_BASE/vim                                     ${user}$1:~/${REPOS_BASE#~/}
