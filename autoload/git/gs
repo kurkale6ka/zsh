@@ -1,0 +1,6 @@
+if [[ -d .svn ]]
+then
+   svn st $@
+else
+   git status -sb $@
+fi

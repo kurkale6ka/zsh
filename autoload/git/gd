@@ -1,0 +1,6 @@
+if [[ -d .svn ]]
+then
+   svn diff $@
+else
+   git diff --word-diff=color $@
+fi

@@ -1,0 +1,6 @@
+if [[ -d .svn ]]
+then
+   svn revert $@
+else
+   git checkout $@
+fi
