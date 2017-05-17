@@ -71,7 +71,7 @@ then
    path=(/usr/local/bin              $path)
    path=($brew_prefix/libexec/gnubin $path)
 
-   MANPATH=$brew_prefix/libexec/gnuman:"$(man -w)"
+   MANPATH=$brew_prefix/libexec/gnuman:/usr/local/share/man:"$(man -w)"
 
    typeset -U path manpath
    export MANPATH
