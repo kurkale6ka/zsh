@@ -2,13 +2,6 @@
 #
 # Usage:
 #   rsall [-u user] destination
-#
-# Sync all your nodes with:
-# while read -r
-# do
-#    print -P "%F{yellow}$REPLY%f"
-#    rsall $REPLY
-# done < <(nodeset -ea -S'\n')
 
 local opt
 local user
