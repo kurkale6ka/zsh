@@ -1,6 +1,6 @@
-if [[ -d .svn ]]
+if git rev-parse --git-dir 1>/dev/null 2>&1
 then
-   svn diff $@
-else
    git diff --word-diff=color $@
+else
+   svn diff $@
 fi

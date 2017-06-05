@@ -1,6 +1,6 @@
-if [[ -d .svn ]]
+if git rev-parse --git-dir 1>/dev/null 2>&1
 then
-   svn revert $@
-else
    git checkout $@
+else
+   svn revert $@
 fi
