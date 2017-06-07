@@ -266,6 +266,9 @@ bindkey -s '^xF' 'for i in ^@; do  $i; done\e2\eb^b'
 bindkey -s '^xu' 'until ^@; do ; done\eb\e2^b'
 bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
 
+### ^xl lsof
+bindkey -s '^xl' 'lsof -i :'
+
 ### ^xm File renaming (mv)
 bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"Tabularize/'.\\\{-}'/l1l0\" -c'se ft=sh' -^x^x"
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
