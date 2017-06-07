@@ -533,7 +533,7 @@ then
    alias g=ag
 else
    alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
-   alias gr='grep -IriE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
+   alias gr='grep -IRiE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
 fi
 
 alias vd='v -d'
