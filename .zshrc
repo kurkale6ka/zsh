@@ -223,11 +223,11 @@ bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
 ### ^x\ GNU parallel
 bindkey -s '^x\\' " | parallel -X ^@ {} ^x^x"
 
-### ^x0 IPs
+### ^x0/1/2/3 IPs
 bindkey -s '^x0' '127.0.0.1'
-bindkey -s '^x1' '10.0.0.'
-bindkey -s '^x7' '172.16.0.'
-bindkey -s '^x9' '192.168.0.'
+bindkey -s '^x1' '192.168.0.'
+bindkey -s '^x2' '10.0.0.'
+bindkey -s '^x3' '172.16.0.'
 
 ### ^x- Ranges
 bindkey -s '^x-' '{1\e ..}^b'
