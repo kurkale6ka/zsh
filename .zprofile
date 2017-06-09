@@ -1,5 +1,5 @@
 # Repos
-REPOS_BASE=~/github
+((EUID > 0)) && REPOS_BASE=~/github
 export REPOS_BASE=${REPOS_BASE%/}
 
 # readline
