@@ -57,6 +57,7 @@ fi
 # ?letterTRUE:FALSE.
 # ex: ?L%L lines, . - if number of lines known: display %L lines,
 export LESS='-i -r -s -W -M -PM?f%f - :.?L%L lines, .?ltL\:%lt:.?pB, %pB\% : .?e(Bottom)%t'
+export PAGER=less
 
 if (( $+commands[keychain] ))
 then
