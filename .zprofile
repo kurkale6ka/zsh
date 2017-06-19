@@ -1,6 +1,17 @@
 # Repos
-((EUID > 0)) && REPOS_BASE=~/github
-export REPOS_BASE=${REPOS_BASE%/}
+if [[ -z $REPOS_BASE ]]
+then
+   if [[ -z $SSH_CONNECTION ]]
+   then
+      if ! who | 'grep' -v tmux | 'grep' -v ':S\.[0-9][0-9]*)' | 'grep' -q '(.*)'
+      then
+         REPOS_BASE_LINK="$(find ~ -maxdepth 1 -lname github -printf '%p\n')"
+         [[ -L $REPOS_BASE_LINK ]] && REPOS_BASE=$REPOS_BASE_LINK
+      fi
+   fi
+   REPOS_BASE=${REPOS_BASE:-~/github}
+   export REPOS_BASE=${REPOS_BASE%/}
+fi
 
 # readline
 # if I wanted to run bash from within zsh
