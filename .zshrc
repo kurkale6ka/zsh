@@ -55,7 +55,7 @@ fi
 
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%B%F{blue}%~%f%b] %(2V.%F{238}λ-%f.)%2v\n%(!.%F{9}.%F{221})%n%f %# '
+   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{238}λ-%f.)%2v\n%(!.%F{9}.%F{221})%n%f %# '
    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
 else
    PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{red}.%F{yellow})%n%f %# '
@@ -93,7 +93,7 @@ alias -- --='fg %-'
 _bld="$(tput bold || tput md)"
 _udl="$(tput smul || tput us)"
 _lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
-_lblu=$_bld"$(tput setaf 4 || tput AF 4)"
+_lblu=$_bld"$(tput setaf 69 || tput AF 69)"
 _res="$(tput sgr0 || tput me)"
 
 export LESS_TERMCAP_mb=$_lgrn # begin blinking
@@ -396,10 +396,10 @@ alias -g J='| python -mjson.tool'
 alias ed='ed -v -p:'
 
 ## ls and echo
-_ls_date_old="$(tput setaf 4   || tput AF 4  )%e %b$_res"
+_ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
 _ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
 
-_ls_date="$(tput setaf 4   || tput AF 4  )%e %b$_res"
+_ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
 _ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
 
 # Make sure existing aliases won't prevent function definitions
