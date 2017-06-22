@@ -90,10 +90,8 @@ alias -- --='fg %-'
 ## Colors
 # Colored man pages with less
 # These can't reside in .zprofile since there is no terminal for tput
-_bld="$(tput bold || tput md)"
-_udl="$(tput smul || tput us)"
-_lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
-_lblu=$_bld"$(tput setaf 4 || tput AF 4)"
+_lgrn="$(tput setaf 2 || tput AF 2)"
+_lblu="$(tput setaf 69 || tput AF 69)"
 _res="$(tput sgr0 || tput me)"
 
 export LESS_TERMCAP_mb=$_lgrn # begin blinking
@@ -101,11 +99,11 @@ export LESS_TERMCAP_md=$_lblu # begin bold
 export LESS_TERMCAP_me=$_res  # end mode
 
 # Stand out (reverse) - info box (yellow on blue bg)
-export LESS_TERMCAP_so=$_bld"$(tput setaf 3 || tput AF 3)$(tput setab 4 || tput AB 4)"
+export LESS_TERMCAP_so="$(tput setaf 229 || tput AF 229)$(tput setab 20 || tput AB 20)"
 export LESS_TERMCAP_se="$(tput rmso || tput se)"$_res
 
 # Underline
-export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
+export LESS_TERMCAP_us="$(tput setaf 219 || tput AF 219)" # purple
 export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
 # Set LS_COLORS
