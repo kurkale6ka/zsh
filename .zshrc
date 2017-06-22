@@ -93,7 +93,7 @@ alias -- --='fg %-'
 _bld="$(tput bold || tput md)"
 _udl="$(tput smul || tput us)"
 _lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
-_lblu=$_bld"$(tput setaf 69 || tput AF 69)"
+_lblu=$_bld"$(tput setaf 4 || tput AF 4)"
 _res="$(tput sgr0 || tput me)"
 
 export LESS_TERMCAP_mb=$_lgrn # begin blinking
