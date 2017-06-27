@@ -388,6 +388,7 @@ else
    [[ -n $REPOS_BASE ]] && alias v="vim -u $REPOS_BASE/vim/.vimrc"
 fi
 
+vt() { tail -n1000 $1 | v - }
 alias vg="xclip <<< 'se nocp is hls ic scs inf nu sc report=0 dy+=lastline lz so=2 mouse=a nojs ai hid wmnu ls=2 bs=2 ve=all nosol | nn <c-l> :nohls<cr><c-l> | sy on | filet plugin indent on'"
 
 alias -g V='| v -'
