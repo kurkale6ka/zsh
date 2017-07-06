@@ -42,6 +42,8 @@ fi
 export EDITOR=$nvim
 export VISUAL=$nvim
 
+export FZF_DEFAULT_COMMAND='ag -S --hidden --ignore=.git --ignore=.svn --ignore=.hg -g ""'
+
 # clustershell
 if [[ $(uname) == Darwin ]]
 then
