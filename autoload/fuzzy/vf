@@ -8,9 +8,9 @@ then
    # fuzzy pattern supplied
    if (($#))
    then
-      files=(${(0)"$(fzf -0 -1 -m -q$1 --print0 || echo $pipestatus[1])"})
+      files=(${(0)"$(fzf -0 -m -q$1 --print0 || echo $pipestatus[1])"})
    else
-      files=(${(0)"$(fzf -0 -1 -m --print0 || echo $pipestatus[1])"})
+      files=(${(0)"$(fzf -0 -m --print0 || echo $pipestatus[1])"})
    fi
 fi
 
@@ -22,12 +22,12 @@ then
    then
       if [[ $1 == -l ]]
       then
-         files=(${(0)"$(locate -Ai -0 ${@:2} | grep -z -vE '~$' | fzf --read0 -0 -1 -m -q$2 --print0)"})
+         files=(${(0)"$(locate -0 / | grep -z -vE '~$' | fzf --read0 -0 -1 -m -q$2 --print0)"})
       else
-         files=(${(0)"$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1 -m -q$1 --print0)"})
+         files=(${(0)"$(locate -0 / | grep -z -vE '~$' | fzf --read0 -0 -1 -m -q$1 --print0)"})
       fi
    else
-      files=(${(0)"$(locate -Ai -0 / | grep -z -vE '~$' | fzf --read0 -0 -1 -m --print0)"})
+      files=(${(0)"$(locate -0 / | grep -z -vE '~$' | fzf --read0 -0 -1 -m --print0)"})
    fi
 
    if [[ -n $files && $1 != -l ]]
