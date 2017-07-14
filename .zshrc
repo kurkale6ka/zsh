@@ -66,7 +66,7 @@ fi
 if [[ $(uname) == Darwin ]]
 then
    # Amend paths to get GNU commands vs the default BSD ones
-   brew_prefix="$(brew --prefix coreutils)"
+   brew_prefix=/usr/local/opt/coreutils # "$(brew --prefix coreutils)"
 
    path=(/usr/local/bin              $path)
    path=($brew_prefix/libexec/gnubin $path)
