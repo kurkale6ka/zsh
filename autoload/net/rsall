@@ -5,16 +5,19 @@
 
 local opt
 local user
+local dry
 
 OPTIND=1
 
-while getopts ':u:h' opt
+while getopts ':hu:n' opt
 do
    case $opt in
       ( h) echo 'Usage: rsall [-u user] destination'
            return 0
            ;;
       ( u) user=$OPTARG@
+           ;;
+      ( n) dry=n
            ;;
       (\?) echo "Invalid option: -$OPTARG" 1>&2
            return 1
@@ -24,9 +27,19 @@ done
 
 shift $((OPTIND-1))
 
-rs -ai                                \
-   -f".- $REPOS_BASE/bash/.gitignore" \
-   $REPOS_BASE/{bash,config,zsh,scripts/mk{config,db}} ${user}$1:~/${REPOS_BASE#~/}
+rsync -ai$dry --no-o --no-g --delete-after -e'ssh -q' \
+      -f".- $HOME/.gitignore"                         \
+      -f"+ bash/.bash_profile_after"                  \
+      -f"+ bash/.bashrc_after"                        \
+      -f':- .gitignore'                               \
+      -f':- .hgignore'                                \
+      -f'- .git'                                      \
+      -f'- .hg'                                       \
+      -f'- .svn'                                      \
+      $REPOS_BASE/bash                                \
+      $REPOS_BASE/config                              \
+      $REPOS_BASE/zsh                                 \
+      $REPOS_BASE/scripts/mkconfig                    \
+      $REPOS_BASE/scripts/mkdb                          ${user}$1:~/${REPOS_BASE#~/}
 
-rsvim -ai \
-   $REPOS_BASE/vim                                     ${user}$1:~/${REPOS_BASE#~/}
+rsvim -ai$dry $REPOS_BASE/vim                           ${user}$1:~/${REPOS_BASE#~/}
