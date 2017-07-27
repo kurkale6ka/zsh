@@ -35,12 +35,13 @@ umask 022
 
 # Vim
 if (( $+commands[nvim] ))
-then nvim=nvim
-else nvim=vim
+then
+   export EDITOR=nvim
+else
+   export EDITOR="vim -u $REPOS_BASE/vim/.vimrc"
 fi
 
-export EDITOR=$nvim
-export VISUAL=$nvim
+export VISUAL=$EDITOR
 
 export FZF_DEFAULT_COMMAND='ag -S --hidden --ignore=.git --ignore=.svn --ignore=.hg -g ""'
 
