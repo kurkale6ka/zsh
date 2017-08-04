@@ -6,7 +6,8 @@
 # 2. try mdfind
 #    it doesn't need updatedb but cannot search . folders/files
 # 3. try fzf
-#    it's 3d because if our CWD is too shallow (~, /, ...), it's too slow
+#    it's 3d because if my CWD is too shallow (~, /, ...), it will be too slow;
+#    plus I want to be able to find files regardless of my CWD
 #
 # An INT signal will cancel the current search and try the following one
 
