@@ -37,7 +37,7 @@ then
 elif ((dir == 1)) && (( $+commands[fzf] ))
 then
    # 'updatedb' indexed files
-   local file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
+   local file=${(0)"$(locate -0 / | grep -zv '/\.\(git\|svn\|hg\)\(/\|$\)\|~$' | fzf --read0 -0 -1 -q"$*" --print0)"}
    if [[ -n $file ]]
    then
       if [[ -d $file ]]
