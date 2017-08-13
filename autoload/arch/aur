@@ -73,10 +73,20 @@ else
    _user=mitko
    downloads=/home/$_user/Downloads
 
-   pkg="$(echo $downloads/*.tar.gz(om[1]))"
-   pkg=${pkg##*/}
+   local -a opts
+   opts=($downloads/*.tar.gz(om))
+   [[ -n $opts ]] || { echo 'no archive found. exiting...' 1>&2; exit 2 }
 
-   mv $downloads/$pkg .
+   opts=(${opts##*/})
+   # select a recently downloaded tar
+   select choice in ${opts[1,3]}
+   do
+      case $choice in
+         (*) pkg=$choice; break;;
+      esac
+   done
+
+   rsync -aiP $downloads/$pkg .
 
    if tar zxf $pkg
    then
@@ -95,6 +105,7 @@ else
          else
             pacman -U ${pkg%%.*}*.tar.xz
          fi
+         rm $downloads/$pkg
       fi
    fi
 fi
