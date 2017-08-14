@@ -575,11 +575,11 @@ alias ta='tmux attach-session'
 ## Calendar
 if (( $+commands[ncal] ))
 then
-   alias  cal='env LC_TIME=bg_BG.utf8 ncal -3 -M -C'
-   alias call='env LC_TIME=bg_BG.utf8 ncal -y -M -C'
+   alias  cal='ncal -M -C -3'
+   alias call='ncal -M -C -y'
 else
-   alias  cal='env LC_TIME=bg_BG.utf8 cal -m3'
-   alias call='env LC_TIME=bg_BG.utf8 cal -my'
+   alias  cal='cal -m3'
+   alias call='cal -my'
 fi
 
 ## fzf
