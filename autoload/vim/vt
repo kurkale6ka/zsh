@@ -1,1 +1,1 @@
-tail -n1000 $1 | v - -c'setlocal buftype=nofile bufhidden=hide noswapfile'
+tail -n11000 $1 | v - -c'setlocal buftype=nofile bufhidden=hide noswapfile | $'
