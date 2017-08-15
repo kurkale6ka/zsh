@@ -572,16 +572,6 @@ alias tmux='tmux -2'
 alias tl='tmux ls'
 alias ta='tmux attach-session'
 
-## Calendar
-if (( $+commands[ncal] ))
-then
-   alias  cal='ncal -M -C -3'
-   alias call='ncal -M -C -y'
-else
-   alias  cal='cal -m3'
-   alias call='cal -my'
-fi
-
 ## fzf
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
