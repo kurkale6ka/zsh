@@ -1,41 +1,53 @@
-# Calendar
-# Usage: cal [-3|-y]
-
+#  Linux: use ncal vs cal
+# Mac OS: use gcal
+#
+# Make -3|-y available to cal/gcal
+#
+# Usage: cal options* [-3|-y] options*
+#
 # start with Monday:
 #   * ncal: -M
 #   * gcal: -s1
 #   * cal:  -m
 
-if (($#))
-then
-   [[ $1 == -[3y] ]] || {
-      echo 'Usage: cal [-3|-y]' 1>&2
-      return 1
-   }
-fi
+local arg
+local arg_cal
+local arg_gcal
+
+for arg in $@
+do
+   # del 1st arg
+   shift
+   if [[ $arg == -[3y] ]]
+   then
+      arg_cal=${arg#}
+      if [[ $arg == -3 ]]
+      then
+         arg_gcal=.
+      else
+         arg_gcal=-b4
+      fi
+      # Remove -3|-y from $@ (skip the set assignment)
+      continue
+   fi
+   set -- $@ $arg
+done
 
 if [[ $(uname) == Darwin ]]
 then
    if (( $+commands[gcal] ))
    then
-      if [[ $1 == -3 ]]
-      then
-         gcal -s1 .
-      elif [[ $1 == -y ]]
-      then
-         gcal -s1 -b4
-      else
-         gcal -s1
-      fi
+      gcal -s1 $arg_gcal $@
    else
-      cal
+      # old BSD version not supporting -m{3|y}
+      cal $@
    fi
    return
 fi
 
 if (( $+commands[ncal] ))
 then
-   ncal -MC$1
+   ncal -MC$arg_cal $@
 else
-   cal -m$1
+   cal -m$arg_cal $@
 fi
