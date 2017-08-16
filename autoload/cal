@@ -20,7 +20,7 @@ do
    shift
    if [[ $arg == -[3y] ]]
    then
-      arg_cal=${arg#}
+      arg_cal=${arg#-}
       if [[ $arg == -3 ]]
       then
          arg_gcal=.
@@ -39,8 +39,8 @@ then
    then
       gcal -s1 $arg_gcal $@
    else
-      # old BSD version not supporting -m{3|y}
-      cal $@
+      # old version without support for -m{3|y}
+      command cal $@
    fi
    return
 fi
@@ -49,5 +49,5 @@ if (( $+commands[ncal] ))
 then
    ncal -MC$arg_cal $@
 else
-   cal -m$arg_cal $@
+   command cal -m$arg_cal $@
 fi
