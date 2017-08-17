@@ -1,14 +1,23 @@
-# Sync to all nodes
+# Sync config
+#
+# Usage: rseverywhere [@dt...]
+#                     +-- http://clustershell.readthedocs.io/en/latest/tools/nodeset.html
 
-print -P '%F{yellow}Syncing config on these hosts%f:'
-nodeset -ea
+if (($#))
+then
+   print -P '%F{yellow}Syncing config on these hosts%f:'
+   nodeset -r $@
+else
+   print -P '%F{yellow}Syncing config on all hosts%f:'
+   nodeset -ra
+fi
+
 echo
-
 read 'REPLY?proceed?: '
 [[ $REPLY == (#i)(y|yes) ]] || return 1
 
-while read -r
+while read -r -d ''
 do
    print -P "%F{yellow}$REPLY%f"
    rsall $REPLY
-done < <(nodeset -ea -S'\n')
+done < <(nodeset -e -S'\0' ${@:--a})
