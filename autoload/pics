@@ -13,6 +13,7 @@ setopt interactive_comments
 
 # Help
 _help() {
+local info
 read -r -d'\0' info << 'HELP'
 Usage:
    pics [-n (dry run)]         : manage media files
@@ -71,7 +72,12 @@ done
 shift $((OPTIND-1))
 
 # Settings
-new_pics='~/Dropbox/Camera Uploads' # folder where your images get uploaded
+# source folder where your media files get uploaded, before you move them to the media folder
+local new_pics='~/Dropbox/Camera Uploads'
+# media folder
+local pics='~/Dropbox/pics'
+
+local video_extensions
 video_extensions=(mp4 3gp)
 
 # Manage media files
@@ -84,4 +90,8 @@ exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%
 exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' .
 
 # Sync message
-echo rsync -ain ^issues(/) ../pics
+print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
+cat << 'SYNC'
+rsync -ain ^issues(/) $pics
+rm -r ^issues(/)
+SYNC
