@@ -17,12 +17,12 @@
 setopt extended_glob
 
 ## Colors
-_bld=$(tput bold || tput md)
-_red=$_bld"$(tput setaf 1 || tput AF 1)"
-_res=$(tput sgr0 || tput me)
+_red="$(tput setaf 1 || tput AF 1)"
+_res="$(tput sgr0 || tput me)"
 
 ## Help
 _help() {
+local info
 read -r -d $'\0' info << 'HELP'
 Usage:
    aur -u {package}
@@ -32,17 +32,15 @@ Usage:
    aur
    aur -d (install as a dependence)
 HELP
-
 if (($1 == 0))
 then echo $info
 else echo $info >&2
 fi
-
 exit $1
 }
 
 ## Checks
-[[ $1 == -(h|-h)* ]] && _help 0
+[[ $1 == (-h|--help) ]] && _help 0
 
 # Arguments
 if (($# > 2))
