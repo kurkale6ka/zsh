@@ -41,12 +41,12 @@ then
    return 2
 fi
 
-local nametag=filename # actual run
-
 # Options
 OPTIND=1
 
 local opt
+local nametag=filename # renaming will happen unless -n supplied
+
 while getopts :ncih opt
 do
    case $opt in
