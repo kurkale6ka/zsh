@@ -2,13 +2,12 @@
 
 # Manage media files metadata with exiftool
 #
-# Usage: pics [-n|-c|-i]
+# Usage: pics [-n|-c|-i|-I]
 #
 # For edge cases:
 # ~/github/help/exiftool.txt
 # https://github.com/kurkale6ka/help/blob/master/exiftool.txt
 
-setopt extended_glob
 setopt interactive_comments
 
 # Help
@@ -16,9 +15,9 @@ _help() {
 local info
 read -r -d'\0' info << 'HELP'
 Usage:
-   pics [-n (dry run)]         : manage media files
-   pics -c                     : perform various checks
-   pics -i {file...|directory} : get info
+   pics [-n (dry run)]           : manage media files
+   pics -c                       : perform various checks
+   pics -i|I {file...|directory} : get info
 HELP
 if (($1 == 0))
 then echo $info
@@ -29,7 +28,7 @@ fi
 # Checks
 [[ $1 == (-h|--help) ]] && { _help 0; return }
 
-if (($# != 0)) && [[ $1 != -[nci] ]]
+if (($# != 0)) && [[ $1 != -[nciI] ]]
 then
    print -P '%F{red}Wrong options!%f' 1>&2
    _help 1
@@ -47,7 +46,7 @@ OPTIND=1
 local opt
 local nametag=filename # renaming will happen unless -n supplied
 
-while getopts :ncih opt
+while getopts :nciIh opt
 do
    case $opt in
        # dry run
@@ -62,7 +61,11 @@ do
           return
           ;;
        # get all 'interesting' info
-       i) exiftool -S -G -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
+       i) exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
+          return
+          ;;
+       # get all info
+       I) exiftool -G -S -a ${@:2}
           return
           ;;
        h) _help 0
@@ -78,9 +81,9 @@ shift $((OPTIND-1))
 
 # Settings
 # source folder where your media files get uploaded, before you move them to the media folder
-local new_pics='~/Dropbox/Camera Uploads'
+local new_pics=$HOME'/Dropbox/Camera Uploads'
 # media folder
-local pics='~/Dropbox/pics'
+local pics=$HOME'/Dropbox/pics'
 
 # Manage media files
 cd $new_pics || return 4
@@ -92,8 +95,11 @@ exiftool -$nametag'<$createdate.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          .
 
 # Sync message
-print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
-cat << SYNC
-rsync -ain '$new_pics'/^issues(/) '$pics'
-rm -r '$new_pics'/^issues(/)
-SYNC
+if [[ $nametag == filename ]]
+then
+   print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
+   cat <<- SYNC
+	rsync -ain '$new_pics'/*(/) '$pics' | grep -v 'f+++++++++'
+	rm -r '$new_pics'/*(/)
+	SYNC
+fi
