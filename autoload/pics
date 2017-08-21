@@ -1,0 +1,86 @@
+#! /usr/bin/env zsh
+
+# Manage media files metadata with exiftool
+#
+# Usage: pics [-n|-c|-i]
+#
+# For edge cases:
+# ~/github/help/exiftool.txt
+# https://github.com/kurkale6ka/help/blob/master/exiftool.txt
+
+setopt interactive_comments
+
+# Help
+_help() {
+read -r -d'\0' info << 'HELP'
+Usage:
+   pics [-n (dry run)]         : manage media files
+   pics -c                     : perform various checks
+   pics -i {file...|directory} : get info
+HELP
+if (($1 == 0))
+then echo $info
+else echo $info >&2
+fi
+}
+
+# Checks
+[[ $1 == (-h|--help) ]] && { _help 0; return }
+
+if (($# != 0)) && [[ $1 != -[nci] ]]
+then
+   print -P '%F{red}Wrong number of arguments!%f' 1>&2
+   _help 1
+   return 1
+fi
+
+local nametag=filename # actual run
+
+# Options
+OPTIND=1
+
+local opt
+while getopts :ncih opt
+do
+   case $opt in
+       # dry run
+       n) nametag=testname
+          ;;
+       # checks
+       c) print -P '%F{yellow}files with different -createdate and -datetimeoriginal%f:'
+          exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
+
+          print -P '%F{yellow}Files without -createdate%f:'
+          exiftool -if 'not $createdate' -p '"$directory/$filename"' .
+          return
+          ;;
+       # get all 'interesting' info
+       i) exiftool -S -G -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
+          return
+          ;;
+       h) _help 0
+          return
+          ;;
+      \?) echo "Invalid option: -$OPTARG" 1>&2
+          return 2
+          ;;
+   esac
+done
+
+shift $((OPTIND-1))
+
+# Settings
+new_pics='~/Dropbox/Camera Uploads' # folder where your images get uploaded
+video_extensions=(mp4 3gp)
+
+# Manage media files
+cd $new_pics || return 3
+
+# images
+exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' .
+
+# movies
+exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' .
+
+# Sync message
+echo rsync -ain ^issues(/) ../pics
