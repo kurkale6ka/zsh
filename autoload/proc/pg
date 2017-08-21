@@ -1,7 +1,7 @@
 # Linux ps
 if [[ $(uname) != Darwin ]]
 then
-   (($# == 0)) || [[ $1 == -h || $1 == --help ]] && {
+   (($# == 0)) || [[ $1 == (-h|--help) ]] && {
       cat <<- HELP
 		Usage:
 		  pg [-lz] pattern
@@ -39,7 +39,7 @@ then
 # BSD ps
 # -o, no f and different fields
 else
-   (($# == 0)) || [[ $1 == -h || $1 == --help ]] && {
+   (($# == 0)) || [[ $1 == (-h|--help) ]] && {
       cat <<- HELP
 		Usage:
 		  pg [-l] pattern

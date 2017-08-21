@@ -2,7 +2,7 @@
 # ds
 # ds -[fdt]
 
-[[ $1 == -h || $1 == --help ]] && {
+[[ $1 == (-h|--help) ]] && {
 cat << HELP
 Usage:
 ds
