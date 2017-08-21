@@ -29,7 +29,7 @@ fi
 
 if (($# != 0)) && [[ $1 != -[nci] ]]
 then
-   print -P '%F{red}Wrong number of arguments!%f' 1>&2
+   print -P '%F{red}Wrong number of arguments%f!' 1>&2
    _help 1
    return 1
 fi
