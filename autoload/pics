@@ -8,6 +8,7 @@
 # ~/github/help/exiftool.txt
 # https://github.com/kurkale6ka/help/blob/master/exiftool.txt
 
+setopt extended_glob
 setopt interactive_comments
 
 # Help
