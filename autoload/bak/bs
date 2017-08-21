@@ -2,9 +2,9 @@
 #    sw file [file.bak]
 #             file.bak is assumed by default so it can be omitted
 
-if [[ $1 == -(h|-h)* ]] || (($# != 1 && $# != 2))
+if [[ $1 == (-h|--help) ]] || (($# != 1 && $# != 2))
 then
-   info='Usage: sw file [file.bak]'
+   local info='Usage: sw file [file.bak]'
    if (($#))
    then
       echo $info
