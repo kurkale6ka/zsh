@@ -31,9 +31,14 @@ fi
 
 if (($# != 0)) && [[ $1 != -[nci] ]]
 then
-   print -P '%F{red}Wrong number of arguments%f!' 1>&2
+   print -P '%F{red}Wrong options!%f' 1>&2
    _help 1
    return 1
+elif [[ $1 == -[nc] ]] && (($# != 1))
+then
+   print -P '%F{red}Wrong number of arguments!%f' 1>&2
+   _help 1
+   return 2
 fi
 
 local nametag=filename # actual run
@@ -64,7 +69,7 @@ do
           return
           ;;
       \?) echo "Invalid option: -$OPTARG" 1>&2
-          return 2
+          return 3
           ;;
    esac
 done
@@ -81,15 +86,17 @@ local video_extensions
 video_extensions=(mp4 3gp)
 
 # Manage media files
+cd $new_pics || return 4
+
 # images
-exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' $new_pics
+exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' .
 
 # movies
-exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' $new_pics
+exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' .
 
 # Sync message
 print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
 cat << SYNC
-rsync -ain $new_pics/^issues(/) $pics
-rm -r $new_pics/^issues(/)
+rsync -ain '$new_pics'/^issues(/) '$pics'
+rm -r '$new_pics'/^issues(/)
 SYNC
