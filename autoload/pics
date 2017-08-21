@@ -81,17 +81,15 @@ local video_extensions
 video_extensions=(mp4 3gp)
 
 # Manage media files
-cd $new_pics || return 3
-
 # images
-exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' .
+exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' $new_pics
 
 # movies
-exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' .
+exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' $new_pics
 
 # Sync message
 print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
-cat << 'SYNC'
-rsync -ain ^issues(/) $pics
-rm -r ^issues(/)
+cat << SYNC
+rsync -ain $new_pics/^issues(/) $pics
+rm -r $new_pics/^issues(/)
 SYNC
