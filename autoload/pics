@@ -54,11 +54,11 @@ do
        n) nametag=testname
           ;;
        # checks
-       c) print -P '%F{yellow}files with different -createdate and -datetimeoriginal%f:'
+       c) print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
           exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
 
           print -P '%F{yellow}Files without -createdate%f:'
-          exiftool -if 'not $createdate' -p '"$directory/$filename"' .
+          exiftool -p '"$directory/$filename"' -if 'not $createdate' .
           return
           ;;
        # get all 'interesting' info
@@ -82,17 +82,14 @@ local new_pics='~/Dropbox/Camera Uploads'
 # media folder
 local pics='~/Dropbox/pics'
 
-local video_extensions
-video_extensions=(mp4 3gp)
-
 # Manage media files
 cd $new_pics || return 4
 
-# images
-exiftool --ext ${(j. --ext .)video_extensions} -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' .
-
-# movies
-exiftool -ext ${(j. -ext .)video_extensions} -$nametag'<createdate' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c.%%le' .
+# The last valid '-filename<$createdate' supersedes the others:
+# $make will be used only if it exists!
+exiftool -$nametag'<$createdate.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         .
 
 # Sync message
 print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
