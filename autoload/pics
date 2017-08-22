@@ -2,7 +2,7 @@
 
 # Manage media files metadata with exiftool
 #
-# Usage: pics [-n|-c|-i|-I]
+# Usage: pics [-n|-c|-i|-I|-s[v]]
 #
 # For edge cases:
 # ~/github/help/exiftool.txt
@@ -10,7 +10,7 @@
 
 setopt interactive_comments
 
-# Help
+## Help
 _help() {
 local info
 read -r -d'\0' info << 'HELP'
@@ -18,59 +18,105 @@ Usage:
    pics [-n (dry run)]           : manage media files
    pics -c                       : perform various checks
    pics -i|I {file...|directory} : get info
+   pics -s[v(erbose)]            : sync
 HELP
 if (($1 == 0))
 then echo $info
-else echo $info >&2
+else echo $info 1>&2
 fi
 }
 
-# Checks
+## Checks
 [[ $1 == (-h|--help) ]] && { _help 0; return }
 
-if (($# != 0)) && [[ $1 != -[nciI] ]]
+if (($# != 0)) && [[ $1 != -[iI] ]]
 then
-   print -P '%F{red}Wrong options!%f' 1>&2
-   _help 1
-   return 1
-elif [[ $1 == -[nc] ]] && (($# != 1))
-then
-   print -P '%F{red}Wrong number of arguments!%f' 1>&2
-   _help 1
-   return 2
+   if [[ $1 != -* ]]
+   then
+      print -P '%F{red}Wrong arguments!%f' 1>&2
+      _help 1
+      return 1
+   elif ! { { [[ $1 == -[ncs] || $1 == -sv || $1 == -vs ]]               && (($# == 1)) } ||
+            { [[ ( $1 == -s && $2 == -v ) || ( $1 == -v && $2 == -s ) ]] && (($# == 2)) } }
+   then
+      print -P '%F{red}Wrong number of arguments!%f' 1>&2
+      _help 1
+      return 2
+   fi
 fi
 
-# Options
+## Settings
+# source folder where your media files get uploaded, before you move them to the media folder
+local new_pics=$HOME'/Dropbox/Camera Uploads'
+# media folder
+local pics=$HOME'/Dropbox/pics'
+
+## Options
 OPTIND=1
 
 local opt
 local nametag=filename # renaming will happen unless -n supplied
+local verbose=0
 
-while getopts :nciIh opt
+while getopts :nciIvsh opt
 do
    case $opt in
+
        # dry run
        n) nametag=testname
           ;;
+
        # checks
        c) print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
           exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
 
           print -P '%F{yellow}Files without -createdate%f:'
           exiftool -p '"$directory/$filename"' -if 'not $createdate' .
+
           return
           ;;
+
        # get all 'interesting' info
        i) exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
           return
           ;;
+
        # get all info
        I) exiftool -G -S -a ${@:2}
           return
           ;;
+
+       v) verbose=1
+          ;;
+
+       # sync
+       s) # dry runs
+          if ((verbose))
+          then
+             rsync -ain $new_pics/*(/) $pics
+          else
+             rsync -ain $new_pics/*(/) $pics | grep -v 'f+++++++++'
+          fi
+
+          # commit
+          if (($? == 0)) then
+             read '?apply? (y/n) '
+             if [[ $REPLY == (y|yes) ]]
+             then
+                if rsync -a $new_pics/*(/) $pics
+                then
+                   rm -r $new_pics/*(/)
+                fi
+             fi
+          fi
+
+          return
+          ;;
+
        h) _help 0
           return
           ;;
+
       \?) echo "Invalid option: -$OPTARG" 1>&2
           return 3
           ;;
@@ -79,27 +125,13 @@ done
 
 shift $((OPTIND-1))
 
-# Settings
-# source folder where your media files get uploaded, before you move them to the media folder
-local new_pics=$HOME'/Dropbox/Camera Uploads'
-# media folder
-local pics=$HOME'/Dropbox/pics'
-
-# Manage media files
+## Manage media files
 cd $new_pics || return 4
 
 # The last valid '-filename<$createdate' supersedes the others:
 # $make will be used only if it exists!
-exiftool -$nametag'<$createdate.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          .
 
-# Sync message
-if [[ $nametag == filename ]]
-then
-   print -P '\n%F{yellow}Now you can sync, then delete your media files with%f:'
-   cat <<- SYNC
-	rsync -ain '$new_pics'/*(/) '$pics' | grep -v 'f+++++++++'
-	rm -r '$new_pics'/*(/)
-	SYNC
-fi
+# vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
