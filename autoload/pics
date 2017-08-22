@@ -10,7 +10,77 @@
 
 setopt interactive_comments
 
-## Help
+## Options
+OPTIND=1
+
+local opt
+local action
+local verbose=0
+local mutual=0
+
+while getopts :nsviIh opt
+do
+   case $opt in
+
+      (n)
+         if ((verbose)) || [[ -n $action ]]
+         then
+            mutual=1
+         else
+            action=dry_run
+         fi
+         ;;
+
+      (s)
+         if [[ -n $action ]]
+         then
+            mutual=1
+         else
+            action=sync
+         fi
+         ;;
+
+      (v)
+         if ((verbose)) || [[ -n $action && $action != sync ]]
+         then
+            mutual=1
+         else
+            verbose=1
+         fi
+         ;;
+
+      (i)
+         # get all 'interesting' info
+         shift
+         exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:-.}
+         return
+         ;;
+
+      (I)
+         # get all info
+         shift
+         exiftool -G -S -a ${@:-.}
+         return
+         ;;
+
+      (h)
+         if ((verbose)) || [[ -n $action ]]
+         then
+            mutual=1
+         else
+            action=help
+         fi
+         ;;
+
+      (\?)
+         echo "Invalid option: -$OPTARG" 1>&2
+         return 1
+         ;;
+
+   esac
+done
+
+## Help & checks
 _help() {
 local info
 read -r -d'\0' info << 'HELP'
@@ -18,7 +88,7 @@ Usage:
    pics [-n (dry run)]           : manage media files
    pics -s[v(erbose)]            : sync
    pics -i|I {file...|directory} : get info
-   pics -h|--help                : help
+   pics -h                       : help
 HELP
 if (($1 == 0))
 then echo $info
@@ -26,23 +96,27 @@ else echo $info 1>&2
 fi
 }
 
-## Checks
-[[ $1 == (-h|--help) ]] && { _help 0; return }
-
-if (($# != 0)) && [[ $1 != -[iI] ]]
+if  [[ $1 == -v && -z $action ]] && (($# == 1))
 then
-   if ! { [[ $1 == -[ns] || $1 == -sv || $1 == -vs || ( $1 == -s && $2 == -v ) || ( $1 == -v && $2 == -s ) ]] }
-   then
-      print -P '%F{red}Wrong arguments!%f' 1>&2
-      _help 1
-      return 1
-   elif ! { { [[ $1 == -[ns] || $1 == -sv || $1 == -vs ]]                && (($# == 1)) } ||
-            { [[ ( $1 == -s && $2 == -v ) || ( $1 == -v && $2 == -s ) ]] && (($# == 2)) } }
-   then
-      print -P '%F{red}Wrong number of arguments!%f' 1>&2
-      _help 1
-      return 2
-   fi
+   print -P '%F{red}You must choose an action!%f' 1>&2
+   _help 1
+   return 2
+fi
+
+shift $((OPTIND-1))
+
+if (($# != 0))
+then
+   print -P '%F{red}Wrong number of arguments!%f' 1>&2
+   _help 1
+   return 3
+fi
+
+if ((mutual))
+then
+   print -P '%F{red}Incompatible options used together!%f' 1>&2
+   _help 1
+   return 4
 fi
 
 ## Settings
@@ -51,97 +125,76 @@ local new_pics=$HOME'/Dropbox/Camera Uploads'
 # media folder
 local pics=$HOME'/Dropbox/pics'
 
-## Options
-OPTIND=1
+## Actions
+# TODO: re-enable dates_ok
+# local dates_ok=1 # success: $createdate == $datetimeoriginal
 
-local opt
+date_cmp() {
+   if cd $new_pics # global variable!
+   then
+      print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
+      exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
+      # dates_ok=$? # global variable!
+   fi
+}
+
 local nametag=filename # renaming will happen unless -n supplied
-local verbose=0
-local check_res=1 # success: $createdate == $datetimeoriginal
 
-while getopts :nvsiIh opt
-do
-   case $opt in
+case $action in
 
-       # dry run
-       n) touch /tmp/pics_dry_run
-          nametag=testname
+   (dry_run)
+      touch /tmp/pics_dry_run
+      nametag=testname
+      date_cmp
+      ;;
 
-          date_cmp() {
-             if cd $new_pics
-             then
-                print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
-                exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
-                check_res=$? # global variable
-             fi
-          }
-          ;;
+   (sync)
+      # dry runs
+      if ((verbose))
+      then
+         rsync -ain $new_pics/*(/) $pics
+      else
+         rsync -ain $new_pics/*(/) $pics | grep -v 'f+++++++++'
+      fi
 
-       v) verbose=1
-          ;;
+      # commit
+      if (($? == 0)) then
+         read '?apply? (y/n) '
+         if [[ $REPLY == (y|yes) ]]
+         then
+            if rsync -a $new_pics/*(/) $pics
+            then
+               rm -r $new_pics/*(/)
+            fi
+         fi
+      fi
+      return
+      ;;
 
-       # sync
-       s) # dry runs
-          if ((verbose))
-          then
-             rsync -ain $new_pics/*(/) $pics
-          else
-             rsync -ain $new_pics/*(/) $pics | grep -v 'f+++++++++'
-          fi
+   (help)
+      _help 0
+      return
+      ;;
 
-          # commit
-          if (($? == 0)) then
-             read '?apply? (y/n) '
-             if [[ $REPLY == (y|yes) ]]
-             then
-                if rsync -a $new_pics/*(/) $pics
-                then
-                   rm -r $new_pics/*(/)
-                fi
-             fi
-          fi
-
-          return
-          ;;
-
-       # get all 'interesting' info
-       i) shift
-          exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:-.}
-          return
-          ;;
-
-       # get all info
-       I) shift
-          exiftool -G -S -a ${@:-.}
-          return
-          ;;
-
-       h) _help 0
-          return
-          ;;
-
-      \?) echo "Invalid option: -$OPTARG" 1>&2
-          return 3
-          ;;
-   esac
-done
-
-shift $((OPTIND-1))
+esac
 
 ## Manage media files
-cd $new_pics || return 4
+cd $new_pics || return 5
 
 [[ ! -e /tmp/pics_dry_run ]] && date_cmp
 
-if ((check_res == 1)) || [[ $nametag == testname ]]
-then
-   # The last valid '-filename<$createdate' supersedes the others:
-   # $make will be used only if it exists!
-   exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-            -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-            .
+# if ((dates_ok)) || [[ $nametag == testname ]]
+# then
 
-   (($? == 0)) && [[ -w /tmp/pics_dry_run ]] && rm /tmp/pics_dry_run
-fi
+# The last valid '-filename<$createdate' supersedes the others:
+# $make will be used only if it exists!
+print -P '%F{yellow}Manage media files%f:'
+exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         .
+
+(($? == 0)) && [[ -w /tmp/pics_dry_run ]] && rm /tmp/pics_dry_run
+
+# fi
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
