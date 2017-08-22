@@ -130,6 +130,7 @@ local pics=$HOME'/Dropbox/pics'
 # local dates_ok=1 # success: $createdate == $datetimeoriginal
 
 date_cmp() {
+   touch /tmp/pics_compare
    if cd $new_pics # global variable!
    then
       print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
@@ -143,9 +144,8 @@ local nametag=filename # renaming will happen unless -n supplied
 case $action in
 
    (dry_run)
-      touch /tmp/pics_dry_run
       nametag=testname
-      date_cmp
+      [[ ! -e /tmp/pics_compare ]] && date_cmp
       ;;
 
    (sync)
@@ -181,7 +181,7 @@ esac
 ## Manage media files
 cd $new_pics || return 5
 
-[[ ! -e /tmp/pics_dry_run ]] && date_cmp
+[[ ! -e /tmp/pics_compare ]] && date_cmp
 
 # if ((dates_ok)) || [[ $nametag == testname ]]
 # then
@@ -193,7 +193,7 @@ exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          .
 
-(($? == 0)) && [[ -w /tmp/pics_dry_run ]] && rm /tmp/pics_dry_run
+[[ $nametag == filename && -w /tmp/pics_compare ]] && rm /tmp/pics_compare
 
 # fi
 
