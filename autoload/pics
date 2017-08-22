@@ -105,12 +105,14 @@ do
           ;;
 
        # get all 'interesting' info
-       i) exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
+       i) shift
+          exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:-.}
           return
           ;;
 
        # get all info
-       I) exiftool -G -S -a ${@:2}
+       I) shift
+          exiftool -G -S -a ${@:-.}
           return
           ;;
 
