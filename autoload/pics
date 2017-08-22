@@ -2,7 +2,7 @@
 
 # Manage media files metadata with exiftool
 #
-# Usage: pics [-n|-c|-i|-I|-s[v]]
+# Usage: pics [-n|-s[v]|-i|-I|-h]
 #
 # For edge cases:
 # ~/github/help/exiftool.txt
@@ -16,9 +16,9 @@ local info
 read -r -d'\0' info << 'HELP'
 Usage:
    pics [-n (dry run)]           : manage media files
-   pics -c                       : perform various checks
-   pics -i|I {file...|directory} : get info
    pics -s[v(erbose)]            : sync
+   pics -i|I {file...|directory} : get info
+   pics -h|--help                : help
 HELP
 if (($1 == 0))
 then echo $info
@@ -31,12 +31,12 @@ fi
 
 if (($# != 0)) && [[ $1 != -[iI] ]]
 then
-   if [[ $1 != -* ]]
+   if ! { [[ $1 == -[ns] || $1 == -sv || $1 == -vs || ( $1 == -s && $2 == -v ) || ( $1 == -v && $2 == -s ) ]] }
    then
       print -P '%F{red}Wrong arguments!%f' 1>&2
       _help 1
       return 1
-   elif ! { { [[ $1 == -[ncs] || $1 == -sv || $1 == -vs ]]               && (($# == 1)) } ||
+   elif ! { { [[ $1 == -[ns] || $1 == -sv || $1 == -vs ]]                && (($# == 1)) } ||
             { [[ ( $1 == -s && $2 == -v ) || ( $1 == -v && $2 == -s ) ]] && (($# == 2)) } }
    then
       print -P '%F{red}Wrong number of arguments!%f' 1>&2
@@ -57,33 +57,24 @@ OPTIND=1
 local opt
 local nametag=filename # renaming will happen unless -n supplied
 local verbose=0
+local check_res=1 # success: $createdate == $datetimeoriginal
 
-while getopts :nciIvsh opt
+while getopts :nvsiIh opt
 do
    case $opt in
 
        # dry run
-       n) nametag=testname
-          ;;
+       n) touch /tmp/pics_dry_run
+          nametag=testname
 
-       # checks
-       c) print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
-          exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
-
-          print -P '%F{yellow}Files without -createdate%f:'
-          exiftool -p '"$directory/$filename"' -if 'not $createdate' .
-
-          return
-          ;;
-
-       # get all 'interesting' info
-       i) exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
-          return
-          ;;
-
-       # get all info
-       I) exiftool -G -S -a ${@:2}
-          return
+          date_cmp() {
+             if cd $new_pics
+             then
+                print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
+                exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
+                check_res=$? # global variable
+             fi
+          }
           ;;
 
        v) verbose=1
@@ -113,6 +104,16 @@ do
           return
           ;;
 
+       # get all 'interesting' info
+       i) exiftool -G -S -a -'*keyword*' -subject -title -'*comment*' -make -model -createdate -datetimeoriginal ${@:2}
+          return
+          ;;
+
+       # get all info
+       I) exiftool -G -S -a ${@:2}
+          return
+          ;;
+
        h) _help 0
           return
           ;;
@@ -128,10 +129,17 @@ shift $((OPTIND-1))
 ## Manage media files
 cd $new_pics || return 4
 
-# The last valid '-filename<$createdate' supersedes the others:
-# $make will be used only if it exists!
-exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-         -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-         .
+[[ ! -e /tmp/pics_dry_run ]] && date_cmp
+
+if ((check_res == 1)) || [[ $nametag == testname ]]
+then
+   # The last valid '-filename<$createdate' supersedes the others:
+   # $make will be used only if it exists!
+   exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+            -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+            .
+
+   (($? == 0)) && [[ -w /tmp/pics_dry_run ]] && rm /tmp/pics_dry_run
+fi
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
