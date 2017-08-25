@@ -1,4 +1,8 @@
 # Search for help topics in my personal documentation
+#
+# Usage: doc topic
+
+(($# == 0)) && return 1
 
 case $1 in
     (rg|regex) cat $REPOS_BASE/help/regex.txt; return ;;
@@ -11,7 +15,7 @@ typeset -a matches
 while read -r
 do
    matches+=($REPLY)
-done < <(ag -l -S --hidden --ignore .git --ignore .svn --ignore .hg --ignore misc --ignore '*install*' --ignore 'README*' --ignore 'LICENSE' $1 $REPOS_BASE/help)
+done < <(\ag -l -S --hidden --ignore .git --ignore .svn --ignore .hg --ignore misc --ignore '*install*' --ignore 'README*' --ignore 'LICENSE' $1 $REPOS_BASE/help)
 
 # For a single match, open the help file
 if (( ${#matches} == 1 ))
