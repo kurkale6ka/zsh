@@ -6,6 +6,15 @@
 # ~/github/help/exiftool.txt
 # https://github.com/kurkale6ka/help/blob/master/exiftool.txt
 
+## Settings
+# source folder where your media files get uploaded, before you move them to the media folder
+local new_pics=$HOME'/Dropbox/Camera Uploads'
+# media folder
+local pics=$HOME'/Dropbox/pics'
+
+[[ ! -d $new_pics ]] && { print -P '%F{red}Upload folder not defined%f' 1>&2; return 1 }
+[[ ! -d $pics     ]] && { print -P '%F{red}Images folder not defined%f' 1>&2; return 2 }
+
 ## Options
 OPTIND=1
 
@@ -70,7 +79,7 @@ do
 
       (\?)
          echo "Invalid option: -$OPTARG" 1>&2
-         return 1
+         return 3
          ;;
 
    esac
@@ -96,7 +105,7 @@ if  [[ $1 == -v && -z $action ]] && (($# == 1))
 then
    print -P '%F{red}You must choose an action!%f' 1>&2
    _help 1
-   return 2
+   return 4
 fi
 
 shift $((OPTIND-1))
@@ -105,21 +114,15 @@ if (($# != 0))
 then
    print -P '%F{red}Wrong number of arguments!%f' 1>&2
    _help 1
-   return 3
+   return 5
 fi
 
 if ((mutual))
 then
    print -P '%F{red}Incompatible options used together!%f' 1>&2
    _help 1
-   return 4
+   return 6
 fi
-
-## Settings
-# source folder where your media files get uploaded, before you move them to the media folder
-local new_pics=$HOME'/Dropbox/Camera Uploads'
-# media folder
-local pics=$HOME'/Dropbox/pics'
 
 ## Actions
 # TODO: re-enable dates_ok
@@ -127,12 +130,9 @@ local pics=$HOME'/Dropbox/pics'
 
 date_cmp() {
    touch /tmp/pics_compare
-   if cd $new_pics # global variable!
-   then
-      print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
-      exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' .
-      # dates_ok=$? # global variable!
-   fi
+   print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
+   exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' $new_pics # global variable
+   # dates_ok=$? # global variable!
 }
 
 local nametag=filename # renaming will happen unless -n supplied
@@ -175,8 +175,6 @@ case $action in
 esac
 
 ## Manage media files
-cd $new_pics || return 5
-
 [[ ! -e /tmp/pics_compare ]] && date_cmp
 
 # if ((dates_ok)) || [[ $nametag == testname ]]
@@ -187,7 +185,7 @@ cd $new_pics || return 5
 print -P '%F{yellow}Manage media files%f:'
 exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-         .
+         $new_pics
 
 [[ $nametag == filename && -w /tmp/pics_compare ]] && rm /tmp/pics_compare
 
