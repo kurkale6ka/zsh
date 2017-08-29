@@ -39,6 +39,7 @@ rsync -ai$dry --no-o --no-g --delete-after -e'ssh -q' \
       $REPOS_BASE/bash                                \
       $REPOS_BASE/config                              \
       $REPOS_BASE/zsh                                 \
+      $REPOS_BASE/fzf                                 \
       $REPOS_BASE/scripts/mkconfig                    \
       $REPOS_BASE/scripts/mkdb                          ${user}$1:~/${REPOS_BASE#~/}
 
