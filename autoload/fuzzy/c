@@ -13,10 +13,10 @@ if (($# > 0))
 then
    if (( $+commands[fzf] ))
    then
+      local dir="$(sqlite3 $db "SELECT dir FROM marks ORDER BY weight DESC;" | fzf +s -0 -1 -q"$*" || echo $pipestatus[2])"
+   else
       # Note: for more than 2 arguments, not all permutations are tried.
       # So for c 1 2 3, %1%2%3% and %3%2%1% are only tried.
-      local dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC;" | fzf +s -0 -1 || echo $pipestatus[2])"
-   else
       local dir="$(sqlite3 $db "SELECT dir FROM marks WHERE dir LIKE '%${(j.%.)@}%' or dir LIKE '%${(j.%.)${(aO)@}}%' ORDER BY weight DESC LIMIT 1;")"
       [[ -z $dir ]] && dir=1
    fi
@@ -37,7 +37,7 @@ then
 elif ((dir == 1)) && (( $+commands[fzf] ))
 then
    # 'updatedb' indexed files
-   local file=${(0)"$(locate -0 / | grep -zv '/\.\(git\|svn\|hg\)\(/\|$\)\|~$' | fzf --read0 -0 -1 -q"$*" --print0)"}
+   local file="$(locate -0 / | grep -zv '/\.\(git\|svn\|hg\)\(/\|$\)\|~$' | fzf --read0 -0 -1 -q"$*")"
    if [[ -n $file ]]
    then
       if [[ -d $file ]]
