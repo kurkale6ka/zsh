@@ -13,7 +13,7 @@
 #
 # An INT signal will cancel the current search and try the following one
 
-local files
+local -a files
 
 setopt local_traps
 # files is actually empty after ^C. TODO: figure out why?
@@ -50,9 +50,9 @@ then
    print -P '%F{yellow}trying fzf%f...'
    if (($#))
    then
-      files=(${(0)"$(fzf -0 -m -q"$*" --print0)"})
+      files=(${(0)"$(fzf -0 -1 -m -q"$*" --print0)"})
    else
-      files=(${(0)"$(fzf -0 -m --print0)"})
+      files=(${(0)"$(fzf -0 -1 -m --print0)"})
    fi
 fi
 
