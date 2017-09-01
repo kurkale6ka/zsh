@@ -88,28 +88,31 @@ alias z=fg
 alias -- --='fg %-'
 
 ## Colors
-# Colored man pages with less
-# These can't reside in .zprofile since there is no terminal for tput
-_bld="$(tput bold || tput md)"
-_udl="$(tput smul || tput us)"
-_lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
-_lblu=$_bld"$(tput setaf 4 || tput AF 4)"
-_res="$(tput sgr0 || tput me)"
+if [[ $(uname) != OpenBSD ]]
+then
+   # Colored man pages with less
+   # These can't reside in .zprofile since there is no terminal for tput
+   _bld="$(tput bold || tput md)"
+   _udl="$(tput smul || tput us)"
+   _lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
+   _lblu=$_bld"$(tput setaf 4 || tput AF 4)"
+   _res="$(tput sgr0 || tput me)"
 
-export LESS_TERMCAP_mb=$_lgrn # begin blinking
-export LESS_TERMCAP_md=$_lblu # begin bold
-export LESS_TERMCAP_me=$_res  # end mode
+   export LESS_TERMCAP_mb=$_lgrn # begin blinking
+   export LESS_TERMCAP_md=$_lblu # begin bold
+   export LESS_TERMCAP_me=$_res  # end mode
 
-# Stand out (reverse) - info box (yellow on blue bg)
-export LESS_TERMCAP_so=$_bld"$(tput setaf 3 || tput AF 3)$(tput setab 4 || tput AB 4)"
-export LESS_TERMCAP_se="$(tput rmso || tput se)"$_res
+   # Stand out (reverse) - info box (yellow on blue bg)
+   export LESS_TERMCAP_so=$_bld"$(tput setaf 3 || tput AF 3)$(tput setab 4 || tput AB 4)"
+   export LESS_TERMCAP_se="$(tput rmso || tput se)"$_res
 
-# Underline
-export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
-export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
+   # Underline
+   export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
+   export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
-# Set LS_COLORS
-[[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/config/dotfiles/.dir_colors)"
+   # Set LS_COLORS
+   [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/config/dotfiles/.dir_colors)"
+fi
 
 # Linux virtual console colors
 if [[ $TERM == linux ]]
@@ -396,47 +399,54 @@ alias -g J='| python -mjson.tool'
 alias ed='ed -v -p:'
 
 ## ls and echo
-_ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
-_ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
+if [[ $(uname) != OpenBSD ]]
+then
+   _ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
+   _ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
 
-_ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
-_ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
+   _ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
+   _ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
+
+   _ls_no_baks='-B'
+   _ls_color='--color=auto'
+   _time_style="--time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+fi
 
 # Make sure existing aliases won't prevent function definitions
 unalias ln sl 2>/dev/null
 
-alias  l.='ls -Fd   --color=auto .*~.*~'
-alias ll.="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time' .*~.*~"
+alias  l.="ls -Fd   $_ls_color .*~.*~"
+alias ll.="ls -Fdhl $_ls_color $_time_style .*~.*~"
 
-alias  l='ls -FB   --color=auto'
-alias ll="ls -FBhl --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+alias  l="ls -F   $_ls_no_baks $_ls_color"
+alias ll="ls -Fhl $_ls_no_baks $_ls_color $_time_style"
 
-alias  la='ls -FBA   --color=auto'
-alias lla="ls -FBAhl --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+alias  la="ls -FA   $_ls_no_baks $_ls_color"
+alias lla="ls -FAhl $_ls_no_baks $_ls_color $_time_style"
 
-alias  ld='ls -FBd   --color=auto'
-alias lld="ls -FBdhl --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+alias  ld="ls -Fd   $_ls_no_baks $_ls_color"
+alias lld="ls -Fdhl $_ls_no_baks $_ls_color $_time_style"
 
 alias  l/='ld *(/D)'
 alias ll/='lld *(/D)'
 
-alias  lx='ls -Fd   --color=auto *~*~(*D)'
-alias llx="ls -Fdhl --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time' *~*~(*D)"
+alias  lx="ls -Fd   $_ls_color *~*~(*D)"
+alias llx="ls -Fdhl $_ls_color $_time_style *~*~(*D)"
 
-alias  lm='ls -FBtr   --color=auto'
-alias llm="ls -FBhltr --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+alias  lm="ls -Ftr   $_ls_no_baks $_ls_color"
+alias llm="ls -Fhltr $_ls_no_baks $_ls_color $_time_style"
 
 # Sort by size
-alias  lk='ls -FBS   --color=auto'
-alias llk="ls -FBShl --color=auto --time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+alias  lk="ls -FS   $_ls_no_baks $_ls_color"
+alias llk="ls -FShl $_ls_no_baks $_ls_color $_time_style"
 
 # A single column
-alias l1='ls -FB1 --color=auto'
+alias l1="ls -F1 $_ls_no_baks $_ls_color"
 
 alias  lr="tree -FAC -I '*~|*.swp' --noreport"
 alias llr='ll **/*(-.,%,=ND)'
 
-alias vl='ls -FB1 V'
+alias vl="ls -F1 $_ls_no_baks V"
 
 # Links (there is also ln() as an autoload)
 alias ln.='ll .*(@)'
