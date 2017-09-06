@@ -13,7 +13,7 @@ else
 fi
 
 echo
-read 'REPLY?proceed?: '
+read 'REPLY?proceed? '
 [[ $REPLY == (#i)(y|yes) ]] || return 1
 
 # TODO: fix -d '' <--> -S'\0'
