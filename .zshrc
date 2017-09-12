@@ -5,6 +5,7 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt inc_append_history
 setopt interactivecomments
+setopt list_rows_first
 
 unsetopt auto_name_dirs # shorter names in CWD
 unsetopt flow_control # no ^s freezing the screen
