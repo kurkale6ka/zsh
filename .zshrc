@@ -292,8 +292,8 @@ bindkey -s '^x@' 'inodes=(*^@(NDoN)); echo There are ${#inodes} items'
 bindkey -s '^xp' 'print -l '
 
 ### ^xr/R rsync
-bindkey -s '^xr' "rsync -ai^@ -e'ssh -q' "
-bindkey -s '^xR' "-f'- '^b"
+bindkey -s '^xr' "rsync -ai "
+bindkey -s '^xR' "rsync -ai^@ -e'ssh -q' -f'- '^b"
 
 ### ^x` Backticks
 bindkey -s '^x`' '$()^b'
