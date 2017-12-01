@@ -255,6 +255,7 @@ bindkey -s '^x]' '[[  ]]\e3^b'
 
 ### ^xc Counting row occurrences in a stream
 bindkey -s '^xc' ' | sort | uniq -c | sort -rn'
+bindkey -s '^xC' 'comm -13 <(sort ^@) <(sort )^b'
 
 ### ^xd diff
 bindkey -s '^xd' 'diff -u <() <(^@)\eb\e2^b'
