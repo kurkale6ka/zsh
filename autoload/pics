@@ -183,8 +183,8 @@ esac
 # The last valid '-filename<$createdate' supersedes the others:
 # $make will be used only if it exists!
 print -P '%F{yellow}Manage media files%f:'
-exiftool -$nametag'<$createdate.%le'          -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-         -$nametag'<$createdate ${make;}.%le' -d '%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+exiftool -$nametag'<$createdate.%le'          -d $new_pics'/%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         -$nametag'<$createdate ${make;}.%le' -d $new_pics'/%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
          $new_pics
 
 [[ $nametag == filename && -w /tmp/pics_compare ]] && rm /tmp/pics_compare
