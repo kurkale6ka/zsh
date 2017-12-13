@@ -8,12 +8,11 @@
 
 ## Settings
 # source folder where your media files get uploaded, before you move them to the media folder
-local new_pics=$HOME'/Dropbox/Camera Uploads'
+local uploads=$HOME'/Dropbox/Camera Uploads'
 # media folder
 local pics=$HOME'/Dropbox/pics'
 
-[[ ! -d $new_pics ]] && { print -P '%F{red}Upload folder not defined%f' 1>&2; return 1 }
-[[ ! -d $pics     ]] && { print -P '%F{red}Images folder not defined%f' 1>&2; return 2 }
+[[ ! -d $uploads ]] && { print -P '%F{red}Uploads folder not defined%f' 1>&2; return 1 }
 
 ## Options
 OPTIND=1
@@ -131,7 +130,7 @@ fi
 date_cmp() {
    touch /tmp/pics_compare
    print -P '%F{yellow}Files with different -createdate and -datetimeoriginal%f:'
-   exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' $new_pics # global variable
+   exiftool -p '"$directory/$filename": $createdate - $datetimeoriginal' -if '$createdate !~ $datetimeoriginal' $uploads # global variable
    # dates_ok=$? # global variable!
 }
 
@@ -145,12 +144,14 @@ case $action in
       ;;
 
    (sync)
+      [[ ! -d $pics ]] && { print -P '%F{red}Pictures folder not defined%f' 1>&2; return 2 }
+
       # dry runs
       if ((verbose))
       then
-         rsync -ain $new_pics/*(/) $pics
+         rsync -ain $uploads/*(/) $pics
       else
-         rsync -ain $new_pics/*(/) $pics | grep -v 'f+++++++++'
+         rsync -ain $uploads/*(/) $pics | grep -v 'f+++++++++'
       fi
 
       # commit
@@ -158,9 +159,9 @@ case $action in
          read '?apply? (y/n) '
          if [[ $REPLY == (y|yes) ]]
          then
-            if rsync -a $new_pics/*(/) $pics
+            if rsync -a $uploads/*(/) $pics
             then
-               rm -r $new_pics/*(/)
+               rm -r $uploads/*(/)
             fi
          fi
       fi
@@ -183,9 +184,9 @@ esac
 # The last valid '-filename<$createdate' supersedes the others:
 # $make will be used only if it exists!
 print -P '%F{yellow}Manage media files%f:'
-exiftool -$nametag'<$createdate.%le'          -d $new_pics'/%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-         -$nametag'<$createdate ${make;}.%le' -d $new_pics'/%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
-         $new_pics
+exiftool -$nametag'<$createdate.%le'          -d $uploads'/%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         -$nametag'<$createdate ${make;}.%le' -d $uploads'/%Y/%B/%Y-%m-%d %H.%M.%S%%-c' \
+         $uploads
 
 [[ $nametag == filename && -w /tmp/pics_compare ]] && rm /tmp/pics_compare
 
