@@ -1,15 +1,22 @@
-local inode
-local inodes
+# namei command for Mac OS
 
-inode=$1
-inodes=(${(s./.)inode})
+if [[ $(uname) != Darwin && $+commands[namei] ]]
+then
+   command namei $@
+else
+   local inode
+   local inodes
 
-local i ii
+   inode=$1
+   inodes=(${(s./.)inode})
 
-stat -c '%A %U %G %n' /
-for i in $inodes
-do
-   ii=$ii/$i
-   stat --printf '%A %U %G' $ii
-   print -l " ${ii##*/}"
-done
+   local i ii
+
+   stat -c '%A %U %G %n' /
+   for i in $inodes
+   do
+      ii=$ii/$i
+      stat --printf '%A %U %G' $ii
+      print -l " ${ii##*/}"
+   done
+fi
