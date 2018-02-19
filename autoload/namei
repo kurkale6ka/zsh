@@ -1,0 +1,15 @@
+local inode
+local inodes
+
+inode=$1
+inodes=(${(s./.)inode})
+
+local i ii
+
+stat -c '%A %U %G %n' /
+for i in $inodes
+do
+   ii=$ii/$i
+   stat --printf '%A %U %G' $ii
+   print -l " ${ii##*/}"
+done
