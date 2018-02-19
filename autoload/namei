@@ -9,13 +9,13 @@ else
    # ignore options
    for o in $@
    do
-      [[ $o == -* ]] && shift
+      [[ $o == -[lmonvxhV] || $o == --(long|modes|owners|nosymlinks|vertical|mountpoints|help|version) ]] && shift
    done
 
    local inode
    local inodes
 
-   inode=$1
+   inode=$(realpath -- $1)
    inodes=(${(s./.)inode})
 
    local i ii
