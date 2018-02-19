@@ -487,9 +487,10 @@ alias pw='pwd -P'
 alias to=touch
 
 ## Safer cp/mv + rm
-# problem with these is I don't usually check the destination
+# problem with cp/mv is I don't usually check the destination
 alias cp='cp -i'
 alias mv='mv -i'
+alias rm='rm -I'
 
 ## Permissions + debug
 alias zx='zsh -xv'

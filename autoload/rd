@@ -1,8 +1,13 @@
-printf 'rd: remove directory ‘%s’?\n' $@
+local f
 
-read REPLY\?'(y/n) '
+for f in $@
+do
+   if [[ ! -d $f ]]
+   then
+      print -P "%F{red}Warning!%f $f %F{red}isn't a directory%f" 1>&2
+   else
+      (($# > 1)) && ld -1 $f
+   fi
+done
 
-if [[ $REPLY == (y|yes) ]]
-then
-   'rm' -r -- $@
-fi
+'rm' -rI $@
