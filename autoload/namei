@@ -4,6 +4,13 @@ if [[ $(uname) != Darwin && $+commands[namei] ]]
 then
    command namei $@
 else
+   local o
+
+   for o in $@
+   do
+      [[ $o == -* ]] && shift
+   done
+
    local inode
    local inodes
 
