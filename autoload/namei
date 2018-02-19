@@ -1,4 +1,5 @@
 # namei command for Mac OS
+# Usage: namei {path}
 
 if [[ $(uname) != Darwin ]] && (( $+commands[namei] ))
 then
@@ -9,28 +10,58 @@ else
       print -P '%F{red}namei not installed. using the namei function...%f'
    fi
 
+   if [[ $1 == (-h|--help) ]]
+   then
+      echo 'Usage: namei {path}'
+      return
+   fi
+
    local o
 
    # ignore options
    for o in $@
    do
-      [[ $o == -[lmonvxhV] || $o == --(long|modes|owners|nosymlinks|vertical|mountpoints|help|version) ]] && shift
+      if [[ $o == -[lmonvxV] || $o == --(long|modes|owners|nosymlinks|vertical|mountpoints|version) ]]
+      then
+         shift
+      else
+         break
+      fi
    done
 
    local inode
    local inodes
 
-   inode=$(realpath -- $1)
+   if (( $+commands[realpath] ))
+   then
+      inode=$(realpath -e -- ${1:-.})
+   else
+      inode=$(readlink -f -- ${1:-.})
+   fi
    inodes=(${(s./.)inode})
+
+   [[ -n $inodes ]] || return 1
 
    local i ii
 
-   # stat -f'%Sp %Su %Sg %SN' for OpenBSD
-   stat -c '%A %U %G %n' /
+   if [[ $(uname) == *BSD ]]
+   then
+      stat -f '%Sp %Su %Sg %SN' /
+   else
+      stat -c '%A %U %G %n' /
+   fi
+
    for i in $inodes
    do
       ii=$ii/$i
-      stat --printf '%A %U %G' -- $ii
+
+      if [[ $(uname) == *BSD ]]
+      then
+         stat -n -f '%Sp %Su %Sg' -- $ii
+      else
+         stat --printf '%A %U %G' -- $ii
+      fi
+
       print -l -- " ${ii##*/}"
    done
 fi
