@@ -6,6 +6,7 @@ then
 else
    local o
 
+   # ignore options
    for o in $@
    do
       [[ $o == -* ]] && shift
@@ -23,7 +24,7 @@ else
    for i in $inodes
    do
       ii=$ii/$i
-      stat --printf '%A %U %G' $ii
-      print -l " ${ii##*/}"
+      stat --printf '%A %U %G' -- $ii
+      print -l -- " ${ii##*/}"
    done
 fi
