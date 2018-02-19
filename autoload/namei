@@ -4,6 +4,11 @@ if [[ $(uname) != Darwin && $+commands[namei] ]]
 then
    command namei $@
 else
+   if [[ $(uname) != Darwin && ! $+commands[namei] ]]
+   then
+      print -P '%F{red}namei not installed. using the namei function...%f'
+   fi
+
    local o
 
    # ignore options
