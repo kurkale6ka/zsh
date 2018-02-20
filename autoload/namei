@@ -25,6 +25,8 @@ else
       then
          shift
       else
+         # deal with cases such as: namei {path} -l
+         # instead of throwing an error about '-l' not existing
          break
       fi
    done
@@ -32,6 +34,7 @@ else
    local inode
    local inodes
 
+   # get absolute path, then split on /s
    if (( $+commands[realpath] ))
    then
       inode=$(realpath -e -- ${1:-.})
@@ -44,6 +47,7 @@ else
 
    local i ii
 
+   # print
    if [[ $(uname) == *BSD ]]
    then
       stat -f '%Sp %Su %Sg %SN' /
