@@ -3,69 +3,78 @@
 
 if [[ $(uname) != Darwin ]] && (( $+commands[namei] ))
 then
-   command namei $@
-else
-   if [[ $(uname) != Darwin ]] && (( ! $+commands[namei] ))
+   if command namei -l / 2>/dev/null
    then
-      print -P '%F{red}namei not installed. using the namei function...%f'
-   fi
-
-   if [[ $1 == (-h|--help) ]]
-   then
-      echo 'Usage: namei {path}'
+      command namei $@
       return
    fi
+fi
 
-   local o
-
-   # ignore options
-   for o in $@
-   do
-      if [[ $o == -[lmonvxV] || $o == --(long|modes|owners|nosymlinks|vertical|mountpoints|version) ]]
-      then
-         shift
-      else
-         # deal with cases such as: namei {path} -l
-         # instead of throwing an error about '-l' not existing
-         break
-      fi
-   done
-
-   local inode
-   local inodes
-
-   # get absolute path, then split on /s
-   if (( $+commands[realpath] ))
+if [[ $(uname) != Darwin ]]
+then
+   if (( ! $+commands[namei] ))
    then
-      inode=$(realpath -e -- ${1:-.})
+      print -P '%F{red}namei not installed. switching to the namei function...%f'
    else
-      inode=$(readlink -f -- ${1:-.})
+      print -P '%F{red}old version of namei detected. switching to the namei function...%f'
    fi
-   inodes=(${(s./.)inode})
+fi
 
-   [[ -n $inodes ]] || return 1
+if [[ $1 == (-h|--help) ]]
+then
+   echo 'Usage: namei {path}'
+   return
+fi
 
-   local i ii
+local o
 
-   # print
+# ignore options
+for o in $@
+do
+   if [[ $o == -[lmonvxV] || $o == --(long|modes|owners|nosymlinks|vertical|mountpoints|version) ]]
+   then
+      shift
+   else
+      # deal with cases such as: namei {path} -l
+      # instead of throwing an error about '-l' not existing
+      break
+   fi
+done
+
+local inode
+local inodes
+
+# get absolute path, then split on /s
+if (( $+commands[realpath] ))
+then
+   inode=$(realpath -e -- ${1:-.})
+else
+   inode=$(readlink -f -- ${1:-.})
+fi
+inodes=(${(s./.)inode})
+
+[[ -n $inodes ]] || return 1
+
+local i ii
+
+# print
+if [[ $(uname) == *BSD ]]
+then
+   stat -f '%Sp %Su %Sg %SN' /
+else
+   stat -c '%A %U %G %n' /
+fi
+
+for i in $inodes
+do
+   ii=$ii/$i
+
    if [[ $(uname) == *BSD ]]
    then
-      stat -f '%Sp %Su %Sg %SN' /
+      stat -n -f '%Sp %Su %Sg' -- $ii
    else
-      stat -c '%A %U %G %n' /
+      stat --printf '%A %U %G' -- $ii
    fi
 
-   for i in $inodes
-   do
-      ii=$ii/$i
-
-      if [[ $(uname) == *BSD ]]
-      then
-         stat -n -f '%Sp %Su %Sg' -- $ii
-      else
-         stat --printf '%A %U %G' -- $ii
-      fi
-
-      print -l -- " ${ii##*/}"
-   done
-fi
+   print -l -- " ${ii##*/}"
+done
