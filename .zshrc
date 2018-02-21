@@ -1,4 +1,5 @@
 setopt auto_pushd
+setopt pushd_minus
 setopt correct
 setopt extended_glob
 setopt hist_ignore_all_dups
