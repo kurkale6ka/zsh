@@ -76,5 +76,17 @@ do
       stat --printf '%A %U %G' -- $ii
    fi
 
-   print -l -- " ${ii##*/}"
+   # print with colors
+   # no need to test for links as the path has been resolved
+   if [[ -d $ii ]]
+   then
+      print -lP -- " %F{69}${ii##*/}%f"
+   else
+      if [[ $(uname) == *BSD ]]
+      then
+         print -l -- " ${ii##*/}"
+      else
+         (cd ${ii%/*} && { echo -n ' '; ls -1 --color=auto ${ii##*/} })
+      fi
+   fi
 done
