@@ -43,7 +43,7 @@ precmd() {
    psvar[2]=$vcs_info_msg_0_
 
    # Set the terminal title to [$PWD] host
-   print -nP '\e]0;[%~] %m\a'
+   print -nP '\e]0;[%~] %M\a'
 }
 
 psvar[1]=1
@@ -58,10 +58,10 @@ fi
 if [[ $TERM != *linux* ]]
 then
    PROMPT=$'\n[%F{69}%~%f] %(2V.%F{238}λ-%f.)%2v\n%(!.%F{9}.%F{221})%n%f %# '
-   RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%m%f %(?..%F{red})%T'
+   RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%M%f %(?..%F{red})%T'
 else
    PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{red}.%F{yellow})%n%f %# '
-   RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(1V.%F{magenta}.%F{yellow})%m%f %(?..%F{red})%T'
+   RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(1V.%F{magenta}.%F{yellow})%M%f %(?..%F{red})%T'
 fi
 
 ## Mac OS specific
