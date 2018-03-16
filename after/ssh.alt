@@ -1,0 +1,95 @@
+# Auto syncing would be possible only if using ssh without options
+# rsall -u<user> $@
+#
+# also needed:
+#
+# $REPOS_BASE/bash/.bash_profile_after:
+# exec bash --rcfile "$REPOS_BASE"/bash/.bashrc
+#
+# $REPOS_BASE/bash/.bash_profile_after:
+# sed '/[^[:space:]]/q;d' /etc/motd 2>/dev/null
+
+[[ -z $REPOS_BASE ]] && { print -P '%F{red}$REPOS_BASE not setup%f' 1>&2; return 1; }
+
+# NB: when switching to root, use su vs su - in order to preserve $REPOS_BASE
+xclip << ROOT_PASTE
+{
+   TERM=xterm-256color
+
+   if [[ -d \$REPOS_BASE ]]
+   then
+      [[ -r ~/.bash_profile ]] && . ~/.bash_profile
+      . \$REPOS_BASE/bash/.bash_profile
+   fi
+}
+ROOT_PASTE
+
+local host_commands
+
+read -r -d$'\0' host_commands << REMOTE
+TERM=xterm-256color
+
+# sourcing these is needed because with 'ssh host COMMAND' it won't happen
+if [[ \$SHELL == *bash ]]
+then
+   [[ -r ~/.bash_profile ]] && . ~/.bash_profile
+elif [[ \$SHELL == *zsh ]]
+then
+   [[ -r ~/.zshenv   ]] && . ~/.zshenv
+   [[ -r ~/.zprofile ]] && . ~/.zprofile
+   [[ -r ~/.zshrc    ]] && . ~/.zshrc
+elif [[ \$SHELL == *ksh ]]
+then
+   [[ -r ~/.profile ]] && . ~/.profile
+fi
+
+# don't expand ~ locally as the remote user may not be the same
+export REPOS_BASE=~/${REPOS_BASE#~/}
+
+if [[ -d \$REPOS_BASE ]]
+then
+   if [[ \$SHELL == *bash ]]
+   then
+      [[ -z \$XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=~/.config
+      [[ -z   \$XDG_DATA_HOME ]] && export   XDG_DATA_HOME=~/.local/share
+
+      bash \$REPOS_BASE/mkdb
+
+      . \$REPOS_BASE/bash/.bash_profile
+      # ^ which in turn sources .bash_profile_after:
+      # exec bash --rcfile "$REPOS_BASE"/bash/.bashrc
+      # this way I avoid sourcing my bashrc twice
+      #
+      # the execs are needed because with 'ssh host COMMAND' we don't get a login
+
+   elif [[ \$SHELL == *zsh ]]
+   then
+      . \$REPOS_BASE/zsh/.zshenv
+
+      if mkdir -p {\$XDG_CONFIG_HOME,\$XDG_DATA_HOME}/zsh
+      then
+         [[ ! -L \$XDG_CONFIG_HOME/zsh/autoload  ]] && ln -s \$REPOS_BASE/zsh/autoload  \$XDG_CONFIG_HOME/zsh
+         [[ ! -L \$XDG_CONFIG_HOME/zsh/.zprofile ]] && ln -s \$REPOS_BASE/zsh/.zprofile \$XDG_CONFIG_HOME/zsh
+         [[ ! -L \$XDG_CONFIG_HOME/zsh/.zshrc    ]] && ln -s \$REPOS_BASE/zsh/.zshrc    \$XDG_CONFIG_HOME/zsh
+      fi
+
+      zsh \$REPOS_BASE/mkdb
+
+      export ZDOTDIR=\$REPOS_BASE/zsh
+      exec zsh
+   fi
+else
+   if [[ \$SHELL == *bash ]]
+   then
+      exec bash
+   elif [[ \$SHELL == *zsh ]]
+   then
+      exec zsh
+   elif [[ \$SHELL == *ksh ]]
+   then
+      exec ksh
+   fi
+fi
+REMOTE
+
+command ssh -t $@ $host_commands
