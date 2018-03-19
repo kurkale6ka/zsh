@@ -1,7 +1,7 @@
 # Syncing of my repos folder:
 #
 # Usage:
-#   rsall [-u user] destination
+#   rsall [-u user] [-g] [-n] destination
 
 local opt
 local user
@@ -9,13 +9,15 @@ local dry
 
 OPTIND=1
 
-while getopts ':hu:n' opt
+while getopts ':hu:gn' opt
 do
    case $opt in
-      ( h) echo 'Usage: rsall [-u user] destination'
+      ( h) echo 'Usage: rsall [-u user] [-g] [-n] destination'
            return 0
            ;;
       ( u) user=$OPTARG@
+           ;;
+      ( g) REPOS_BASE=~/github
            ;;
       ( n) dry=n
            ;;
