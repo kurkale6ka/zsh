@@ -53,7 +53,7 @@ then
       [[ -z \$XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=~/.config
       [[ -z   \$XDG_DATA_HOME ]] && export   XDG_DATA_HOME=~/.local/share
 
-      bash \$REPOS_BASE/mkdb
+      bash \$REPOS_BASE/scripts/mkdb
 
       . \$REPOS_BASE/bash/.bash_profile
       # ^ which in turn sources .bash_profile_after:
@@ -73,7 +73,7 @@ then
          [[ ! -L \$XDG_CONFIG_HOME/zsh/.zshrc    ]] && ln -s \$REPOS_BASE/zsh/.zshrc    \$XDG_CONFIG_HOME/zsh
       fi
 
-      zsh \$REPOS_BASE/mkdb
+      zsh \$REPOS_BASE/scripts/mkdb
 
       export ZDOTDIR=\$REPOS_BASE/zsh
       exec zsh

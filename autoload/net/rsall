@@ -31,16 +31,21 @@ rsync -ai$dry --no-o --no-g --delete-after -e'ssh -q' \
       -f".- $HOME/.gitignore"                         \
       -f"+ bash/.bash_profile_after"                  \
       -f"+ bash/.bashrc_after"                        \
+      -f"+ config/dotfiles/"                          \
+      -f"+ config/dotfiles/**"                        \
+      -f"+ config/git.bash"                           \
+      -f"- config/**"                                 \
+      -f"+ scripts/mkconfig"                          \
+      -f"+ scripts/mkdb"                              \
+      -f"- scripts/**"                                \
+      -f"- LICENSE"                                   \
+      -f"- README.md"                                 \
       -f':- .gitignore'                               \
-      -f':- .hgignore'                                \
       -f'- .git'                                      \
-      -f'- .hg'                                       \
-      -f'- .svn'                                      \
       $REPOS_BASE/bash                                \
       $REPOS_BASE/config                              \
       $REPOS_BASE/zsh                                 \
       $REPOS_BASE/fzf                                 \
-      $REPOS_BASE/scripts/mkconfig                    \
-      $REPOS_BASE/scripts/mkdb                          ${user}$1:~/${REPOS_BASE#~/}
+      $REPOS_BASE/scripts     ${user}$1:~/${REPOS_BASE#~/}
 
-rsvim -ai$dry $REPOS_BASE/vim                           ${user}$1:~/${REPOS_BASE#~/}
+rsvim -ai$dry $REPOS_BASE/vim ${user}$1:~/${REPOS_BASE#~/}
