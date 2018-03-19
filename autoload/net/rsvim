@@ -14,6 +14,7 @@ then
 fi
 
 rsync --no-o --no-g --delete -e'ssh -q'             \
+      -f".- $REPOS_BASE/vim/.gitignore"             \
       -f". $REPOS_BASE/vim/extra/excludes"          \
       -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
       -f"- LICENSE"                                 \
