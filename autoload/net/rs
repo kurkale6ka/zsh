@@ -3,11 +3,11 @@
 # Usage:
 #   rs -ai source destination
 
-rsync --no-o --no-g --delete-after -e'ssh -q' \
-      -f".- $HOME/.gitignore"                 \
-      -f':- .gitignore'                       \
-      -f':- .hgignore'                        \
-      -f'- .git'                              \
-      -f'- .hg'                               \
-      -f'- .svn'                              \
+rsync --no-o --no-g --delete -e'ssh -q'             \
+      -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
+      -f'- .gitignore'                              \
+      -f'- .git'                                    \
+      -f'- .hgignore'                               \
+      -f'- .hg'                                     \
+      -f'- .svn'                                    \
       $@
