@@ -1,22 +1,19 @@
 # Syncing of my repos folder:
 #
 # Usage:
-#   rsall [-u user] [-g] [-d] [-n] destination
+#   rsall [-g] [-d] [-n] destination
 
 local opt
-local user
 local del=--delete
 local dry
 
 OPTIND=1
 
-while getopts ':hu:gdn' opt
+while getopts ':hgdn' opt
 do
    case $opt in
-      ( h) echo 'Usage: rsall [-u user] [-g] [-d] [-n] destination'
+      ( h) echo 'Usage: rsall [-g] [-d] [-n] destination'
            return 0
-           ;;
-      ( u) user=$OPTARG@
            ;;
       ( g) local REPOS_BASE=~/github
            ;;
@@ -53,6 +50,6 @@ rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
       $REPOS_BASE/config                            \
       $REPOS_BASE/zsh                               \
       $REPOS_BASE/fzf                               \
-      $REPOS_BASE/scripts          ${user}$1:~/${REPOS_BASE#~/}
+      $REPOS_BASE/scripts          $1:~/${REPOS_BASE#~/}
 
-rsvim -ai$dry $del $REPOS_BASE/vim ${user}$1:~/${REPOS_BASE#~/}
+rsvim -ai$dry $del $REPOS_BASE/vim $1:~/${REPOS_BASE#~/}
