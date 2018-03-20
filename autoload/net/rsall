@@ -1,23 +1,26 @@
 # Syncing of my repos folder:
 #
 # Usage:
-#   rsall [-u user] [-g] [-n] destination
+#   rsall [-u user] [-g] [-d] [-n] destination
 
 local opt
 local user
+local del=--delete
 local dry
 
 OPTIND=1
 
-while getopts ':hu:gn' opt
+while getopts ':hu:gdn' opt
 do
    case $opt in
-      ( h) echo 'Usage: rsall [-u user] [-g] [-n] destination'
+      ( h) echo 'Usage: rsall [-u user] [-g] [-d] [-n] destination'
            return 0
            ;;
       ( u) user=$OPTARG@
            ;;
-      ( g) REPOS_BASE=~/github
+      ( g) local REPOS_BASE=~/github
+           ;;
+      ( d) del=--delete-excluded
            ;;
       ( n) dry=n
            ;;
@@ -29,25 +32,27 @@ done
 
 shift $((OPTIND-1))
 
-rsync -ai$dry --no-o --no-g --delete-after -e'ssh -q' \
-      -f".- $HOME/.gitignore"                         \
-      -f"+ bash/.bash_profile_after"                  \
-      -f"+ bash/.bashrc_after"                        \
-      -f"+ config/dotfiles/"                          \
-      -f"+ config/dotfiles/**"                        \
-      -f"+ config/git.bash"                           \
-      -f"- config/**"                                 \
-      -f"+ scripts/mkconfig.sh"                       \
-      -f"+ scripts/mkdb"                              \
-      -f"- scripts/**"                                \
-      -f"- LICENSE"                                   \
-      -f"- README.md"                                 \
-      -f':- .gitignore'                               \
-      -f'- .git'                                      \
-      $REPOS_BASE/bash                                \
-      $REPOS_BASE/config                              \
-      $REPOS_BASE/zsh                                 \
-      $REPOS_BASE/fzf                                 \
-      $REPOS_BASE/scripts     ${user}$1:~/${REPOS_BASE#~/}
+rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
+      -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
+      -f"+ config/dotfiles/"                        \
+      -f"+ config/dotfiles/**"                      \
+      -f"+ config/git.bash"                         \
+      -f"- config/**"                               \
+      -f'- .gitignore'                              \
+      -f'- .git'                                    \
+      -f"- bash/.bash_history"                      \
+      -f"P bash/.bash_history"                      \
+      -f"+ bash/.bash_profile_after"                \
+      -f"+ bash/.bashrc_after"                      \
+      -f"+ scripts/mkconfig.sh"                     \
+      -f"+ scripts/mkdb"                            \
+      -f"- scripts/**"                              \
+      -f"- LICENSE*"                                \
+      -f"- README*"                                 \
+      $REPOS_BASE/bash                              \
+      $REPOS_BASE/config                            \
+      $REPOS_BASE/zsh                               \
+      $REPOS_BASE/fzf                               \
+      $REPOS_BASE/scripts          ${user}$1:~/${REPOS_BASE#~/}
 
-rsvim -ai$dry $REPOS_BASE/vim ${user}$1:~/${REPOS_BASE#~/}
+rsvim -ai$dry $del $REPOS_BASE/vim ${user}$1:~/${REPOS_BASE#~/}
