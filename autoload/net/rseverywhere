@@ -1,6 +1,6 @@
 # Sync config
 #
-# Usage: rseverywhere [@dt...]
+# Usage: rseverywhere [group1 group2...]
 #                     +-- http://clustershell.readthedocs.io/en/latest/tools/nodeset.html
 
 # store options on order to pass them to rsall below
@@ -8,35 +8,49 @@ OPTIND=1
 
 local opt
 local -a opts
-while getopts :gdn opt
+while getopts :dn opt
 do
    case $opt in
-      [gdn]) opts+=($opt) ;;
-         \?) echo "Invalid option: -$OPTARG" 1>&2
-             return 1 ;;
+      [dn]) opts+=($opt) ;;
+        \?) echo "Invalid option: -$OPTARG" 1>&2
+            return 1 ;;
    esac
 done
 
 shift $((OPTIND-1))
 
-# check hosts
-if (($#))
+local -a args
+if (($# == 0))
 then
-   print -P '%F{yellow}Syncing config on these hosts%f:'
-   nodeset -r $@
-else
+   # sync to all hosts
+   args=(-a)
    print -P '%F{yellow}Syncing config on all hosts%f:'
    nodeset -ra
+else
+   # check groups
+   local a
+   for a in $@
+   do
+      if (( $(nodeset -c @${a#@}) > 0 ))
+      then
+         args+=(@${a#@})
+      else
+         print -P "%F{red}@${a#@}%f is not a valid group! Skipping..." 1>&2
+      fi
+   done
 fi
 
-echo
-read 'REPLY?proceed? '
-[[ $REPLY == (#i)(y|yes) ]] || return 2
+(( ${#args} > 0 )) || return 2
 
-# sync
-# TODO: fix -d '' <--> -S'\0'
-while read -r
+# sync to groups of hosts
+while read -r -d ''
 do
    print -P "%F{yellow}$REPLY%f"
-   rsall ${opts/#/-} $REPLY
-done < <(nodeset -e -S'\n' ${@:--a})
+
+   if ssh -TG $REPLY | grep 'user\b' | grep -q dimitar
+   then
+      rsall -g ${opts/#/-} $REPLY
+   else
+      rsall    ${opts/#/-} $REPLY
+   fi
+done < <(nodeset -e -S'\0' $args)
