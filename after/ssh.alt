@@ -9,6 +9,12 @@
 # $REPOS_BASE/bash/.bash_profile_after:
 # sed '/[^[:space:]]/q;d' /etc/motd 2>/dev/null
 
+if command ssh -TG $@ | grep 'user\b' | grep -q dimitar
+then
+   command ssh $@
+   return
+fi
+
 [[ -z $REPOS_BASE ]] && { print -P '%F{red}$REPOS_BASE not setup%f' 1>&2; return 1; }
 
 # NB: when switching to root, use su vs su - in order to preserve $REPOS_BASE
