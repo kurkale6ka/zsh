@@ -10,4 +10,4 @@ do
    fi
 done
 
-'rm' -rI $@
+'rm' -rfI $@
