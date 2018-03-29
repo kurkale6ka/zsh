@@ -39,8 +39,6 @@ rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
       -f'- .git'                                    \
       -f"- bash/.bash_history"                      \
       -f"P bash/.bash_history"                      \
-      -f"+ bash/.bash_profile_after"                \
-      -f"+ bash/.bashrc_after"                      \
       -f"+ scripts/mkconfig.sh"                     \
       -f"+ scripts/mkdb"                            \
       -f"- scripts/**"                              \
