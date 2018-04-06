@@ -27,7 +27,7 @@ fi
 
 if ((EUID == 0))
 then
-   path=(/root/bin /sbin /usr/sbin /usr/local/sbin $path)
+   path=(/usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin /root/bin $path)
    typeset -U path
 fi
 

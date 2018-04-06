@@ -17,8 +17,8 @@ fi
 # if I wanted to run bash from within zsh
 export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
 
-# Put ~/bin and REPOS_BASE in PATH
-path=($REPOS_BASE ~/bin $path)
+# path
+path=(/usr/local/sbin ~/bin $REPOS_BASE/vim/plugged/fzf.vim/bin $path)
 typeset -U path # remove any duplicates from the array
 
 export PYTHONSTARTUP=~/.pyrc
