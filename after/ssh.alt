@@ -9,7 +9,7 @@
 # $REPOS_BASE/bash/.bash_profile_after:
 # sed '/[^[:space:]]/q;d' /etc/motd 2>/dev/null
 
-if command ssh -TG $@ | grep 'user\b' | grep -q dimitar
+if command ssh -TG $@ | grep 'user\b' | grep -q 'root\|dimitar'
 then
    command ssh $@
    return
