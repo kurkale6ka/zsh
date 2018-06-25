@@ -43,7 +43,7 @@ fi
 (( ${#args} > 0 )) || return 2
 
 # sync to groups of hosts
-while read -r -d ''
+while read -r
 do
    print -P "%F{yellow}$REPLY%f"
 
@@ -53,4 +53,4 @@ do
    else
       rsall    ${opts/#/-} $REPLY
    fi
-done < <(nodeset -e -S'\0' $args)
+done < <(nodeset -e -S'\n' $args)
