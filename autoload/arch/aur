@@ -23,7 +23,7 @@ _res="$(tput sgr0 || tput me)"
 ## Help
 _help() {
 local info
-read -r -d $'\0' info << 'HELP'
+read -r -d '' info << 'HELP'
 Usage:
    aur -u {package}
 
