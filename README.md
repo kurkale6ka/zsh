@@ -23,10 +23,7 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
    INIT
    ```
 
-4. **Autoload functions**:  
-   _Pre-requirements_:  
-   https://github.com/kurkale6ka/zsh/blob/master/.zshrc#L21-L26 in `~/.zshrc`  
-   `mkdir -p $XDG_CONFIG_HOME/zsh/autoload/fuzzy`
+4. **Autoload functions** ([ZSH Functions](http://zsh.sourceforge.net/Doc/Release/Functions.html)):  
      * [the fuzzy cd function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
      * [the bookmarks update function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
      * [cleanup](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/ccleanup)
@@ -38,6 +35,8 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
 c             # choose to cd from all marks
 c pattern ... # cd to a matching path
 c -s          # statistics
+
+ccleanup
 ```
 
 # XDG setup
