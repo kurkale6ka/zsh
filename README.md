@@ -1,4 +1,4 @@
-# Fuzzy cd based on bookmarks or 'updatedb' indexed files
+# Fuzzy cd based on bookmarks
 
 _Every cd is bookmarked and assigned a weight so you can later on jump to it quickly_
 
