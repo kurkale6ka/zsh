@@ -73,6 +73,9 @@ fi
 export LESS='-i -r -s -W -M -PM?f%f - :.?L%L lines, .?ltL\:%lt:.?pB, %pB\% : .?e(Bottom)%t'
 export PAGER=less
 
+setopt local_traps
+TRAPINT() { echo 'No ssh' 1>&2 }
+
 if (( $+commands[keychain] ))
 then
    eval "$(keychain --eval --agents ssh -Q --quiet id_rsa id_rsa_git)"
