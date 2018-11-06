@@ -39,15 +39,15 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
    ```
 
 4. **Autoload functions** ([ZSH Functions](http://zsh.sourceforge.net/Doc/Release/Functions.html)):  
-     * [the fuzzy cd function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
-     * [the bookmarks update function](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
-     * [cleanup](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/ccleanup)
+     * [fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
+     * [bookmarks update](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
+     * [bookmarks cleanup](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/ccleanup)
 
 5. **PWD hook function**: `chpwd_functions+=(update_marks)` in `~/.zshrc`
 
 ## Usage:
 ```
-c             # choose to cd from all marks
+c             # choose where to cd from all bookmarks
 c pattern ... # cd to a matching path
 c -s          # statistics
 
