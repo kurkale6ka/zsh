@@ -6,7 +6,22 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
 
 1. **Install** [fzf](https://github.com/junegunn/fzf)
 
-2. **XDG setup** (see below)  
+2. **XDG setup**:
+
+   In `/etc/zsh/zshenv`, `/etc/zshenv` or `~/.zshenv`:
+   ```sh
+   # XDG configuration home
+   if [[ -z $XDG_CONFIG_HOME ]]
+   then
+      export XDG_CONFIG_HOME=$HOME/.config
+   fi
+
+   # XDG data home
+   if [[ -z $XDG_DATA_HOME ]]
+   then
+      export XDG_DATA_HOME=$HOME/.local/share
+   fi
+   ```
 
 3. **Bookmarks database**:
 
@@ -37,21 +52,4 @@ c pattern ... # cd to a matching path
 c -s          # statistics
 
 ccleanup
-```
-
-# XDG setup
-
-In `/etc/zsh/zshenv`, `/etc/zshenv` or `~/.zshenv`:
-```sh
-# XDG configuration home
-if [[ -z $XDG_CONFIG_HOME ]]
-then
-   export XDG_CONFIG_HOME=$HOME/.config
-fi
-
-# XDG data home
-if [[ -z $XDG_DATA_HOME ]]
-then
-   export XDG_DATA_HOME=$HOME/.local/share
-fi
 ```
