@@ -73,10 +73,8 @@ fi
 export LESS='-i -r -s -W -M -PM?f%f - :.?L%L lines, .?ltL\:%lt:.?pB, %pB\% : .?e(Bottom)%t'
 export PAGER=less
 
-if (( $+commands[keychain] ))
-then
-   eval "$(keychain --eval --agents ssh -Q --quiet id_rsa id_rsa_git)"
-fi
+eval $(ssh-agent)
+ssh-add ~/.ssh/id_rsa{,_git}
 
 # Local zprofile file
 [[ -r $XDG_CONFIG_HOME/zsh/.zprofile_after ]] && . $XDG_CONFIG_HOME/zsh/.zprofile_after
