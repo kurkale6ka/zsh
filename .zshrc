@@ -31,6 +31,21 @@ then
    typeset -U path
 fi
 
+## ssh agent
+if ! ssh-add -l >/dev/null 2>&1
+then
+   if [[ -r ~/.ssh/env ]]
+   then
+      eval $(<~/.ssh/env) >/dev/null
+   fi
+   if ! ssh-add -l >/dev/null 2>&1
+   then
+      (umask 066; ssh-agent -s -t36000 > ~/.ssh/env)
+      eval $(<~/.ssh/env) >/dev/null
+      ssh-add
+   fi
+fi
+
 ## Prompts
 autoload -Uz vcs_info
 
