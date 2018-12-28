@@ -1,0 +1,22 @@
+if [[ $(ps aux | grep -c 'ssh[-]agent') > 2 ]]
+then
+   {
+      print -P '%F{red}Found multiple ssh agents%f:'
+      pg ssh-agent
+   } 1>&2
+   return 1
+fi
+
+if ! ssh-add -l >/dev/null 2>&1
+then
+   if [[ -r ~/.ssh/env ]]
+   then
+      eval $(<~/.ssh/env) >/dev/null
+   fi
+   if ! ssh-add -l >/dev/null 2>&1
+   then
+      (umask 066; ssh-agent -s -t36000 > ~/.ssh/env)
+      eval $(<~/.ssh/env) >/dev/null
+      ssh-add
+   fi
+fi
