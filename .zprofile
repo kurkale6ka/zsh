@@ -23,8 +23,6 @@ typeset -U path # remove any duplicates from the array
 
 export PYTHONSTARTUP=~/.pyrc
 
-TERMINAL=xfce4-terminal
-
 export LANG=en_GB.UTF-8
 export LC_COLLATE=C
 
