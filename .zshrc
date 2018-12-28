@@ -49,7 +49,7 @@ precmd() {
 psvar[1]=1
 if [[ -z $SSH_CONNECTION ]]
 then
-   if ! who | 'grep' -v tmux | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
+   if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
    then
       psvar[1]=
       start_ssh_agent

@@ -3,7 +3,7 @@ if [[ -z $REPOS_BASE ]]
 then
    if [[ -z $SSH_CONNECTION ]]
    then
-      if ! who | 'grep' -v tmux | 'grep' -v ':S\.[0-9][0-9]*)' | 'grep' -q '(.*)'
+      if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
       then
          REPOS_BASE_LINK="$(find ~ -maxdepth 1 -lname github -printf '%p\n')"
          [[ -L $REPOS_BASE_LINK ]] && REPOS_BASE=$REPOS_BASE_LINK
