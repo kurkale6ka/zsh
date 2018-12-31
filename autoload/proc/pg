@@ -60,7 +60,7 @@ else
    fi
 
    # Display headers:
-   ps -o $fields | head -n1
+   ps axww -o $fields | head -n1
 
    # Squeeze! No context lines
    if [[ $1 == -l ]]
