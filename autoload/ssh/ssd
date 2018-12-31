@@ -1,0 +1,12 @@
+if ! ps aux | grep -q 'ssh[-]agent'
+then
+   print -P "%F{red}Your ssh agent isn't running%f"
+   return 1
+fi
+
+local k
+
+for k in ~/.ssh/(^id_rsa).pub
+do
+   ssh-add -d ${k%.pub}
+done

@@ -1,0 +1,5 @@
+if pg ssh-agent
+then
+   echo
+   ssh-add -l
+fi

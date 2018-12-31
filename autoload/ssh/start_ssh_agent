@@ -1,4 +1,4 @@
-if [[ $(ps aux | grep -c 'ssh[-]agent') > 2 ]]
+if [[ $(ps aux | grep -c 'ssh[-]agent -s') > 1 ]]
 then
    {
       print -P '%F{red}Found multiple ssh agents%f:'

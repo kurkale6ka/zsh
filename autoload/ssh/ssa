@@ -1,0 +1,19 @@
+if ! ps aux | grep -q 'ssh[-]agent'
+then
+   print -P "%F{red}Your ssh agent isn't running%f"
+   return 1
+fi
+
+if ! ssh-add -l >/dev/null 2>&1
+then
+   ssh-add
+fi
+
+local key k
+
+for k in ~/.ssh/(^id_rsa).pub
+do
+   key=${k%.pub}
+   print -P "%F{45}${key##*/}%f:"
+   ssh-add $key
+done
