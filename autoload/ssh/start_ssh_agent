@@ -1,5 +1,5 @@
 # ssh-agent -l seems to be a MAC OS thing only
-if [[ $(ps aux | grep -v 'ssh[-]agent -l' | grep -c 'ssh[-]agent') > 1 ]]
+if [[ $(pgrep -fl ssh-agent | grep -v 'ssh[-]agent -l' | wc -l) > 1 ]]
 then
    {
       print -P '%F{red}Found multiple ssh agents%f:'
