@@ -326,7 +326,16 @@ bindkey '^i' expand-or-complete-prefix # myf<tab>xxx -> myfilexxx
 bindkey '^u' backward-kill-line
 
 compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
-autoload -Uz compinit && compinit
+
+if autoload -Uz compinit
+then
+   if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
+   then
+      compinit
+   else
+      compinit -C
+   fi
+fi
 
 # zstyle context style '...' '...'
 #        \
