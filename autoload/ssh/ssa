@@ -6,6 +6,7 @@ fi
 
 if ! ssh-add -l >/dev/null 2>&1
 then
+   print -P '%F{45}id_rsa%f:'
    ssh-add
 fi
 
