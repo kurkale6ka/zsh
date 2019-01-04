@@ -1,4 +1,4 @@
-# Ensure ssh agent details are shared across terminal sessions
+# Ensure ssh agent settings are shared across terminal sessions
 # Benefits:
 #  - enter passphrase only once
 #  - no duplicate agents
@@ -17,28 +17,29 @@ ssh-add -l >/dev/null 2>&1
 # Error connecting to agent
 if [[ $? == 2 ]]
 then
-   # try connecting using persisted details: sock and PID
+   # try connecting using persisted settings: sock and PID
    if [[ -r ~/.ssh/env ]]
    then
       eval $(<~/.ssh/env) >/dev/null
+      ssh-add -l >/dev/null 2>&1
+      if [[ $? != 2 ]]
+      then
+         return
+      fi
    fi
 
-   # if connecting still fails, it either means there is no actual agent process
-   # or it runs with different details
-   ssh-add -l >/dev/null 2>&1
-   if [[ $? == 2 ]]
+   # if connecting fails, it could either mean there is no actual agent process
+   # or it runs with different settings (taken from the file or the environment)
+   if pgrep -fl ssh-agent | grep -qv 'ssh[-]agent -l'
    then
-      if pgrep -fl ssh-agent | grep -qv 'ssh[-]agent -l'
-      then
-         {
-            print -P '%F{red}Aborted ssh agent after detecting an instance with mismatched details%f:'
-            pg ssh-agent
-         } 1>&2
-      else
-         # launch agent
-         (umask 066; ssh-agent -s -t36000 > ~/.ssh/env)
-         eval $(<~/.ssh/env) >/dev/null
-         ssh-add
-      fi
+      {
+         print -P '%F{red}Aborted ssh agent after detecting an instance with mismatched settings%f:'
+         pg ssh-agent
+      } 1>&2
+   else
+      # launch agent
+      (umask 066; ssh-agent -s -t36000 > ~/.ssh/env)
+      eval $(<~/.ssh/env) >/dev/null
+      ssh-add
    fi
 fi
