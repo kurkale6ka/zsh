@@ -1,11 +1,12 @@
-if ! pgrep -fl ssh-agent | grep -qv 'ssh[-]agent -l'
+ssh-add -l >/dev/null
+# Error connecting to agent
+if [[ $? == 2 ]]
 then
-   print -P "%F{red}Your ssh agent isn't running%f"
    return 1
 fi
 
+# Delete non default keys
 local k
-
 for k in ~/.ssh/(^id_rsa).pub
 do
    ssh-add -d ${k%.pub}

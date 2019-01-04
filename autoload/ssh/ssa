@@ -1,17 +1,16 @@
-if ! pgrep -fl ssh-agent | grep -qv 'ssh[-]agent -l'
+ssh-add -l >/dev/null
+# Error connecting to agent
+if [[ $? == 2 ]]
 then
-   print -P "%F{red}Your ssh agent isn't running%f"
    return 1
-fi
-
-if ! ssh-add -l >/dev/null 2>&1
+elif [[ $? == 1 ]]
 then
    print -P '%F{45}id_rsa%f:'
    ssh-add
 fi
 
+# Add non default keys
 local key k
-
 for k in ~/.ssh/(^id_rsa).pub
 do
    key=${k%.pub}
