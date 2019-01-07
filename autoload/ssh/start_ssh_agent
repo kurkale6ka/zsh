@@ -3,8 +3,7 @@
 #  - enter passphrase only once
 #  - no duplicate agents
 
-# ssh-agent -l seems to be a MAC OS thing only
-if [[ $(pgrep -fl ssh-agent | grep -v 'ssh[-]agent -l' | wc -l) > 1 ]]
+if [[ $(pgrep ssh-agent | wc -l) > 1 ]]
 then
    {
       print -P '%F{red}Aborted ssh agent after detecting multiple instances%f:'
@@ -14,6 +13,7 @@ then
 fi
 
 ssh-add -l >/dev/null 2>&1
+
 # Error connecting to agent
 if [[ $? == 2 ]]
 then
@@ -30,7 +30,7 @@ then
 
    # if connecting fails, it could either mean there is no actual agent process
    # or it runs with different settings (taken from the file or the environment)
-   if pgrep -fl ssh-agent | grep -qv 'ssh[-]agent -l'
+   if pgrep ssh-agent
    then
       {
          print -P '%F{red}Aborted ssh agent after detecting an instance with mismatched settings%f:'

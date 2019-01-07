@@ -1,12 +1,13 @@
 ssh-add -l >/dev/null
+
 # Error connecting to agent
 if [[ $? == 2 ]]
 then
    return 1
 fi
 
-# Delete non default keys
 local k
+# Delete non default keys
 for k in ~/.ssh/(^id_rsa).pub
 do
    ssh-add -d ${k%.pub}

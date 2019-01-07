@@ -1,16 +1,18 @@
 ssh-add -l >/dev/null
+local agent_status=$?
+
 # Error connecting to agent
-if [[ $? == 2 ]]
+if [[ $agent_status == 2 ]]
 then
    return 1
-elif [[ $? == 1 ]]
+elif [[ $agent_status == 1 ]]
 then
    print -P '%F{45}id_rsa%f:'
    ssh-add
 fi
 
-# Add non default keys
 local key k
+# Add non default keys
 for k in ~/.ssh/(^id_rsa).pub
 do
    key=${k%.pub}
