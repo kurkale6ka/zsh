@@ -1,22 +1,21 @@
-#  Linux: use ncal vs cal
-# Mac OS: use gcal
+# cal wrapper aiming to standardise output and available options
 #
-# Make -3|-y available to cal/gcal
+# output:
 #
-# Usage: cal options* [-3|-y] options*
+# - always start weeks on Monday
+# - always display days horizontally instead of vertically
 #
-# start with Monday:
-#   * ncal: -M
-#   * gcal: -s1
-#   * cal:  -m
+# options:
+#
+# - make -3|-y always available
 
 local arg
 local arg_cal
 local arg_gcal
 
+# Parse -3 and -y
 for arg in $@
 do
-   # del 1st arg
    shift
    if [[ $arg == -[3y] ]]
    then
@@ -27,27 +26,38 @@ do
       else
          arg_gcal=-b4
       fi
-      # Remove -3|-y from $@ (skip the set assignment)
+      # keep parsing; skip the set assignment
       continue
    fi
    set -- $@ $arg
 done
 
+# Mac OS
 if [[ $(uname) == Darwin ]]
 then
    if (( $+commands[gcal] ))
    then
       gcal -s1 $arg_gcal $@
    else
-      # old version without support for -m{3|y}
+      # BSD version of cal, support for -m3y is unknown
       command cal $@
+      print -P '%F{red}Please install gcal!%f'
    fi
    return
 fi
 
+# OpenBSD, ...
+# Non Linux version of cal, support for -m3y is unknown
+if [[ $(uname) != Linux ]]
+then
+   command cal $@
+   return
+fi
+
+# Linux
 if (( $+commands[ncal] ))
 then
-   ncal -MC$arg_cal $@
+   ncal -Mb$arg_cal $@
 else
    command cal -m$arg_cal $@
 fi
