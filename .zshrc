@@ -457,7 +457,7 @@ alias llk="ls -FShl $_ls_no_baks $_ls_color $_time_style"
 alias l1="ls -F1 $_ls_no_baks $_ls_color"
 
 alias  lr="tree -FAC -I '*~|*.swp' --noreport"
-alias llr='ll **/*(-.,%,=ND)'
+alias llr="ls -FRhl $_ls_no_baks $_ls_color $_time_style"
 
 alias vl="ls -F1 $_ls_no_baks V"
 
