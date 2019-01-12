@@ -7,57 +7,38 @@
 #
 # options:
 #
-# - make -3|-y always available
+# - make -3|y always available
 
-local arg
-local arg_cal
-local arg_gcal
-
-# Parse -3 and -y
-for arg in $@
-do
-   shift
-   if [[ $arg == -[3y] ]]
-   then
-      arg_cal=${arg#-}
-      if [[ $arg == -3 ]]
-      then
-         arg_gcal=.
-      else
-         arg_gcal=-b4
-      fi
-      # keep parsing; skip the set assignment
-      continue
-   fi
-   set -- $@ $arg
-done
-
-# Mac OS
-if [[ $(uname) == Darwin ]]
+# Linux
+if [[ $(uname) == Linux ]]
 then
-   if (( $+commands[gcal] ))
+   if (( $+commands[ncal] ))
    then
-      gcal -s1 $arg_gcal $@
+      ncal -Mb $@
    else
-      # BSD version of cal, support for -m3y is unknown
-      command cal $@
-      print -P '%F{red}Please install gcal!%f'
+      command cal -m $@
    fi
    return
 fi
 
 # OpenBSD, ...
-# Non Linux version of cal, support for -m3y is unknown
-if [[ $(uname) != Linux ]]
+if [[ $(uname) != Darwin ]]
 then
+   # Non Linux version of cal, support for -m3y is unknown
    command cal $@
-   return
-fi
-
-# Linux
-if (( $+commands[ncal] ))
-then
-   ncal -Mb$arg_cal $@
 else
-   command cal -m$arg_cal $@
+   # Mac OS
+   if (( $+commands[gcal] ))
+   then
+      case $1 in
+         (-3) gcal -s1 .   $@ ;;
+         (-y) gcal -s1 -b4 $@ ;;
+         ( *) echo 'Usage: cal -3|y [options...], switching to gcal' 1>&2
+              gcal $@ ;;
+      esac
+   else
+      # BSD version of cal, support for -m3y is unknown
+      command cal $@
+      print -P '%F{red}Please install gcal!%f'
+   fi
 fi
