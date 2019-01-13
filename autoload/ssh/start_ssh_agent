@@ -30,7 +30,7 @@ then
 
    # if connecting fails, it could either mean there is no actual agent process
    # or it runs with different settings (taken from the file or the environment)
-   if pgrep ssh-agent
+   if pgrep ssh-agent >/dev/null
    then
       {
          print -P '%F{red}Aborted ssh agent after detecting an instance with mismatched settings%f:'
