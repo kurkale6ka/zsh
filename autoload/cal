@@ -31,10 +31,14 @@ else
    if (( $+commands[gcal] ))
    then
       case $1 in
-         (-3) gcal -s1 .   $@ ;;
-         (-y) gcal -s1 -b4 $@ ;;
-         ( *) echo 'Usage: cal -3|y [options...], switching to gcal' 1>&2
-              gcal $@ ;;
+         (-3) gcal -s1 .   ${@:2} ;;
+         (-y) gcal -s1 -b4 ${@:2} ;;
+         ( *)
+              if (($# != 0))
+              then
+                 echo 'Usage: cal -3|y [options...], switching to gcal' 1>&2
+              fi
+              gcal -s1 $@ ;;
       esac
    else
       # BSD version of cal, support for -m3y is unknown
