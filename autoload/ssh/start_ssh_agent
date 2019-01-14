@@ -3,7 +3,7 @@
 #  - enter passphrase only once
 #  - no duplicate agents
 
-if [[ $(pgrep -c ssh-agent) > 1 ]]
+if [[ $(pgrep ssh-agent | wc -l) > 1 ]]
 then
    {
       print -P '%F{red}Aborted ssh agent after detecting multiple instances%f:'
