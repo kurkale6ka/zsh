@@ -224,7 +224,7 @@ zle_highlight=(region:none special:standout suffix:bold isearch:underline paste:
 bindkey -s '^x=' "bc <<< 'scale=20; '^b"
 
 ### ^x/ find
-bindkey -s '^x/' "find . -iname '*^@' -printf '%M %u %g %P\\\n'^x^x"
+bindkey -s '^x/' "find . -name '^@' -printf '%M %u %g %P\\\n'^x^x"
 
 ### ^x\ GNU parallel
 bindkey -s '^x\\' " | parallel -X ^@ {} ^x^x"
@@ -277,7 +277,7 @@ bindkey -s '^xw' 'while ^@; do ; done\eb\e2^b'
 bindkey -s '^xl' 'lsof -i :'
 
 ### ^xm File renaming (mv)
-bindkey -s '^xm' "find . -maxdepth 1 -iname '*^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"%EasyAlign/'.\\\{-}'/dal\" -c'se ft=sh' -^x^x"
+bindkey -s '^xm' "find . -maxdepth 1 -name '^@' ! -path . -printf \"mv '%P' '%P'\\\n\" | v -c\"%EasyAlign/'.\\\{-}'/dal\" -c'se ft=sh' -^x^x"
 bindkey -s '^xM' 'parallel mv -- {} {.}.^@ ::: *.'
 
 ### ^xn Directory statistics
