@@ -365,7 +365,6 @@ zstyle ':completion:*' matcher-list '' \
                                     'r:[[:ascii:]]||[[:ascii:]]=**'
 
 zstyle -e ':completion:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
-zstyle -e ':completion:*:cssh:*' hosts "reply=($(awk '/^[^#]/ {print $1}' ~/.clusterssh/clusters 2>/dev/null))"
 
 # ls f/b/b<tab> results in fob/bar/bing/ fob/baz/bing/ foo/bar/bing/ ... vs (fob|foo)/b/b
 zstyle ':completion:*' list-suffixes true
