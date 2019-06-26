@@ -246,7 +246,7 @@ bindkey -s '^x|' ' | column -t'
 bindkey -s '^x_' '/dev/null'
 
 ### ^xa awk
-bindkey -s '^xa' "awk '/^@/ {print $}' \e3^b"
+bindkey -s '^xa' "awk '^@{print $}' \e3^b"
 bindkey -s '^xA' "awk '{sum += $1} END {print sum}' "
 
 ### ^xb Braces
