@@ -533,6 +533,10 @@ alias tf='tail -f -n0'
 alias cn='cat -n'
 
 ## Help
+unalias run-help
+alias help="LESS='-F $LESS' run-help"
+autoload -Uz run-help
+
 alias mm='man -k'
 
 if [[ -n $REPOS_BASE ]]
