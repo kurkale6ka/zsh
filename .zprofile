@@ -5,7 +5,7 @@ then
    then
       if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
       then
-         REPOS_BASE_LINK="$(find ~ -maxdepth 1 -lname github -printf '%p\n')"
+         REPOS_BASE_LINK="$(find ~ -maxdepth 1 -lname github -print)"
          [[ -L $REPOS_BASE_LINK ]] && REPOS_BASE=$REPOS_BASE_LINK
       fi
    fi
