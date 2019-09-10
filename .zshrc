@@ -68,13 +68,15 @@ fi
 ## Mac OS specific
 if [[ $(uname) == Darwin ]]
 then
-   # Amend paths to get GNU commands vs the default BSD ones
-   brew_prefix=/usr/local/opt/coreutils # "$(brew --prefix coreutils)"
+   formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
+   brew_prefix=/usr/local/opt # brew --prefix
+   path=(/usr/local/bin $path)
 
-   path=(/usr/local/bin              $path)
-   path=($brew_prefix/libexec/gnubin $path)
+   # Amend path to get GNU commands vs the default BSD ones
+   # $brew_prefix/ + formula + /libexec/gnubin
+   path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $path)
 
-   MANPATH=$brew_prefix/libexec/gnuman:/usr/local/share/man:"$(man -w)"
+   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:/usr/local/share/man:"$(man -w)"
 
    typeset -U path manpath
    export MANPATH
