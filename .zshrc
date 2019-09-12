@@ -520,7 +520,7 @@ alias umn=umount
 alias fu='sudo fuser -mv' # what uses the named files, sockets, or filesystems
 
 ## Networking + firewall aliases
-alias myip='curl icanhazip.com'
+alias myip='curl ipinfo.io/ip'
 
 alias il='iptables -nvL --line-numbers'
 
