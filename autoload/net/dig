@@ -1,1 +1,30 @@
-command dig +noall +answer ${@#*//}
+## short
+
+local out
+
+# Get the domain from the input by stripping all extra components:
+#   * protocol://
+#   * :port
+#   * /path
+#   * ?query
+out=$(command dig -4 +noall +answer ${${${${@#*//}%%:*}%%/*}%\?*})
+
+# dig domain ns might fail thus add +authority
+if [[ $out ]]
+then
+   print -l $out
+else
+   command dig -4 +noall +answer +authority ${${${${@#*//}%%:*}%%/*}%\?*}
+fi
+
+# TODO:
+## shorter
+
+# if this fails
+# command dig -4 +short +answer ${${${${@#*//}%%:*}%%/*}%\?*}
+# do that or if it also fails do 'short' above
+# command dig -4 +short +answer +authority ${${${${@#*//}%%:*}%%/*}%\?*}
+
+## long
+
+# command dig -4 +noadditional +nocmd +noquestion +nostats ${${${${@#*//}%%:*}%%/*}%\?*}
