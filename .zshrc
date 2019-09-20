@@ -532,6 +532,10 @@ alias h=head
 alias t=tail
 alias tf='tail -f -n0'
 
+if (( $+commands[bat] ))
+then
+   alias cat='bat --style snip --theme zenburn -mconf:ini'
+fi
 alias cn='cat -n'
 
 ## Help
