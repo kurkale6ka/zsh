@@ -42,6 +42,10 @@ fi
 export VISUAL=$EDITOR
 
 export FZF_DEFAULT_COMMAND='ag -S --hidden --ignore=.git --ignore=.svn --ignore=.hg -g ""'
+if (( $+commands[fd] ))
+then
+   export FZF_CTRL_T_COMMAND='fd -H -E.git -E.hg -E.svn -E"*~"'
+fi
 
 # clustershell
 if [[ $(uname) == Darwin ]]
