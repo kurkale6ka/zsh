@@ -1,4 +1,0 @@
-# Print disk usage sorted on the Use% column
-
-# -T print file system type
-command df -hT $@ | sort -k6r
