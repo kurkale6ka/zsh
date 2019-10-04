@@ -9,8 +9,9 @@ setopt interactivecomments
 setopt list_rows_first
 
 unsetopt auto_name_dirs # shorter names in CWD
-unsetopt flow_control # no ^s freezing the screen
 unsetopt case_glob
+unsetopt clobber
+unsetopt flow_control # no ^s freezing the screen
 
 HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=11000
