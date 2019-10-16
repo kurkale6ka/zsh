@@ -1,9 +1,0 @@
-# Run a root shell
-
-# check if -E is available
-if sudo -E echo -n 2>/dev/null
-then
-   sudo -E /usr/bin/env zsh
-else
-   sudo /usr/bin/env zsh
-fi
