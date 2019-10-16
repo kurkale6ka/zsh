@@ -1,0 +1,6 @@
+# Rerun (previous) command after replacing all occurrences of old with new
+
+# Usage:
+# sg old new
+# sg old new [id]
+fc -e- $1=$2 $3
