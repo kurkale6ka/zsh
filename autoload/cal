@@ -2,12 +2,12 @@
 #
 # output:
 #
-# - always start weeks on Monday
-# - always display days horizontally instead of vertically
+# * always start weeks on Monday
+# * always display days horizontally
 #
 # options:
 #
-# - make -3|y always available
+# * always provide -3|y
 
 # Linux
 if [[ $(uname) == Linux ]]
@@ -21,13 +21,13 @@ then
    return
 fi
 
-# OpenBSD, ...
+# UNIX systems
 if [[ $(uname) != Darwin ]]
 then
-   # Non Linux version of cal, support for -m3y is unknown
+   # support for -m3y is unknown
    command cal $@
+# Mac OS
 else
-   # Mac OS
    if (( $+commands[gcal] ))
    then
       case $1 in
@@ -41,7 +41,7 @@ else
               gcal -s1 $@ ;;
       esac
    else
-      # BSD version of cal, support for -m3y is unknown
+      # FreeBSD version of cal, support for -m3y is unknown
       command cal $@
       print -P '%F{red}Please install gcal!%f'
    fi

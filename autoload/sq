@@ -1,2 +1,3 @@
-# Display non-empty lines in a file
+# Display non empty/commented lines in a file
+
 grep -v '^[[:space:]]*#\|^[[:space:]]*$' -- $@

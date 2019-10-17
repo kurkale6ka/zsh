@@ -1,6 +1,6 @@
 # Run a root shell
 
-# check if -E is available
+# check for -E (preserve env vars) flag
 if sudo -E echo -n 2>/dev/null
 then
    sudo -E /usr/bin/env zsh
