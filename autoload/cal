@@ -30,16 +30,15 @@ then
 else
    if (( $+commands[gcal] ))
    then
-      case $1 in
-         (-3) gcal -s1 .   ${@:2} ;;
-         (-y) gcal -s1 -b4 ${@:2} ;;
-         ( *)
-              if (($# != 0))
-              then
-                 echo 'Usage: cal -3|y [options...], switching to gcal' 1>&2
-              fi
-              gcal -s1 $@ ;;
-      esac
+      if (($# == 0)) || [[ $1 != -[3y] ]]
+      then
+         gcal -s1 $@
+      else
+         case $1 in
+            (-3) gcal -s1 .   ${@:2} ;;
+            (-y) gcal -s1 -b4 ${@:2} ;;
+         esac
+      fi
    else
       # FreeBSD version of cal, support for -m3y is unknown
       command cal $@
