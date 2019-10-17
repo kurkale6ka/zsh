@@ -1,3 +1,6 @@
-(($# == 0)) && man man && return
-
-man $@
+if (($#))
+then
+   man $@
+else
+   man man
+fi
