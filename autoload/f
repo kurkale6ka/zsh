@@ -1,29 +1,36 @@
-# Find files & folders using a fuzzy search
+# Find files & folders using a 'fuzzy' search
 
-# Use fd if installed...
+# Use fd...
 if (( $+commands[fd] ))
 then
    if (($#))
    then
-      fd --show-errors -E'*~' -H $@
+      fd --show-errors -E'*~' $@
    elif (( $+commands[fzf] ))
    then
-      fd --show-errors -E'*~' -H0 | fzf --read0 -0 -1
+      fd --show-errors -E'*~' -0 | fzf --read0 -0 -1
    fi
    return
 fi
 
-# ...Or find
-if (($# <= 1))
-then
-   local -a cvs
-   cvs=(.git .svn .hg)
-fi
+# ...or find
+#
+# a few limitations:
+# - 0/1 arguments only allowed
+# - heedless of .gitignore files
+# - always ignore case
+# - searches for hidden files (* matches .)
 
-if (($# == 1))
+(($# <= 1)) || return 1
+
+# ignore CVS folders
+local -a cvs
+cvs=(.git .svn .hg)
+
+if (($#))
 then
    find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
-elif (($# == 0)) && (( $+commands[fzf] ))
+elif (( $+commands[fzf] ))
 then
    find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
 fi
