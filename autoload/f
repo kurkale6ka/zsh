@@ -1,4 +1,20 @@
-if (($# == 1 || $# == 0))
+# Find files & folders using a fuzzy search
+
+# Use fd if installed...
+if (( $+commands[fd] ))
+then
+   if (($#))
+   then
+      fd --show-errors -E'*~' -H $@
+   elif (( $+commands[fzf] ))
+   then
+      fd --show-errors -E'*~' -H0 | fzf --read0 -0 -1
+   fi
+   return
+fi
+
+# ...Or find
+if (($# <= 1))
 then
    local -a cvs
    cvs=(.git .svn .hg)
@@ -6,8 +22,8 @@ fi
 
 if (($# == 1))
 then
-   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f -iname "*$1*" ! -name '*~' -printf '%M %u %g %P\n'
+   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
 elif (($# == 0)) && (( $+commands[fzf] ))
 then
-   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
+   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
 fi
