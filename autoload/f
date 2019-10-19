@@ -1,14 +1,14 @@
-# Find files & folders using a 'fuzzy' search
+# Find files using a 'fuzzy' search
 
 # Use fd...
 if (( $+commands[fd] ))
 then
    if (($#))
    then
-      fd --show-errors -E'*~' $@
+      fd --show-errors -tf -E'*~' $@
    elif (( $+commands[fzf] ))
    then
-      fd --show-errors -E'*~' -0 | fzf --read0 -0 -1
+      fd --show-errors -tf -E'*~' -0 | fzf --read0 -0 -1
    fi
    return
 fi
@@ -29,8 +29,8 @@ cvs=(.git .svn .hg)
 
 if (($#))
 then
-   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
+   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
 elif (( $+commands[fzf] ))
 then
-   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
+   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
 fi
