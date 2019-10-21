@@ -1,15 +1,18 @@
+# Use alt-c provided by fzf instead!
+
 # Fuzzy cd under the current directory, including dot folders
-# usage fd [pattern]
+# usage cdf [pattern...]
 
 local dir
-local -a cvs
-
-cvs=(.git .svn .hg)
 
 if (($#))
 then
    # **/*pattern*/**/*(/D) with CVS exclusions and edge cases gets too complicated
-   dir=$(find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type d \( -ipath "*${(j.*.)@}*" -o -ipath "*${(j.*.)${(aO)@}}*" \) -printf '%P\0' | fzf --read0 -0 -1 +m)
+   #
+   # cdf arg1 arg2:
+   #    *arg1*arg2*
+   #    *arg2*arg1*
+   dir=$(find . -mindepth 1 -xdev \( -path '*/\.*' -o -fstype sysfs -o -fstype devfs -o -fstype devtmpfs -o -fstype proc \) -prune -o -type d \( -ipath "*${(j.*.)@}*" -o -ipath "*${(j.*.)${(aO)@}}*" \) -printf '%P\0' | fzf --read0 -0 -1 +m)
 else
    dir=$(printf '%s\0' (^.(git|svn|hg)/)#^.(git|svn|hg)(/D) | fzf --read0 -0 -1 +m)
 fi

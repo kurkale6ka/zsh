@@ -47,7 +47,7 @@ if (( $+commands[fd] ))
 then
    export FZF_DEFAULT_COMMAND='fd --show-errors -tf -E"*~"'
    export  FZF_CTRL_T_COMMAND='fd --show-errors     -E"*~"'
-   export   FZF_ALT_C_COMMAND='fd --show-errors -td'
+   export   FZF_ALT_C_COMMAND='fd --show-errors -td       '
 fi
 
 # clustershell

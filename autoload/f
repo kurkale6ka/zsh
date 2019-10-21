@@ -8,6 +8,7 @@ then
       fd --show-errors -tf -E'*~' $@
    elif (( $+commands[fzf] ))
    then
+      # I want -0 here, that's why I don't use FZF_DEFAULT_COMMAND
       fd --show-errors -tf -E'*~' -0 | fzf --read0 -0 -1
    fi
    return
@@ -23,14 +24,11 @@ fi
 
 (($# <= 1)) || return 1
 
-# ignore CVS folders
-local -a cvs
-cvs=(.git .svn .hg)
-
+# use -path to ignore .folders: .git, .svn, ...
 if (($#))
 then
-   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
+   find . -xdev \( -path '*/\.*' -o -fstype sysfs -o -fstype devfs -o -fstype devtmpfs -o -fstype proc \) -prune -o -type f ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
 elif (( $+commands[fzf] ))
 then
-   find . -xdev \( -name ${(zj. -o -name .)cvs} \) -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
+   find . -xdev \( -path '*/\.*' -o -fstype sysfs -o -fstype devfs -o -fstype devtmpfs -o -fstype proc \) -prune -o -type f ! -name '*~' -printf '%P\0' | fzf --read0 -0 -1
 fi
