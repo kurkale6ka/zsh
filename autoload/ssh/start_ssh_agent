@@ -38,7 +38,7 @@ then
       } 1>&2
    else
       # launch agent
-      (umask 066; ssh-agent -s -t36000 > ~/.ssh/env)
+      (umask 066; ssh-agent -s -t36000 >! ~/.ssh/env)
       eval $(<~/.ssh/env) >/dev/null
       ssh-add
    fi
