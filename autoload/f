@@ -5,7 +5,7 @@ if (( $+commands[fd] ))
 then
    if (($#))
    then
-      fd --show-errors -tf -E'*~' $@
+      fd --show-errors -tf -E'*~' -p $@
    elif (( $+commands[fzf] ))
    then
       # I want -0 here, that's why I don't use FZF_DEFAULT_COMMAND
