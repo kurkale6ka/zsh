@@ -5,6 +5,7 @@ if (( $+commands[fd] ))
 then
    if (($#))
    then
+      # looks like ~/.gitignore is ignored! Use --ignore-file?
       fd --show-errors -tf -E'*~' -p $@
    elif (( $+commands[fzf] ))
    then
