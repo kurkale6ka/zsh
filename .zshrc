@@ -535,7 +535,7 @@ alias tf='tail -f -n0'
 
 if (( $+commands[bat] ))
 then
-   alias cat='bat --style snip --italic-text always --theme zenburn -mconf:ini'
+   alias bat='bat --style snip --italic-text always --theme zenburn -mconf:ini'
 fi
 alias cn='cat -n'
 
