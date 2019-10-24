@@ -546,12 +546,6 @@ autoload -Uz run-help
 
 alias mm='man -k'
 
-if [[ -n $REPOS_BASE ]]
-then
-   alias rg="cat $REPOS_BASE/help/regex.txt" # Regex  help
-   alias pf=$REPOS_BASE'/help/printf.sh'     # printf help
-fi
-
 # print info about a command, alias, function...
 alias '?=whence -ca'
 
@@ -560,14 +554,14 @@ alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep or silver searcher aliases
-if (( $+commands[ag] ))
+if (( $+commands[rg] ))
 then
-   alias ag='ag -S --hidden --ignore=.git --ignore=.svn --ignore=.hg --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
-   alias gr=ag
-   alias g=ag
+   alias rg='rg -S --ignore-file ~/.gitignore'
+   alias gr=rg
+   alias g=rg
 else
-   alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
    alias gr='grep -IRiE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
+   alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
 fi
 
 alias vd='v -d'

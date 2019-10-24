@@ -63,12 +63,12 @@ hopen() {
 hgrep() {
    local -a hfiles
 
-   hfiles=(${(z0)$(cd $hbase && ag -f -l -S --ignore 'LICENSE' --ignore 'README*' -0 -- $@)})
+   hfiles=(${(z0)$(cd $hbase && rg -Ll -g'!LICENSE' -g'!README*' -0 -- $@)})
    if [[ $hfiles ]]
    then
       if [[ ${#hfiles} > 1 ]]
       then
-         hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --expect='alt-v' --preview "ag -S --color --color-line-number='00;32' --color-path='00;35' --color-match='01;31' $@ -- $hbase/{}")
+         hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --expect='alt-v' --preview "rg -Sn --color=always $@ -- $hbase/{}")
          [[ $hfiles ]] || return 1
       fi
       hopen $hfiles $@ --hls
