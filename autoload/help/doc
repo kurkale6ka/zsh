@@ -48,6 +48,7 @@ hopen() {
       return
    fi
 
+   # display path of file being viewed
    print -P "%F{cyan}$hbase/$hfile%f"
 
    case $hfile in
