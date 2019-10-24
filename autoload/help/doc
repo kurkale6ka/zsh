@@ -48,6 +48,8 @@ hopen() {
       return
    fi
 
+   print -P "%F{cyan}$hbase/$hfile%f"
+
    case $hfile in
            *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
       printf.sh) bash $hbase/$hfile ;;
