@@ -2,8 +2,9 @@
 #
 # Usage: doc [-d{help}] [-g] [-v] [topic]
 
-# accept fuzzy topic (fzf -q"$*")
-# global functions in my shell. unfunction?
+# TODO:
+# accept fuzzy topic (fzf -q"$*")?
+# no global functions (hhelp, hopen, hgrep) in my shell. unfunction?
 
 # Help
 hhelp() {
@@ -49,8 +50,7 @@ hopen() {
    fi
 
    case $hfile in
-      # fix
-        *.md) open $hbase/$hfile ;;
+        *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
         *.sh) bash $hbase/$hfile ;;
       *.^txt)  bat $hbase/$hfile ;;
            *)  cat $hbase/$hfile ;;
@@ -61,8 +61,7 @@ hopen() {
 hgrep() {
    local -a hfiles
 
-   # links, full path?
-   hfiles=(${(z0)$(cd $hbase && ag -l -S --ignore 'LICENSE' --ignore 'README*' $@ -0)})
+   hfiles=(${(z0)$(cd $hbase && ag -f -l -S --ignore 'LICENSE' --ignore 'README*' -0 -- $@)})
    if [[ $hfiles ]]
    then
       if [[ ${#hfiles} > 1 ]]
@@ -117,7 +116,6 @@ local -a hfiles
 # Main
 if (($#))
 then
-   # ag hyperfine?
    # Search help files matching topic
    hfiles=(${(z0)$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -p -0 -- $@)})
    if [[ $hfiles ]]
