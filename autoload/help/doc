@@ -49,10 +49,10 @@ hopen() {
    fi
 
    case $hfile in
-        *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
-        *.sh) bash $hbase/$hfile ;;
-      *.^txt)  bat $hbase/$hfile ;;
-           *)  cat $hbase/$hfile ;;
+           *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
+      printf.sh) bash $hbase/$hfile ;;
+         *.^txt)  bat $hbase/$hfile ;;
+              *)  cat $hbase/$hfile ;;
    esac
 }
 
