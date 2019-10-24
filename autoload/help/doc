@@ -10,11 +10,10 @@
 hhelp() {
 local info
 read -r -d $'\0' info << 'HELP'
-Usage:
-  doc [-d{help}] [-g] [-v] [topic]
-            |      |    +- open with vim (or use alt-v from within fzf)
-            |      +- list (grep) files with occurrences of topic
-            +- help files parent folder
+doc [-d{help}] [-g] [-v] [topic]
+          |      |    +- open with vim (or use alt-v from within fzf)
+          |      +- list (grep) files with occurrences of topic
+          +- help files parent folder
 HELP
 if [[ $1 == 0 ]]
 then echo $info
