@@ -1,28 +1,142 @@
 # Search for help topics in my personal documentation
 #
-# Usage: doc topic
+# Usage: doc [-d{help}] [-g] [-v] [topic]
 
-(($# == 0)) && return 1
+# accept fuzzy topic (fzf -q"$*")
+# global functions in my shell. unfunction?
 
-case $1 in
-    (rg|regex) cat $REPOS_BASE/help/regex.txt; return ;;
-   (pf|printf)     $REPOS_BASE/help/printf.sh; return ;;
-        (sort) cat $REPOS_BASE/help/sort.txt;  return ;;
-esac
+# Help
+hhelp() {
+local info
+read -r -d $'\0' info << 'HELP'
+Usage:
+  doc [-d{help}] [-g] [-v] [topic]
+            |      |    +- open with vim (or use alt-v from within fzf)
+            |      +- list (grep) files with occurrences of topic
+            +- help files parent folder
+HELP
+if [[ $1 == 0 ]]
+then echo $info
+else echo $info >&2
+fi
+}
 
-typeset -a matches
-
-while read -r
-do
-   matches+=($REPLY)
-done < <(\ag -l -S --hidden --ignore .git --ignore .svn --ignore .hg --ignore misc --ignore '*install*' --ignore 'README*' --ignore 'LICENSE' $1 $REPOS_BASE/help)
-
-# For a single match, open the help file
-if (( ${#matches} == 1 ))
+# early exit
+if [[ $1 == (-h|--help) ]]
 then
+   hhelp 0
+   return
+fi
+
+# View a help file
+hopen() {
+   local hfile
+
+   hfile=${1#$'\n'}
+   hfile=${hfile#alt-v$'\n'}
+
    # TODO: send to running nvim
-   v $matches -c"0/$1" -c'noh|norm zv<cr>'
-elif (( ${#matches} > 1 ))
+   if [[ $1 == alt-v* || $actions == *vim* ]]
+   then
+      if [[ ${@[-1]} == --hls ]]
+      then
+         # before 'modelineexpr, zv was used
+         v $hbase/$hfile -c"0/${@[-2]}" -c'noh|norm zz<cr>'
+      else
+         v $hbase/$hfile
+      fi
+      return
+   fi
+
+   case $hfile in
+      # fix
+        *.md) open $hbase/$hfile ;;
+        *.sh) bash $hbase/$hfile ;;
+      *.^txt)  bat $hbase/$hfile ;;
+           *)  cat $hbase/$hfile ;;
+   esac
+}
+
+# Grep for occurrences of topic
+hgrep() {
+   local -a hfiles
+
+   # links, full path?
+   hfiles=(${(z0)$(cd $hbase && ag -l -S --ignore 'LICENSE' --ignore 'README*' $@ -0)})
+   if [[ $hfiles ]]
+   then
+      if [[ ${#hfiles} > 1 ]]
+      then
+         hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --expect='alt-v' --preview "ag -S --color --color-line-number='00;32' --color-path='00;35' --color-match='01;31' $@ -- $hbase/{}")
+         [[ $hfiles ]] || return 1
+      fi
+      hopen $hfiles $@ --hls
+   fi
+}
+
+# Options
+OPTIND=1
+
+local opt
+local -a actions
+local hbase=${hbase:-$REPOS_BASE/help}
+
+while getopts :d:gvh opt
+do
+   case $opt in
+       d) hbase=${OPTARG/\~/$HOME} ;;
+       g) actions+=(grep) ;;
+       v) actions+=(vim_open) ;;
+       h) hhelp 0
+          return ;;
+      \?) echo "Invalid option: -$OPTARG" 1>&2
+          return 1 ;;
+   esac
+done
+
+shift $((OPTIND-1))
+
+# arguments check
+if (($# > 1))
 then
-   ag $1 $matches
+   print -P '%F{red}Wrong number of arguments%f!' 1>&2
+   hhelp 1
+   return 1
+fi
+
+# Force searching for files with occurrences of topic
+if [[ $actions == *grep* ]] && (($#))
+then
+   hgrep $@
+   return
+fi
+
+local hfile
+local -a hfiles
+
+# Main
+if (($#))
+then
+   # ag hyperfine?
+   # Search help files matching topic
+   hfiles=(${(z0)$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -p -0 -- $@)})
+   if [[ $hfiles ]]
+   then
+      if [[ ${#hfiles} > 1 ]]
+      then
+         hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --expect='alt-v' --preview "cat $hbase/{}")
+         [[ $hfiles ]] || return 1
+      fi
+      hopen $hfiles
+   else
+      # if no matching filenames were found, list files with occurrences of topic
+      hgrep $@
+   fi
+else
+   # Search trough all help files
+   hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf --read0 -0 -1 --expect='alt-v' --preview 'cat {}')
+   if [[ $hfile ]]
+   then
+      hopen $hfile
+   fi
 fi
