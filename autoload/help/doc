@@ -35,7 +35,7 @@ hopen() {
    hfile=${1#$'\n'}
    hfile=${hfile#alt-v$'\n'}
 
-   # TODO: send to running nvim
+   # TODO: send to running nvim?
    if [[ $1 == alt-v* || $actions == *vim* ]]
    then
       if [[ ${@[-1]} == --hls ]]
@@ -63,8 +63,6 @@ hopen() {
 hgrep() {
    local -a hfiles
 
-   # test (@0) no quotes
-   # use fzf -f?
    hfiles=(${(0)"$(cd $hbase && rg -Ll -g'!LICENSE' -g'!README*' -0 -- $@)"})
    if [[ $hfiles ]]
    then
