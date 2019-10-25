@@ -68,7 +68,7 @@ hgrep() {
    then
       if [[ $#hfiles > 1 ]]
       then
-         hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --expect='alt-v' --preview "rg -Sn --color=always $@ -- $hbase/{}")
+         hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview "rg -Sn --color=always $@ -- $hbase/{}")
          [[ $hfiles ]] || return 1
       fi
       hopen $hfiles $@ --hls
@@ -128,7 +128,7 @@ then
       then
          if [[ $#hfiles > 1 ]]
          then
-            hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --expect='alt-v' --preview "cat $hbase/{}")
+            hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview "cat $hbase/{}")
             # exit if ctrl+c was pressed
             [[ $hfiles ]] || return 1
          fi
@@ -139,7 +139,7 @@ then
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -q$@ --read0 -0 -1 --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -q$@ --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
@@ -153,10 +153,10 @@ else
    # Search trough all help files
    if ((exact_matches))
    then
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -e --read0 -0 -1 --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    else
       # fuzzy
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf --read0 -0 -1 --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    fi
 
    if [[ $hfile ]]
