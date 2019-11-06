@@ -1,4 +1,12 @@
-## short
+## Short
+
+# if this fails,
+# try with the authority and if it also fails switch to 'long' below
+#
+# command dig -4 +short ${${${${@#*//}%%:*}%%/*}%\?*}
+# command dig -4 +short +authority ${${${${@#*//}%%:*}%%/*}%\?*}
+
+## Long
 
 local out
 
@@ -9,7 +17,7 @@ local out
 #   * ?query
 out=$(command dig -4 +noall +answer ${${${${@#*//}%%:*}%%/*}%\?*})
 
-# dig domain ns might fail thus add +authority
+# 'dig domain ns' might fail thus add +authority
 if [[ $out ]]
 then
    print -l $out
@@ -17,14 +25,6 @@ else
    command dig -4 +noall +answer +authority ${${${${@#*//}%%:*}%%/*}%\?*}
 fi
 
-# TODO:
-## shorter
-
-# if this fails
-# command dig -4 +short +answer ${${${${@#*//}%%:*}%%/*}%\?*}
-# do that or if it also fails do 'short' above
-# command dig -4 +short +answer +authority ${${${${@#*//}%%:*}%%/*}%\?*}
-
-## long
+## Longest
 
 # command dig -4 +noadditional +nocmd +noquestion +nostats ${${${${@#*//}%%:*}%%/*}%\?*}
