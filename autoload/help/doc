@@ -9,11 +9,11 @@
 hhelp() {
 local info
 read -r -d $'\0' info << 'HELP'
-doc [-d{help}] [-e] [-g] [-v] [topic]
-          |      |    |    +- open with vim (or use alt-v from within fzf)
+doc [-%F{cyan}d%f{help}] [-%F{cyan}e%f] [-%F{cyan}g%f] [-%F{cyan}v%f] [topic]
+          |      |    |    +- open with vim (%F{cyan}or use alt-v from within fzf%f)
           |      |    +- list (grep) files with occurrences of topic
           |      +- exact matches
-          +- help files parent folder
+          +- help files folder
 
 %F{cyan}arguments can be given in any order%f
 HELP
