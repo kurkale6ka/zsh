@@ -3,7 +3,7 @@
 # Usage: doc [-d{help}] [-e] [-g] [-v] [topic]
 
 # TODO:
-# no global functions (hhelp, hopen, hgrep) in my shell. unfunction?
+# Unfunction hhelp, hopen & hgrep in order to keep my shell env clean?
 
 # Help
 hhelp() {
@@ -14,6 +14,8 @@ doc [-d{help}] [-e] [-g] [-v] [topic]
           |      |    +- list (grep) files with occurrences of topic
           |      +- exact matches
           +- help files parent folder
+
+arguments can be given in any order
 HELP
 if [[ $1 == 0 ]]
 then echo $info
@@ -21,11 +23,67 @@ else echo $info >&2
 fi
 }
 
-# early exit
-if [[ $1 == (-h|--help) ]]
+# Options
+local -a actions
+local exact_matches
+local hbase=${hbase:-$REPOS_BASE/help}
+
+# scan for options
+if [[ ${@[(i)-*]} -le $# ]]
 then
-   hhelp 0
-   return
+   local -a topics
+
+   while :
+   do
+      case $1 in
+         (-h|--help)
+            hhelp 0
+            return
+            ;;
+         (-d)
+            if [[ $2 ]]
+            then
+               hbase=$2
+               shift 2
+            else
+               print -P 'Error: %F{red}-d%f option requires a %F{red}folder%f' >&2
+               return 1
+            fi
+            ;;
+         (-d?*)
+            hbase=${1#-d}
+            hbase=${hbase/\~/$HOME}
+            shift
+            ;;
+         (-e)
+            exact_matches=1
+            shift
+            ;;
+         (-g)
+            actions+=(grep)
+            shift
+            ;;
+         (-v)
+            actions+=(vim_open)
+            shift
+            ;;
+         ([^-]*)
+            topics+=($1)
+            shift
+            ;;
+         (-?*)
+            print -P "Error: unknown option %F{red}$1%f" >&2
+            return 1
+            ;;
+         # argument list is empty at this point
+         (*)
+            break
+            ;;
+      esac
+   done
+
+   # reset arguments
+   [[ $topics ]] && set $topics
 fi
 
 # View a help file
@@ -75,75 +133,48 @@ hgrep() {
    fi
 }
 
-# Options
-OPTIND=1
-
-local opt
-local -a actions
-local exact_matches
-local hbase=${hbase:-$REPOS_BASE/help}
-
-while getopts :d:egvh opt
-do
-   case $opt in
-       d) hbase=${OPTARG/\~/$HOME} ;;
-       e) exact_matches=1 ;;
-       g) actions+=(grep) ;;
-       v) actions+=(vim_open) ;;
-       h) hhelp 0
-          return ;;
-      \?) echo "Invalid option: -$OPTARG" 1>&2
-          return 1 ;;
-   esac
-done
-
-shift $((OPTIND-1))
-
-# arguments check
-if (($# > 1))
-then
-   print -P '%F{red}Wrong number of arguments%f!' 1>&2
-   hhelp 1
-   return 1
-fi
+# Main
 
 # Force searching for files with occurrences of topic
-if [[ $actions == *grep* ]] && (($#))
+if [[ $topics && $actions == *grep* ]]
 then
-   hgrep $@
+   hgrep $1
    return
 fi
 
 local hfile
 local -a hfiles
 
-# Main
 if (($#))
 then
    # Search help files matching topic
    if ((exact_matches))
    then
-      hfiles=(${(0)"$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -p -0 -- $@)"})
+      hfiles=(${(0)"$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -p -0 -- $1)"})
       if [[ $hfiles ]]
       then
          if [[ $#hfiles > 1 ]]
          then
-            hfiles=$(printf '%s\0' $hfiles | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview "cat $hbase/{}")
+            # -q isn't required here, it's just supplied to enable highlighting
+            hfiles=$(printf '%s\0' $hfiles | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview "cat $hbase/{}")
             # exit if ctrl+c was pressed
             [[ $hfiles ]] || return 1
          fi
          hopen $hfiles
       else
          # if no matching filenames were found, list files with occurrences of topic
-         hgrep $@
+         hgrep $1
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -q$@ --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
-         hgrep $@
+         # TODO: fix case with multiple non-option arguments?
+         #       hgrep: rg -Sl patt1 | ... | xargs rg -S pattn
+         #       also above and for fd ... $1
+         hgrep $1
       elif [[ $hfile != 130 ]] # canceled with ctrl+c
       then
          hopen $hfile
