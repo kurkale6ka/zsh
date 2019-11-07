@@ -15,11 +15,11 @@ doc [-d{help}] [-e] [-g] [-v] [topic]
           |      +- exact matches
           +- help files parent folder
 
-arguments can be given in any order
+%F{cyan}arguments can be given in any order%f
 HELP
 if [[ $1 == 0 ]]
-then echo $info
-else echo $info >&2
+then print -P $info
+else print -P $info >&2
 fi
 }
 
