@@ -41,7 +41,7 @@ then
             return
             ;;
          (-d)
-            if [[ $2 ]]
+            if [[ -d $2 ]]
             then
                hbase=$2
                shift 2
