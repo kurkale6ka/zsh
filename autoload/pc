@@ -1,0 +1,62 @@
+# fuzzy search for pass passwords
+#
+# pass - the standard UNIX password manager
+# https://www.passwordstore.org/
+
+local to_stdout
+
+local pstore
+local pfile
+
+pstore=~/.password-store
+
+if [[ ${@[(i)-*]} -le $# ]]
+then
+   local -a patterns
+   while :
+   do
+      case $1 in
+         (-h|--help)
+            print -P 'Usage: pc [-%F{yellow}o%f] - copy password (or output to %F{yellow}STDOUT%f)'
+            return
+            ;;
+         (-o)
+            to_stdout=1
+            shift
+            ;;
+         ([^-]*)
+            patterns+=($1)
+            shift
+            ;;
+         (-?*)
+            print -P "Error: unknown option %F{red}$1%f" >&2
+            return 1
+            ;;
+         # argument list is empty at this point
+         (*)
+            break
+            ;;
+      esac
+   done
+   if [[ $patterns ]]
+   then
+      set $patterns
+   fi
+fi
+
+if (($#))
+then
+   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | sed -z 's/\.gpg$//' | fzf -q"$*" --read0 -0 -1 --cycle)
+else
+   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | sed -z 's/\.gpg$//' | fzf --read0 -0 -1 --cycle)
+fi
+
+if [[ $pfile ]]
+then
+   if ((to_stdout))
+   then
+      pass $pfile
+   else
+      pass -c $pfile
+   fi
+fi
