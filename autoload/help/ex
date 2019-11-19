@@ -118,7 +118,7 @@ hopen() {
 hgrep() {
    local -a hfiles
 
-   hfiles=(${(0)"$(cd $hbase && rg -Ll -g'!LICENSE' -g'!README*' -0 -- $@)"})
+   hfiles=(${(0)"$(cd $hbase && rg -l -0 -- $@)"})
    if [[ $hfiles ]]
    then
       if [[ $#hfiles > 1 ]]
