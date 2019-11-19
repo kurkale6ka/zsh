@@ -1,6 +1,6 @@
-# Search for help topics in my personal documentation
+# Fuzzy files explorer
 #
-# Usage: doc [-d{help}] [-e] [-g] [-v] [topic]
+# Usage: ex [-d{dir}] [-e] [-g] [-v] [topic]
 
 # TODO:
 # Unfunction hhelp, hopen & hgrep in order to keep my shell env clean?
@@ -9,13 +9,10 @@
 hhelp() {
 local info
 read -r -d $'\0' info << 'HELP'
-doc [-%F{cyan}d%f{help}] [-%F{cyan}e%f] [-%F{cyan}g%f] [-%F{cyan}v%f] [topic]
-          |      |    |    +- open with vim (%F{cyan}or use alt-v from within fzf%f)
-          |      |    +- list (grep) files with occurrences of topic
-          |      +- exact matches
-          +- help files folder
-
-%F{cyan}arguments can be given in any order%f
+ex [-%F{cyan}d%f{dir}] [-%F{cyan}e%f] [-%F{cyan}g%f] [-%F{cyan}v%f] [topic]
+               |    |    +- open with vim (%F{cyan}or use alt-v from within fzf%f)
+               |    +- list (grep) files with occurrences of topic
+               +- exact matches
 HELP
 if [[ $1 == 0 ]]
 then print -P $info
@@ -26,7 +23,7 @@ fi
 # Options
 local -a actions
 local exact_matches
-local hbase=${hbase:-$REPOS_BASE/help}
+local hbase=${hbase:-.}
 
 # scan for options
 if [[ ${@[(i)-*]} -le $# ]]
@@ -150,7 +147,7 @@ then
    # Search help files matching topic
    if ((exact_matches))
    then
-      hfiles=(${(0)"$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -p -0 -- $1)"})
+      hfiles=(${(0)"$(cd $hbase && fd -tf -E'*~' -p -0 -- $1)"})
       if [[ $hfiles ]]
       then
          if [[ $#hfiles > 1 ]]
@@ -167,7 +164,7 @@ then
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
@@ -184,10 +181,10 @@ else
    # Search trough all help files
    if ((exact_matches))
    then
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    else
       # fuzzy
-      hfile=$(cd $hbase && fd --show-errors -tf -tl -E'LICENSE' -E'README*' -E'*~' -0 | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    fi
 
    if [[ $hfile ]]
