@@ -187,6 +187,7 @@ else
       hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    fi
 
+   # The 'no results' case is ignored, no grep will be tried
    if [[ $hfile ]]
    then
       hopen $hfile
