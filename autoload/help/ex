@@ -104,7 +104,7 @@ hopen() {
    fi
 
    # display path of file being viewed
-   print -P "%F{cyan}$hbase/${hfile/$'\n'/^M}%f"
+   print -P "%F{cyan}${hbase%/}/${hfile/$'\n'/^M}%f"
 
    case $hfile in
            *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
