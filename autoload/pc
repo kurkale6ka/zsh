@@ -47,9 +47,9 @@ fi
 # get pass
 if (($#))
 then
-   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | fzf -q"$*" --read0 -0 -1 --cycle)
+   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | sed -z 's/\.gpg$//' | fzf -q"$*" --read0 -0 -1 --cycle)
 else
-   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | fzf --read0 -0 -1 --cycle)
+   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | sed -z 's/\.gpg$//' | fzf --read0 -0 -1 --cycle)
 fi
 
 if [[ $pfile ]]
@@ -57,11 +57,22 @@ then
    if ((to_stdout))
    then
       # output
-      print -P "%F{yellow}${pfile%.gpg}%f"
-      gpg -q -d $pstore/$pfile
+      print -P "%F{yellow}$pfile%f"
+      gpg -q -d $pstore/$pfile.gpg
    else
+      # TODO: port to Linux
+      local clip_prev=$(pbpaste)
+
       # copy to clipboard
-      print -P "Copied %F{yellow}${pfile%.gpg}%f to the clipboard"
-      gpg -q -d $pstore/$pfile | head -n1 | tr -d '\n' | xclip
+      print -P "Copying %F{yellow}$pfile%f to the clipboard..."
+      gpg -q -d $pstore/$pfile.gpg | head -n1 | tr -d '\n' | xclip
+
+      # keep password for 45sec, then reset clipboard to previous entry
+      # TODO: test edge case when no previously copied entries
+      if [[ $clip_prev && $pipestatus == '0 0 0 0' ]]
+      then
+         setopt local_options no_monitor
+         { sleep 45; echo -n $clip_prev | xclip } & disown
+      fi
    fi
 fi
