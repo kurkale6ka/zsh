@@ -10,6 +10,7 @@ local pfile
 
 pstore=~/.password-store
 
+# options
 if [[ ${@[(i)-*]} -le $# ]]
 then
    local -a patterns
@@ -32,7 +33,6 @@ then
             print -P "Error: unknown option %F{red}$1%f" >&2
             return 1
             ;;
-         # argument list is empty at this point
          (*)
             break
             ;;
@@ -44,19 +44,24 @@ then
    fi
 fi
 
+# get pass
 if (($#))
 then
-   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | sed -z 's/\.gpg$//' | fzf -q"$*" --read0 -0 -1 --cycle)
+   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | fzf -q"$*" --read0 -0 -1 --cycle)
 else
-   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | sed -z 's/\.gpg$//' | fzf --read0 -0 -1 --cycle)
+   pfile=$(cd $pstore && fd -e gpg -E'*~' -0 | fzf --read0 -0 -1 --cycle)
 fi
 
 if [[ $pfile ]]
 then
    if ((to_stdout))
    then
-      pass $pfile
+      # output
+      print -P "%F{yellow}${pfile%.gpg}%f"
+      gpg -q -d $pstore/$pfile
    else
-      pass -c $pfile
+      # copy to clipboard
+      print -P "Copied %F{yellow}${pfile%.gpg}%f to the clipboard"
+      gpg -q -d $pstore/$pfile | head -n1 | tr -d '\n' | xclip
    fi
 fi
