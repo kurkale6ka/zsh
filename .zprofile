@@ -45,9 +45,9 @@ export VISUAL=$EDITOR
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 if (( $+commands[fd] ))
 then
-   export FZF_DEFAULT_COMMAND='fd --show-errors -tf -E"*~"'
-   export  FZF_CTRL_T_COMMAND='fd --show-errors     -E"*~"'
-   export   FZF_ALT_C_COMMAND='fd --show-errors -td'
+   export FZF_DEFAULT_COMMAND='fd -tf -E"*~"'
+   export  FZF_CTRL_T_COMMAND='fd     -E"*~"'
+   export   FZF_ALT_C_COMMAND='fd -td'
 fi
 
 # clustershell

@@ -6,11 +6,11 @@ then
    if (($#))
    then
       # looks like ~/.gitignore is ignored! Use --ignore-file?
-      fd --show-errors -tf -E'*~' -p $@
+      fd -tf -E'*~' -p $@
    elif (( $+commands[fzf] ))
    then
       # I want -0 here, that's why I don't use FZF_DEFAULT_COMMAND
-      fd --show-errors -tf -E'*~' -0 | fzf --read0 -0 -1
+      fd -tf -E'*~' -0 | fzf --read0 -0 -1
    fi
    return
 fi
