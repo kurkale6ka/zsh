@@ -60,15 +60,24 @@ then
       print -P "%F{yellow}$pfile%f"
       gpg -q -d $pstore/$pfile.gpg
    else
-      # TODO: port to Linux
-      local clip_prev=$(pbpaste)
+      # previous clipboard item
+      local clip_prev
+
+      if [[ $(uname) == Darwin ]]
+      then
+         clip_prev=$(pbpaste)
+      else
+         clip_prev=$(xclip -o)
+      fi
 
       # copy to clipboard
       print -P "Copying %F{yellow}$pfile%f to the clipboard..."
       gpg -q -d $pstore/$pfile.gpg | head -n1 | tr -d '\n' | xclip
 
       # keep password for 45sec, then reset clipboard to previous entry
-      # TODO: test edge case when no previously copied entries
+      # TODO:
+      #   - test edge case when no previously copied entries
+      #   - cancel all previous bg 'pass sleep'
       if [[ $clip_prev && $pipestatus == '0 0 0 0' ]]
       then
          setopt local_options no_monitor
