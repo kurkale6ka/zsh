@@ -23,7 +23,7 @@ fi
 # Options
 local -a actions
 local exact_matches
-local hbase=${hbase:-.}
+local hbase=.
 
 # scan for options
 if [[ ${@[(i)-*]} -le $# ]]
@@ -40,7 +40,7 @@ then
          (-d)
             if [[ -d $2 ]]
             then
-               hbase=$2
+               hbase=${2%/}
                shift 2
             else
                print -P 'Error: %F{red}-d%f option requires a %F{red}folder%f' >&2
@@ -48,7 +48,7 @@ then
             fi
             ;;
          (-d?*)
-            hbase=${1#-d}
+            hbase=${${1#-d}%/}
             hbase=${hbase/\~/$HOME}
             shift
             ;;
@@ -86,9 +86,18 @@ fi
 # View a help file
 hopen() {
    local hfile
+   local hpath
 
    hfile=${1#$'\n'}
    hfile=${hfile#alt-v$'\n'}
+
+   # cosmetics: open file, not ./file
+   if [[ $hbase == . ]]
+   then
+      hpath=$hfile
+   else
+      hpath=$hbase/$hfile
+   fi
 
    # TODO: send to running nvim?
    if [[ $1 == alt-v* || $actions == *vim* ]]
@@ -96,21 +105,21 @@ hopen() {
       if [[ ${@[-1]} == --hls ]]
       then
          # before 'modelineexpr, zv was used
-         v $hbase/$hfile -c"0/${@[-2]}" -c'noh|norm zz<cr>'
+         v $hpath -c"0/${@[-2]}" -c'noh|norm zz<cr>'
       else
-         v $hbase/$hfile
+         v $hpath
       fi
       return
    fi
 
    # display path of file being viewed
-   print -P "%F{cyan}${hbase%/}/${hfile/$'\n'/^M}%f"
+   print -P -f '%s%q%s\n' '%F{cyan}' $hpath '%f'
 
    case $hfile in
            *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
-      printf.sh) bash $hbase/$hfile ;;
-         *.^txt)  bat $hbase/$hfile ;;
-              *)  cat $hbase/$hfile ;;
+      printf.sh) bash $hpath ;;
+         *.^txt)  bat $hpath ;;
+              *)  cat $hpath ;;
    esac
 }
 
