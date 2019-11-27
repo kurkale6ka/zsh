@@ -60,7 +60,9 @@ then
       print -P "%F{yellow}$pfile%f"
       gpg -q -d $pstore/$pfile.gpg
    else
-      # previous clipboard item
+      pkill -f pc_cb_previous
+
+      # get previous clipboard item
       local clip_prev
 
       if [[ $(uname) == Darwin ]]
@@ -75,13 +77,15 @@ then
       gpg -q -d $pstore/$pfile.gpg | head -n1 | tr -d '\n' | xclip
 
       # keep password for 45sec, then reset clipboard to previous entry
-      # TODO:
-      #   - test edge case when no previously copied entries
-      #   - cancel all previous bg 'pass sleep'
       if [[ $clip_prev && $pipestatus == '0 0 0 0' ]]
       then
+         # reset clipboard to previous entry
          setopt local_options no_monitor
-         { sleep 45; echo -n $clip_prev | xclip } & disown
+         # - exec would kill the current shell thus the use of ()
+         # - disown is used just to silence the 'job done' message
+         (exec -a 'pc_cb_previous' bash -c 'sleep 45; echo -n $1' _ $clip_prev | xclip) & disown
+      else
+         echo 'Error reseting clipboard to previous entry' 1>&2
       fi
    fi
 fi
