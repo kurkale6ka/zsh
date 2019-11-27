@@ -1,6 +1,6 @@
 # Fuzzy files explorer
 #
-# Usage: ex [-d{dir}] [-e] [-g] [-v] [topic]
+# Usage: ex [-H] [-d{dir}] [-e] [-g] [-v] [topic]
 
 # TODO:
 # Unfunction hhelp, hopen & hgrep in order to keep my shell env clean?
@@ -9,10 +9,13 @@
 hhelp() {
 local info
 read -r -d $'\0' info << 'HELP'
-ex [-%F{cyan}d%f{dir}] [-%F{cyan}e%f] [-%F{cyan}g%f] [-%F{cyan}v%f] [topic]
-               |    |    +- open with vim (%F{cyan}or use alt-v from within fzf%f)
-               |    +- list (grep) files with occurrences of topic
-               +- exact matches
+ex [-%F{cyan}H%f] [-%F{cyan}d%f{dir}] [-%F{cyan}e%f] [-%F{cyan}g%f] [-%F{cyan}v%f] [topic]
+
+ -%F{cyan}H%f: include hidden files
+ -%F{cyan}d%f: change root directory
+ -%F{cyan}e%f: exact filename matches
+ -%F{cyan}g%f: list (grep) files with occurrences of topic
+ -%F{cyan}v%f: open with vim (or use %F{cyan}alt-v%f from within fzf)
 HELP
 if [[ $1 == 0 ]]
 then print -P $info
@@ -22,6 +25,8 @@ fi
 
 # Options
 local -a actions
+local -a fd_add_opts
+local -a rg_add_opts
 local exact_matches
 local hbase=.
 
@@ -36,6 +41,11 @@ then
          (-h|--help)
             hhelp 0
             return
+            ;;
+         (-H)
+            fd_add_opts=(-H -E.git -E.svn)
+            rg_add_opts=(--hidden -g'!.git' -g'!.svn')
+            shift
             ;;
          (-d)
             if [[ -d $2 ]]
@@ -127,7 +137,7 @@ hopen() {
 hgrep() {
    local -a hfiles
 
-   hfiles=(${(0)"$(cd $hbase && rg -l -0 -- $@)"})
+   hfiles=(${(0)"$(cd $hbase && rg -l -0 $rg_add_opts -- $@)"})
    if [[ $hfiles ]]
    then
       if [[ $#hfiles > 1 ]]
@@ -156,7 +166,7 @@ then
    # Search help files matching topic
    if ((exact_matches))
    then
-      hfiles=(${(0)"$(cd $hbase && fd -tf -E'*~' -p -0 -- $1)"})
+      hfiles=(${(0)"$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts -p -- $1)"})
       if [[ $hfiles ]]
       then
          if [[ $#hfiles > 1 ]]
@@ -173,7 +183,7 @@ then
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
@@ -190,10 +200,10 @@ else
    # Search trough all help files
    if ((exact_matches))
    then
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
    fi
 
    # The 'no results' case is ignored, no grep will be tried
