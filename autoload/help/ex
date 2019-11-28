@@ -109,6 +109,7 @@ hopen() {
       hpath=$hbase/$hfile
    fi
 
+   # open with vim
    # TODO: send to running nvim?
    if [[ $1 == alt-v* || $actions == *vim* ]]
    then
@@ -122,9 +123,6 @@ hopen() {
       return
    fi
 
-   # display path of file being viewed
-   print -P -f '%s%q%s\n' '%F{cyan}' $hpath '%f'
-
    # binary file
    if file --mime-encoding $hpath | grep -q 'binary$'
    then
@@ -137,7 +135,13 @@ hopen() {
       return 1
    fi
 
-   case $hpath in
+   if [[ $hfile != *.md ]]
+   then
+      # display path of file being viewed
+      print -P -f '%s%q%s\n' '%F{cyan}' $hpath '%f'
+   fi
+
+   case $hfile in
            *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
       printf.sh) bash $hpath ;;
          *.^txt)  bat $hpath ;;
