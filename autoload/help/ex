@@ -125,6 +125,18 @@ hopen() {
    # display path of file being viewed
    print -P -f '%s%q%s\n' '%F{cyan}' $hpath '%f'
 
+   # binary file
+   if file --mime-encoding $hfile | grep -q 'binary$'
+   then
+      if [[ ! -x $hfile ]]
+      then
+         # prompt for yes/no?
+         open $hfile
+         return
+      fi
+      return 1
+   fi
+
    case $hfile in
            *.md) open https://github.com/kurkale6ka/help/blob/master/$hfile ;;
       printf.sh) bash $hpath ;;
@@ -172,7 +184,7 @@ then
          if [[ $#hfiles > 1 ]]
          then
             # -q isn't required here, it's just supplied to enable highlighting
-            hfiles=$(printf '%s\0' $hfiles | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview "cat $hbase/{}")
+            hfiles=$(printf '%s\0' $hfiles | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview "if file -I $hbase/{} | grep -q binary; then echo 'No preview available' 1>&2; else cat $hbase/{}; fi")
             # exit if ctrl+c was pressed
             [[ $hfiles ]] || return 1
          fi
@@ -183,7 +195,7 @@ then
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file -I {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
@@ -200,10 +212,10 @@ else
    # Search trough all help files
    if ((exact_matches))
    then
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file -I {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'cat {}')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file -I {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
    fi
 
    # The 'no results' case is ignored, no grep will be tried
