@@ -67,9 +67,10 @@ then
 
       if [[ $(uname) == Darwin ]]
       then
-         clip_prev=$(pbpaste)
+         # base64 encode to obfuscate password in 'ps'
+         clip_prev=$(pbpaste | openssl base64)
       else
-         clip_prev=$(xclip -o)
+         clip_prev=$(xclip -o | openssl base64)
       fi
 
       # copy to clipboard
@@ -81,9 +82,8 @@ then
       then
          # reset clipboard to previous entry
          setopt local_options no_monitor
-         # - exec would kill the current shell thus the use of ()
-         # - disown is used just to silence the 'job done' message
-         (exec -a 'pc_cb_previous' bash -c 'sleep 45; echo -n $1' _ $clip_prev | xclip) & disown
+         # disown is used just to silence the 'job done' message
+         { zsh -f -c 'sleep 45; echo $1' pc_cb_previous $clip_prev | openssl base64 -d | xclip } & disown
       else
          echo 'Error reseting clipboard to previous entry' 1>&2
       fi
