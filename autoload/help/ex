@@ -15,7 +15,7 @@ ex [-%F{cyan}H%f] [-%F{cyan}d%f{dir}] [-%F{cyan}e%f] [-%F{cyan}g%f] [-%F{cyan}v%
  -%F{cyan}d%f: change root directory
  -%F{cyan}e%f: exact filename matches
  -%F{cyan}g%f: list (grep) files with occurrences of topic
- -%F{cyan}v%f: open with vim (or use %F{cyan}alt-v%f from within fzf)
+ -%F{cyan}v%f: open with vim (actually $EDITOR, or use %F{cyan}alt-v%f from within fzf)
 HELP
 if [[ $1 == 0 ]]
 then print -P $info
@@ -71,7 +71,7 @@ then
             shift
             ;;
          (-v)
-            actions+=(vim_open)
+            actions+=(edit)
             shift
             ;;
          ([^-]*)
@@ -109,16 +109,15 @@ hopen() {
       hpath=$hbase/$hfile
    fi
 
-   # open with vim
-   # TODO: send to running nvim?
-   if [[ $1 == alt-v* || $actions == *vim* ]]
+   # open with nvim (send to running instance)?
+   if [[ $1 == alt-v* || $actions == *edit* ]]
    then
-      if [[ ${@[-1]} == --hls ]]
+      if [[ ${@[-1]} == --hls && $EDITOR == *vim ]]
       then
          # before 'modelineexpr, zv was used
-         v $hpath -c"0/${@[-2]}" -c'noh|norm zz<cr>'
+         $EDITOR $hpath -c"0/${@[-2]}" -c'noh|norm zz<cr>'
       else
-         v $hpath
+         $EDITOR $hpath
       fi
       return
    fi
@@ -188,7 +187,7 @@ then
          if [[ $#hfiles > 1 ]]
          then
             # -q isn't required here, it's just supplied to enable highlighting
-            hfiles=$(printf '%s\0' $hfiles | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview "if file -I $hbase/{} | grep -q binary; then echo 'No preview available' 1>&2; else cat $hbase/{}; fi")
+            hfiles=$(printf '%s\0' $hfiles | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview "if file --mime $hbase/{} | grep -q binary; then echo 'No preview available' 1>&2; else cat $hbase/{}; fi")
             # exit if ctrl+c was pressed
             [[ $hfiles ]] || return 1
          fi
@@ -199,7 +198,7 @@ then
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file -I {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
@@ -216,10 +215,10 @@ else
    # Search trough all help files
    if ((exact_matches))
    then
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file -I {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file -I {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
+      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
    fi
 
    # The 'no results' case is ignored, no grep will be tried
