@@ -23,7 +23,7 @@ alias zn='zsh -f'
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
    fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
-   autoload $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
+   autoload -z $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
 fi
 
 if ((EUID == 0))
@@ -175,7 +175,7 @@ key[Right]=${terminfo[kcuf1]}
 [[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
 
 # History navigation
-autoload -U history-search-end
+autoload -Uz history-search-end
 
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end  history-search-end
