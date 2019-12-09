@@ -1,0 +1,21 @@
+# Local TCP port forwarding
+# create ssh tunnel
+
+local host
+
+if (($#))
+then
+   host=$(rg -B1 localforward ~/.ssh/config | rg -w '^host' | awk '{print $2}' | fzf -q"$*" -0 -1 --cycle)
+else
+   host=$(rg -B1 localforward ~/.ssh/config | rg -w '^host' | awk '{print $2}' | fzf -0 -1 --cycle)
+fi
+
+if command ssh -fN $host
+then
+   local port
+
+   port=$(rg -A1 "^host\s+$host" ~/.ssh/config | rg localforward | awk '{print $2}')
+
+   echo https://localhost:$port
+   echo http://localhost:$port
+fi
