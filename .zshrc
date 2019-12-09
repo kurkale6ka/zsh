@@ -23,7 +23,7 @@ alias zn='zsh -f'
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
    fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
-   autoload $XDG_CONFIG_HOME/zsh/{autoload,after}/**/[^_]*~*~(N.:t)
+   autoload $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
 fi
 
 if ((EUID == 0))

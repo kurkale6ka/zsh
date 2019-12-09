@@ -1,0 +1,16 @@
+#compdef ex
+
+# exclude --help if -h present
+# -d+ allows -d /dir and -d/dir
+# action _path_files -/ completes dirs
+# ::topic: is an optional (::) non-option arg with no action associated
+
+_arguments \
+   '(--help)-h' \
+   '(-h)--help' \
+   '-H[include hidden files]' \
+   '-d+[change root directory]:directory:_path_files -/' \
+   '-e[exact filename matches]' \
+   '-g[list (grep) files with occurrences of topic]' \
+   '-v[open with vim (actually $EDITOR, or use alt-v from within fzf)]' \
+   '::topic:'
