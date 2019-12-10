@@ -328,8 +328,6 @@ bindkey '^xh' _complete_help # show tags in current context
 bindkey '^i' expand-or-complete-prefix # myf<tab>xxx -> myfilexxx
 bindkey '^u' backward-kill-line
 
-compaudit() : # disable the annoying 'zsh compinit: insecure directories...'
-
 if autoload -Uz compinit
 then
    if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
