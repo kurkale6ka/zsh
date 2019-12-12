@@ -1,8 +1,8 @@
 #compdef mkconfig
 
 _arguments \
-   '(-)-h' \
-   '(-)--help' \
+   '(-)-h[]' \
+   '(-)--help[]' \
    '(--gen-c-db)-c[Create fuzzy cd database]' \
    '(-c)--gen-c-db[Create fuzzy cd database]' \
    '(-)-i[Initial setup]' \
@@ -13,5 +13,5 @@ _arguments \
    '(-L --links -l)--del-links[Remove links]' \
    '(--tags)-t[Generate tags]' \
    '(-t)--tags[Generate tags]' \
-   '(--update)-u[Update]' \
-   '(-u)--update[Update]'
+   '(--update)-u[Update repositories]' \
+   '(-u)--update[Update repositories]'
