@@ -3,15 +3,15 @@
 _arguments \
    '(-)-h[]' \
    '(-)--help[]' \
-   '(--gen-c-db)-c[Create fuzzy cd database]' \
-   '(-c)--gen-c-db[Create fuzzy cd database]' \
    '(-)-i[Initial setup]' \
    '(-)--ini[Initial setup]' \
-   '(--links --del-links -L)-l[Make links]' \
-   '(-l --del-links -L)--links[Make links]' \
-   '(--del-links --links -l)-L[Remove links]' \
-   '(-L --links -l)--del-links[Remove links]' \
+   '(--update)-u[Update repositories]' \
+   '(-u)--update[Update repositories]' \
    '(--tags)-t[Generate tags]' \
    '(-t)--tags[Generate tags]' \
-   '(--update)-u[Update repositories]' \
-   '(-u)--update[Update repositories]'
+   '(--gen-c-db)-c[Create fuzzy cd database]' \
+   '(-c)--gen-c-db[Create fuzzy cd database]' \
+   '(--links -L --del-links)-l[Make links]' \
+   '(-l -L --del-links)--links[Make links]' \
+   '(--del-links -l --links)-L[Remove links]' \
+   '(-L -l --links)--del-links[Remove links]'
