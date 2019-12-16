@@ -40,7 +40,7 @@ rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
       -f"- bash/.bash_history"                      \
       -f"P bash/.bash_history"                      \
       -f"+ scripts/mkconfig.sh"                     \
-      -f"+ scripts/mkdb"                            \
+      -f"+ scripts/db-create"                       \
       -f"- scripts/**"                              \
       -f"- LICENSE*"                                \
       -f"- README*"                                 \
