@@ -542,7 +542,7 @@ autoload -Uz run-help
 alias mm='man -k'
 
 # print info about a command, alias, function...
-alias '?=whence -ca'
+alias '?=qmark'
 
 ## Find stuff and diffs
 alias lo='locate -i'

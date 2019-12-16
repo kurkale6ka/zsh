@@ -1,0 +1,8 @@
+# print info about a command, alias, function...
+
+if (($#))
+then
+   whence -ca $@
+else
+   whence -ca \? qmark
+fi
