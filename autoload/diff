@@ -2,5 +2,5 @@ if [[ -o interactive ]] && (( $+commands[colordiff] ))
 then
    colordiff $@
 else
-   diff $@
+   command diff $@
 fi
