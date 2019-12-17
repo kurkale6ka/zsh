@@ -548,7 +548,7 @@ alias '?=qmark'
 alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
-# Grep or silver searcher aliases
+# Grep, ripgrep aliases
 if (( $+commands[rg] ))
 then
    alias rg='rg -S --ignore-file ~/.gitignore'
