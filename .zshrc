@@ -10,6 +10,7 @@ setopt list_rows_first
 
 unsetopt auto_name_dirs # shorter names in CWD
 unsetopt case_glob
+unsetopt complete_aliases
 unsetopt clobber
 unsetopt flow_control # no ^s freezing the screen
 
@@ -394,14 +395,16 @@ zstyle ':completion:*:processes' list-colors '=(#b) #([0-9]##) ##[^ ]## ##([^ ]#
 zstyle ':completion:*:processes' force-list always
 
 compdef m=man
-compdef v=vim nvim=vim
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
 then
    alias v=nvim
 else
-   [[ -n $REPOS_BASE ]] && alias v="vim -u $REPOS_BASE/vim/.vimrc"
+   if [[ -n $REPOS_BASE ]]
+   then
+      alias v="vim -u $REPOS_BASE/vim/.vimrc"
+   fi
 fi
 
 alias -g V='| v -'
