@@ -1,0 +1,10 @@
+if (($# != 1))
+then
+   command mv -i $@
+   return
+fi
+
+local newfilename=$1
+vared newfilename
+
+command mv -- $1 $newfilename
