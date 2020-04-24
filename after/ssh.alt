@@ -25,9 +25,9 @@ local host_commands
 # NB: when switching to root, use su vs su - in order to preserve $REPOS_BASE
 xclip << ROOT_PASTE
 {
-   TERM=xterm-256color
-   . ~/.bash_profile
-   . \$REPOS_BASE/bash/.bash_profile
+TERM=xterm-256color
+. ~/.bash_profile
+. \$REPOS_BASE/bash/.bash_profile
 }
 ROOT_PASTE
 
@@ -43,6 +43,10 @@ then
    . ~/.zshenv
    . ~/.zprofile
    . ~/.zshrc
+elif [[ \$SHELL == *ksh ]]
+then
+   . ~/.profile
+   exec ksh
 fi
 
 if [[ -d ~/$base/vim ]]
