@@ -11,13 +11,15 @@
 # $REPOS_BASE/bash/.bash_profile_after:
 # sed '/[^[:space:]]/q;d' /etc/motd 2>/dev/null
 
-if command ssh -TG $@ | grep 'user\b' | grep -q 'root\|dimitar'
+local user=dimitar
+
+if command ssh -TG $@ | grep 'user\b' | grep -q "root\|$user"
 then
    command ssh $@
    return
 fi
 
-local base=dimitar
+local base=$user
 local host_commands
 
 # NB: when switching to root, use su vs su - in order to preserve $REPOS_BASE

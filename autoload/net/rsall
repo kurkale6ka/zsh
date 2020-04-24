@@ -3,10 +3,10 @@
 # Usage:
 #   rsall [-b<base>] [-d] [-n] destination
 
-local opt
 local base=github
 local del=--delete
 local dry
+local opt
 
 OPTIND=1
 
