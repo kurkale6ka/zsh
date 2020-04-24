@@ -32,19 +32,21 @@ shift $((OPTIND-1))
 
 rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
       -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
-      -f"+ config/dotfiles/"                        \
-      -f"+ config/dotfiles/**"                      \
-      -f"+ config/git.bash"                         \
-      -f"- config/**"                               \
+      -f'- config/dotfiles/.inputrc.mini'           \
+      -f'+ config/dotfiles/'                        \
+      -f'+ config/dotfiles/**'                      \
+      -f'+ config/git.bash'                         \
+      -f'- config/**'                               \
       -f'- .gitignore'                              \
       -f'- .git'                                    \
-      -f"- bash/.bash_history"                      \
-      -f"P bash/.bash_history"                      \
-      -f"+ scripts/mkconfig.sh"                     \
-      -f"+ scripts/db-create"                       \
-      -f"- scripts/**"                              \
-      -f"- LICENSE*"                                \
-      -f"- README*"                                 \
+      -f'- bash/.bash_history'                      \
+      -f'P bash/.bash_history'                      \
+      -f'- bash/.bashrc.mini'                       \
+      -f'+ scripts/mkconfig.sh'                     \
+      -f'+ scripts/db-create'                       \
+      -f'- scripts/**'                              \
+      -f'- LICENSE*'                                \
+      -f'- README*'                                 \
       $REPOS_BASE/bash                              \
       $REPOS_BASE/config                            \
       $REPOS_BASE/zsh                               \
