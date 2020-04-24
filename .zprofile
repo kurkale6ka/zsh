@@ -1,17 +1,5 @@
 # Repos
-if [[ -z $REPOS_BASE ]]
-then
-   if [[ -z $SSH_CONNECTION ]]
-   then
-      if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
-      then
-         REPOS_BASE_LINK="$(find ~ -maxdepth 1 -lname github -print)"
-         [[ -L $REPOS_BASE_LINK ]] && REPOS_BASE=$REPOS_BASE_LINK
-      fi
-   fi
-   REPOS_BASE=${REPOS_BASE:-$(cd ${${(%):-%x}%/*}/.. && pwd -P)}
-   export REPOS_BASE=${REPOS_BASE%/}
-fi
+[[ -z $REPOS_BASE ]] && export REPOS_BASE=~/github
 
 # readline
 # if I wanted to run bash from within zsh

@@ -3,11 +3,15 @@
 # Usage: rseverywhere [group1 group2...]
 #                     +-- http://clustershell.readthedocs.io/en/latest/tools/nodeset.html
 
-# store options on order to pass them to rsall below
+local user=dimitar
+local base=$user
+
+# Get options for rsall below
 OPTIND=1
 
 local opt
 local -a opts
+
 while getopts :dn opt
 do
    case $opt in
@@ -19,15 +23,17 @@ done
 
 shift $((OPTIND-1))
 
+# Select hosts
 local -a args
+
 if (($# == 0))
 then
-   # sync to all hosts
+   # all
    args=(-a)
    print -P '%F{yellow}Syncing config on all hosts%f:'
    nodeset -ra
 else
-   # check groups
+   # or groups of hosts
    local a
    for a in $@
    do
@@ -42,15 +48,15 @@ fi
 
 (( ${#args} > 0 )) || return 2
 
-# sync to groups of hosts
+# Sync to selected hosts
 while read -r
 do
    print -P "%F{yellow}$REPLY%f"
 
-   if ssh -TG $REPLY | grep 'user\b' | grep -q dimitar
+   if ssh -TG $REPLY | grep 'user\b' | grep -q $user
    then
-      rsall -g ${opts/#/-} $REPLY
+      rsall         ${opts/#/-} $REPLY
    else
-      rsall    ${opts/#/-} $REPLY
+      rsall -b$base ${opts/#/-} $REPLY
    fi
 done < <(nodeset -e -S'\n' $args)
