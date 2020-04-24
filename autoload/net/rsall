@@ -31,26 +31,26 @@ done
 shift $((OPTIND-1))
 
 rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
+      -f'- .git'                                    \
+      -f'- .gitignore'                              \
+      -f'- LICENSE*'                                \
+      -f'- README*'                                 \
+      -f'- bash/.bash_history'                      \
+      -f'P bash/.bash_history'                      \
+      -f'- bash/.bashrc.mini'                       \
       -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
       -f'- config/dotfiles/.inputrc.mini'           \
       -f'+ config/dotfiles/'                        \
       -f'+ config/dotfiles/**'                      \
-      -f'+ config/git.bash'                         \
       -f'- config/**'                               \
-      -f'- .gitignore'                              \
-      -f'- .git'                                    \
-      -f'- bash/.bash_history'                      \
-      -f'P bash/.bash_history'                      \
-      -f'- bash/.bashrc.mini'                       \
-      -f'+ scripts/mkconfig.sh'                     \
       -f'+ scripts/db-create'                       \
+      -f'+ scripts/mkconfig.sh'                     \
       -f'- scripts/**'                              \
-      -f'- LICENSE*'                                \
-      -f'- README*'                                 \
+      -f'- zsh/after/ssh.alt'                       \
+      $REPOS_BASE/fzf                               \
       $REPOS_BASE/bash                              \
       $REPOS_BASE/config                            \
-      $REPOS_BASE/zsh                               \
-      $REPOS_BASE/fzf                               \
-      $REPOS_BASE/scripts          $1:~/$base
+      $REPOS_BASE/scripts                           \
+      $REPOS_BASE/zsh              $1:~/$base
 
 rsvim -ai$dry $del $REPOS_BASE/vim $1:~/$base

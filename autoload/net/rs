@@ -4,10 +4,10 @@
 #   rs -ai source destination
 
 rsync --no-o --no-g --delete -e'ssh -q'             \
-      -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
-      -f'- .gitignore'                              \
       -f'- .git'                                    \
-      -f'- .hgignore'                               \
+      -f'- .gitignore'                              \
       -f'- .hg'                                     \
+      -f'- .hgignore'                               \
       -f'- .svn'                                    \
+      -f".- $REPOS_BASE/config/dotfiles/.gitignore" \
       $@
