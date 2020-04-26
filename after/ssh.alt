@@ -80,13 +80,7 @@ then
 elif [[ \$SHELL == *zsh ]]
 then
    . \$REPOS_BASE/zsh/.zshenv
-
-   if mkdir -p {\$XDG_CONFIG_HOME,\$XDG_DATA_HOME}/zsh
-   then
-      [[ ! -L \$XDG_CONFIG_HOME/zsh/autoload  ]] && ln -s \$REPOS_BASE/zsh/autoload  \$XDG_CONFIG_HOME/zsh
-      [[ ! -L \$XDG_CONFIG_HOME/zsh/.zprofile ]] && ln -s \$REPOS_BASE/zsh/.zprofile \$XDG_CONFIG_HOME/zsh
-      [[ ! -L \$XDG_CONFIG_HOME/zsh/.zshrc    ]] && ln -s \$REPOS_BASE/zsh/.zshrc    \$XDG_CONFIG_HOME/zsh
-   fi
+   mkdir -p {\$XDG_CONFIG_HOME,\$XDG_DATA_HOME}/zsh
 
    zsh \$REPOS_BASE/scripts/db-create
 
