@@ -64,8 +64,7 @@ fi
 
 if [[ \$SHELL == *bash ]]
 then
-   export XDG_CONFIG_HOME=~/.config
-   export XDG_DATA_HOME=~/.local/share
+   . \$REPOS_BASE/zsh/.zshenv
 
    bash \$REPOS_BASE/scripts/db-create
 
@@ -80,11 +79,10 @@ then
 elif [[ \$SHELL == *zsh ]]
 then
    . \$REPOS_BASE/zsh/.zshenv
-   mkdir -p {\$XDG_CONFIG_HOME,\$XDG_DATA_HOME}/zsh
+   export ZDOTDIR=\$REPOS_BASE/zsh
 
    zsh \$REPOS_BASE/scripts/db-create
 
-   export ZDOTDIR=\$REPOS_BASE/zsh
    exec zsh
 fi
 REMOTE
