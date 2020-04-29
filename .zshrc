@@ -60,11 +60,11 @@ fi
 
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{238}%2v%f.)\n%(!.%F{9}.%F{221})%n%f %# '
-   RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(1V.%F{140}.%F{221})%M%f %(?..%F{red})%T'
+   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{238}%2v%f.)\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
+   RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?..%F{red})%T'
 else
-   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(!.%F{red}.%F{yellow})%n%f %# '
-   RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(1V.%F{magenta}.%F{yellow})%M%f %(?..%F{red})%T'
+   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
+   RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?..%F{red})%T'
 fi
 
 ## Mac OS specific
