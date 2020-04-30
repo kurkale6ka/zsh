@@ -1,15 +1,3 @@
-# Repos
-if [[ -z $REPOS_BASE ]]
-then
-   if [[ -d ~/github ]]
-   then
-      export REPOS_BASE=~/github
-   elif [[ -d ~/dimitar/vim ]]
-   then
-      export REPOS_BASE=~/dimitar
-   fi
-fi
-
 # readline
 # if I wanted to run bash from within zsh
 export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc

@@ -1,15 +1,28 @@
-## XDG
-# configuration home
-if [[ -z $XDG_CONFIG_HOME ]]
+# Repos
+if [[ -z $REPOS_BASE && -d ~/github ]]
 then
-   export XDG_CONFIG_HOME=$HOME/.config
+   export REPOS_BASE=~/github
+   base=$HOME
+else
+   base=$REPOS_BASE
 fi
 
-# data home
-if [[ -z $XDG_DATA_HOME ]]
-then
-   export XDG_DATA_HOME=$HOME/.local/share
-fi
+# XDG
+export XDG_CONFIG_HOME=$base/.config
+export   XDG_DATA_HOME=$base/.local/share
 
-## Zsh dot files
+# Zsh dot directory
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
+
+if [[ $base != $HOME ]]
+then
+   mkdir -p {$XDG_CONFIG_HOME,$XDG_DATA_HOME}/zsh
+
+   for config in .zprofile .zshrc autoload
+   do
+      if [[ ! -L $XDG_CONFIG_HOME/zsh/$config ]]
+      then
+         ln -sr $REPOS_BASE/zsh/$config $XDG_CONFIG_HOME/zsh
+      fi
+   done
+fi
