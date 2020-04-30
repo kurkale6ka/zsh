@@ -553,7 +553,7 @@ alias ldapsearch='ldapsearch -x -LLL'
 # Grep, ripgrep aliases
 if (( $+commands[rg] ))
 then
-   alias rg='rg -S --ignore-file ~/.gitignore'
+   alias rg='rg -S --hidden -g"!.git" -g"!.svn" -g"!.hg" --ignore-file ~/.gitignore'
    alias gr=rg
    alias g=rg
 else
