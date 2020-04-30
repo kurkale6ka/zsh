@@ -1,8 +1,15 @@
 # Repos
-if [[ -z $REPOS_BASE && -d ~/github ]]
+if [[ -z $REPOS_BASE ]]
 then
-   export REPOS_BASE=~/github
-   base=$HOME
+   if [[ -d ~/github ]]
+   then
+      export REPOS_BASE=~/github
+      base=$HOME
+   elif [[ -d ~/dimitar ]]
+   then
+      export REPOS_BASE=~/dimitar
+      base=$REPOS_BASE
+   fi
 else
    base=$REPOS_BASE
 fi
