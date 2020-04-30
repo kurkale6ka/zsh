@@ -3,13 +3,12 @@
 # Auto syncing would be possible only if using ssh without options
 # rsall -u<user> $@
 #
-# also needed:
+# also needed for bash:
 #
-# $REPOS_BASE/bash/.bash_profile_after:
-# exec bash --rcfile "$REPOS_BASE"/bash/.bashrc
+# "$REPOS_BASE"/bash/.bash_profile_after:
+#    exec bash --rcfile "$REPOS_BASE"/bash/.bashrc
 #
-# $REPOS_BASE/bash/.bash_profile_after:
-# sed '/[^[:space:]]/q;d' /etc/motd 2>/dev/null
+# the execs are there because with 'ssh host command' we don't get a login
 
 local user=dimitar
 
@@ -19,71 +18,70 @@ then
    return
 fi
 
-local base=$user
+local base="$user"
 local host_commands
 
-# NB: when switching to root, use su vs su - in order to preserve $REPOS_BASE
+# NB: when switching to root,
+# use su vs su - in order to preserve $REPOS_BASE then paste for bash or exec zsh
 xclip << ROOT_PASTE
 {
 TERM=xterm-256color
 . ~/.bash_profile
-. \$REPOS_BASE/bash/.bash_profile
+. "\$REPOS_BASE"/bash/.bash_profile
 }
 ROOT_PASTE
 
 read -r -d '' host_commands << REMOTE
 TERM=xterm-256color
 
-# sourcing these is needed because with 'ssh host COMMAND' it won't happen
-if [[ \$SHELL == *bash ]]
+# sourcing these is needed because with 'ssh host command' it won't happen
+if grep -q zsh /etc/shells
 then
-   . ~/.bash_profile
-elif [[ \$SHELL == *zsh ]]
+   . /etc/zshenv   2>/dev/null
+   . /etc/zprofile 2>/dev/null
+   . /etc/zshrc    2>/dev/null
+elif [[ \$SHELL == *bash ]]
 then
-   . ~/.zshenv
-   . ~/.zprofile
-   . ~/.zshrc
+   . /etc/profile 2>/dev/null
 elif [[ \$SHELL == *ksh ]]
 then
+   . /etc/ksh.kshrc 2>/dev/null
    . ~/.profile
    exec ksh
 fi
 
-if [[ -d ~/$base/vim ]]
+if [[ -d ~/$base ]]
 then
-   export REPOS_BASE=~/$base
+   export REPOS_BASE=~/"$base"
 else
-   if [[ \$SHELL == *bash ]]
-   then
-      exec bash
-   elif [[ \$SHELL == *zsh ]]
+   if grep -q zsh /etc/shells
    then
       exec zsh
+   elif [[ \$SHELL == *bash ]]
+   then
+      exec bash
    fi
 fi
 
-if [[ \$SHELL == *bash ]]
+if grep -q zsh /etc/shells
 then
-   . \$REPOS_BASE/zsh/.zshenv
+   . "\$REPOS_BASE"/zsh/.zshenv
 
-   bash \$REPOS_BASE/scripts/db-create
+   zsh "\$REPOS_BASE"/scripts/db-create
 
-   . \$REPOS_BASE/bash/.bash_profile
+   exec zsh
+elif [[ \$SHELL == *bash ]]
+then
+   export XDG_CONFIG_HOME="\$REPOS_BASE"/.config
+   export   XDG_DATA_HOME="\$REPOS_BASE"/.local/share
+
+   bash "\$REPOS_BASE"/scripts/db-create
+
+   . "\$REPOS_BASE"/bash/.bash_profile
 
    # ^ which in turn sources .bash_profile_after:
    # exec bash --rcfile "$REPOS_BASE"/bash/.bashrc
    # this way I avoid sourcing my bashrc twice
-   #
-   # the execs are needed because with 'ssh host COMMAND' we don't get a login
-
-elif [[ \$SHELL == *zsh ]]
-then
-   . \$REPOS_BASE/zsh/.zshenv
-   export ZDOTDIR=\$REPOS_BASE/zsh
-
-   zsh \$REPOS_BASE/scripts/db-create
-
-   exec zsh
 fi
 REMOTE
 
