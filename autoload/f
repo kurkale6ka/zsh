@@ -5,12 +5,11 @@ if (( $+commands[fd] ))
 then
    if (($#))
    then
-      # looks like ~/.gitignore is ignored! Use --ignore-file?
-      fd -tf -E'*~' -p $@
+      fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -p $@
    elif (( $+commands[fzf] ))
    then
       # I want -0 here, that's why I don't use FZF_DEFAULT_COMMAND
-      fd -tf -E'*~' -0 | fzf --read0 -0 -1
+      fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -0 | fzf --read0 -0 -1
    fi
    return
 fi

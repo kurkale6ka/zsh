@@ -1,6 +1,6 @@
 # Fuzzy files explorer
 #
-# Usage: ex [-H] [-d{dir}] [-e] [-g] [-v] [topic]
+# Usage: ex [-d{dir}] [-e] [-g] [-v] [topic]
 
 # TODO:
 # Unfunction hhelp, hopen & hgrep in order to keep my shell env clean?
@@ -25,8 +25,6 @@ fi
 
 # Options
 local -a actions
-local -a fd_add_opts
-local -a rg_add_opts
 local exact_matches
 local hbase=.
 
@@ -41,11 +39,6 @@ then
          (-h|--help)
             hhelp 0
             return
-            ;;
-         (-H)
-            fd_add_opts=(-H -E.git -E.svn)
-            rg_add_opts=(--hidden -g'!.git' -g'!.svn')
-            shift
             ;;
          (-d)
             if [[ -d $2 ]]
@@ -162,7 +155,7 @@ hopen() {
 hgrep() {
    local -a hfiles
 
-   hfiles=(${(0)"$(cd $hbase && rg -l -0 $rg_add_opts -- $@)"})
+   hfiles=(${(0)"$(cd $hbase && rg -S --hidden -g'!.git' -g'!.svn' -g'!.hg' --ignore-file ~/.gitignore -l -0 -- $@)"})
    if [[ $hfiles ]]
    then
       if [[ $#hfiles > 1 ]]
@@ -191,7 +184,7 @@ then
    # Search help files matching topic
    if ((exact_matches))
    then
-      hfiles=(${(0)"$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts -p -- $1)"})
+      hfiles=(${(0)"$(cd $hbase && fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -0 -p -- $1)"})
       if [[ $hfiles ]]
       then
          if [[ $#hfiles > 1 ]]
@@ -208,7 +201,7 @@ then
       fi
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi' || echo $pipestatus[2])
+      hfile=$(cd $hbase && fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -0 | fzf -q"$*" --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi' || echo $pipestatus[2])
 
       if [[ $hfile == $'\n'1 ]] # no results
       then
@@ -225,10 +218,10 @@ else
    # Search trough all help files
    if ((exact_matches))
    then
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
+      hfile=$(cd $hbase && fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -0 | fzf -e --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
    else
       # fuzzy
-      hfile=$(cd $hbase && fd -tf -E'*~' -0 $fd_add_opts | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
+      hfile=$(cd $hbase && fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -0 | fzf --read0 -0 -1 --cycle --expect='alt-v' --preview 'if file --mime {} | grep -q binary; then echo "No preview available" 1>&2; else cat {}; fi')
    fi
 
    # The 'no results' case is ignored, no grep will be tried

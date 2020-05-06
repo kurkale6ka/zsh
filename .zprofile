@@ -30,9 +30,9 @@ export VISUAL=$EDITOR
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 if (( $+commands[fd] ))
 then
-   export FZF_DEFAULT_COMMAND='fd -tf -E"*~"'
-   export  FZF_CTRL_T_COMMAND='fd     -E"*~"'
-   export   FZF_ALT_C_COMMAND='fd -td'
+   export FZF_DEFAULT_COMMAND='fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -p'
+   export  FZF_CTRL_T_COMMAND='fd     -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -p'
+   export   FZF_ALT_C_COMMAND='fd -td -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore'
 fi
 
 # clustershell
