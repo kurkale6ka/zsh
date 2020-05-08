@@ -11,7 +11,12 @@ then
       base=$REPOS_BASE
    fi
 else
-   base=$REPOS_BASE
+   if [[ -d ~/github ]]
+   then
+      base=$HOME
+   else
+      base=$REPOS_BASE
+   fi
 fi
 
 # XDG
