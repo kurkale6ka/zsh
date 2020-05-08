@@ -3,7 +3,7 @@
 # check for -E (preserve env vars) flag
 if sudo -E echo -n 2>/dev/null
 then
-   sudo -E /usr/bin/env zsh
+   sudo -E zsh
 else
-   sudo /usr/bin/env zsh
+   sudo zsh
 fi
