@@ -1,31 +1,33 @@
 # Repos
-# REPOS_BASE null:
-#   - local startup
-#   - command ssh (or /usr/bin/ssh) shared@... (then . .zshenv + exec zsh)
-#   - ssh own@...
+if [[ -d ~dimitar ]]
+then
+   my_home=~dimitar
+elif [[ -d ~mitko ]]
+then
+   my_home=~mitko
+fi
+
 if [[ -z $REPOS_BASE ]]
 then
-   if [[ -d ~/github ]]
+   if [[ -d $my_home/github ]]
    then
-      # - zsh starting locally
-      # - own remote user
-      export REPOS_BASE=~/github
-      base=$HOME
-   elif [[ -d ~/dimitar ]]
-   then
-      # shared remote user
-      export REPOS_BASE=~/dimitar
-      base=$REPOS_BASE
-   fi
-else
-   if [[ -d ~/github ]]
-   then
-      # local sudo zsh: REPOS_BASE github
-      base=$HOME
+      # - zsh local startup (or su -)
+      # - ssh own@...
+      export REPOS_BASE=$my_home/github
    else
-      # function ssh shared@...: REPOS_BASE dimitar
-      base=$REPOS_BASE
+      # command ssh (or /usr/bin/ssh) shared@... (then . .zshenv + exec zsh)
+      # REPOS_BASE set to ~shared/my_folder
+      export REPOS_BASE=$(cd ${${(%):-%x}%/*}/.. && pwd -P)
    fi
+fi
+
+if [[ -d $my_home/github ]]
+then
+   base=$my_home
+else
+   # REPOS_BASE non null for the above reasons or because set from:
+   # after/ssh.alt shared@...
+   base=$REPOS_BASE
 fi
 
 # XDG
