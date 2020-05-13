@@ -1,8 +1,8 @@
 # Repos
-if [[ -d ~dimitar ]]
+if getent passwd dimitar >/dev/null
 then
    my_home=~dimitar
-elif [[ -d ~mitko ]]
+elif getent passwd mitko >/dev/null
 then
    my_home=~mitko
 fi
