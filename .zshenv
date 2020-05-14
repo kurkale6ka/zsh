@@ -1,8 +1,8 @@
 # Repos
-if getent passwd dimitar >/dev/null
+if id -u dimitar >/dev/null 2>&1
 then
    my_home=~dimitar
-elif getent passwd mitko >/dev/null
+elif id -u mitko >/dev/null 2>&1
 then
    my_home=~mitko
 fi
