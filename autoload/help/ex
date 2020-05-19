@@ -134,10 +134,10 @@ hopen() {
       then
          open https://github.com/kurkale6ka/help/blob/master/$hfile
          return
-      elif [[ $hfile == printf.sh ]]
+      elif [[ $hfile == printf.pl ]]
       then
          print -P -f '%s%q%s\n' '%F{cyan}' $hpath '%f'
-         bash $hpath
+         perl $hpath
          return
       fi
    fi
