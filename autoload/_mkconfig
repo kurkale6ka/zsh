@@ -11,8 +11,6 @@ _arguments \
    '(-u)--update[Update repositories]' \
    '(--tags)-t[Generate tags]' \
    '(-t)--tags[Generate tags]' \
-   '(--cd-db)-c[Create fuzzy cd database]' \
-   '(-c)--cd-db[Create fuzzy cd database]' \
    '(--links -L --del-links)-l[Make links]' \
    '(-l -L --del-links)--links[Make links]' \
    '(--del-links -l --links)-L[Remove links]' \
