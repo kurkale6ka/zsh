@@ -4,15 +4,15 @@ _arguments \
    '(-)-h[]' \
    '(-)--help[]' \
    '(-)-i[Initial setup]' \
-   '(-)--ini[Initial setup]' \
+   '(-)--init[Initial setup]' \
    '(-)-s[Check repositories statuses]' \
    '(-)--status[Check repositories statuses]' \
    '(--update)-u[Update repositories]' \
    '(-u)--update[Update repositories]' \
    '(--tags)-t[Generate tags]' \
    '(-t)--tags[Generate tags]' \
-   '(--gen-c-db)-c[Create fuzzy cd database]' \
-   '(-c)--gen-c-db[Create fuzzy cd database]' \
+   '(--cd-db)-c[Create fuzzy cd database]' \
+   '(-c)--cd-db[Create fuzzy cd database]' \
    '(--links -L --del-links)-l[Make links]' \
    '(-l -L --del-links)--links[Make links]' \
    '(--del-links -l --links)-L[Remove links]' \
