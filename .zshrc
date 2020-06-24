@@ -587,8 +587,9 @@ alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
 
 ## Git
+alias gs='git status -sb'
+alias gsa='mkconfig -s'
 alias gp='git push origin master'
-alias gm='git checkout master'
 alias ga='git add'
 alias gb='git branch'
 alias gf='git fetch'
