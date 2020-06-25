@@ -587,14 +587,17 @@ alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
 
 ## Git
-alias gs='git status -sb'
-alias gsa='mkconfig -s'
-alias gp='git push origin master'
 alias ga='git add'
 alias gb='git branch'
+alias gc='git commit -v'
+alias gd='git diff --word-diff=color'
 alias gf='git fetch'
 alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
+alias go='git checkout'
+alias gp='git push origin master'
+alias gs='git status -sb'
+alias gsa='mkconfig -s'
 
 ## tmux
 alias tmux='tmux -2'
