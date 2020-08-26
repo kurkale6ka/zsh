@@ -7,8 +7,8 @@ then
       # - ssh own@...
       export REPOS_BASE=~/github
    else
-      # command ssh (or /usr/bin/ssh) shared@... (then . .zshenv + exec zsh)
-      # REPOS_BASE set to ~shared/my_folder
+      # command ssh (or /usr/bin/ssh) shared@...
+      # . .zshenv + exec zsh to set REPOS_BASE to ~shared/my_folder
       export REPOS_BASE=$(cd ${${(%):-%x}%/*}/.. && pwd -P)
    fi
 fi
