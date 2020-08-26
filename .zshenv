@@ -1,19 +1,11 @@
 # Repos
-if id -u dimitar >/dev/null 2>&1
-then
-   my_home=~dimitar
-elif id -u mitko >/dev/null 2>&1
-then
-   my_home=~mitko
-fi
-
 if [[ -z $REPOS_BASE ]]
 then
-   if [[ -d $my_home/github ]]
+   if [[ -d ~/github/vim ]]
    then
       # - zsh local startup (or su -)
       # - ssh own@...
-      export REPOS_BASE=$my_home/github
+      export REPOS_BASE=~/github
    else
       # command ssh (or /usr/bin/ssh) shared@... (then . .zshenv + exec zsh)
       # REPOS_BASE set to ~shared/my_folder
@@ -21,9 +13,9 @@ then
    fi
 fi
 
-if [[ -d $my_home/github ]]
+if [[ -d ~/github/vim ]]
 then
-   base=$my_home
+   base=$HOME
 else
    # REPOS_BASE non null for the above reasons or because set from:
    # after/ssh.alt shared@...
