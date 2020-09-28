@@ -44,6 +44,7 @@ rsync -ai$dry --no-o --no-g $del -e'ssh -q'         \
       -f'+ config/dotfiles/**'                      \
       -f'- config/**'                               \
       -f'+ scripts/db-create'                       \
+      -f'+ scripts/pg.pl'                           \
       -f'+ scripts/mkconfig.sh'                     \
       -f'- scripts/**'                              \
       -f'- zsh/after/ssh.alt'                       \
