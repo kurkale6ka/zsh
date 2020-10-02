@@ -90,6 +90,8 @@ then
 fi
 
 ## Processes and jobs (see Mac section too ^)
+alias pg=$REPOS_BASE/scripts/pg.pl
+
 alias k=kill
 alias kg='kill -- -'
 
