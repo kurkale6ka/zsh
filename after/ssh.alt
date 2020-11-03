@@ -1,7 +1,7 @@
 # Copy to ~/.config/zsh/after/ssh
 #
 # Auto syncing would be possible only if using ssh without options
-# rsall -u<user> $@
+# rseverywhere <node>
 #
 # also needed for bash:
 #
