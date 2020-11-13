@@ -1,0 +1,3 @@
+#compdef cert
+
+_alternative "files:certificate:($(echo *.crt *.pem))"

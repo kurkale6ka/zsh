@@ -1,11 +1,5 @@
 #compdef ex
 
-# (- :)-h forbids any options (-) or arguments (:) after -h
-# (--help)-h forbids --help after -h
-# -d+ allows -d /dir and -d/dir
-# action _path_files -/ completes dirs
-# ::topic: is an optional (::) non-option arg with no action associated
-
 _arguments \
    '(- :)-h' \
    '(- :)--help' \
