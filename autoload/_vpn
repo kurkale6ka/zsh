@@ -1,0 +1,4 @@
+#compdef vpn
+local -a subcmds
+subcmds=("${(f)$(vpn -ibs)}")
+_describe 'Select Country' subcmds
