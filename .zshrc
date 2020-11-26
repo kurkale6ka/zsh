@@ -34,20 +34,6 @@ then
 fi
 
 ## Prompts
-autoload -Uz vcs_info
-
-zstyle ':vcs_info:*' enable git svn
-zstyle ':vcs_info:*' formats '%b' # branch
-
-precmd() {
-   local vcs_info_msg_0_
-   vcs_info
-   psvar[2]=$vcs_info_msg_0_
-
-   # Set the terminal title to [$PWD] host
-   print -nP '\e]0;[%~] %M\a'
-}
-
 psvar[1]=1
 if [[ -z $SSH_CONNECTION ]]
 then
@@ -57,6 +43,23 @@ then
       start_ssh_agent
    fi
 fi
+
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' formats '%b' # branch
+
+precmd() {
+   if ((!psvar[1]))
+   then
+      local vcs_info_msg_0_
+      vcs_info
+      psvar[2]=$vcs_info_msg_0_
+   fi
+
+   # Set the terminal title to [$PWD] host
+   print -nP '\e]0;[%~] %M\a'
+}
 
 # %F{color}...%f
 # %~: cwd, %2v: psvar[2], %m: hostname, %n: username %#: % or #
