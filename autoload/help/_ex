@@ -3,9 +3,16 @@
 _arguments \
    '(- :)-h' \
    '(- :)--help' \
-   '-H[include hidden files]' \
-   '-d+[change root directory]:directory:_path_files -/' \
-   '-e[exact filename matches]' \
-   '-g[list (grep) files with occurrences of topic]' \
-   '-v[open with vim (actually $EDITOR, or use alt-v from within fzf)]' \
+   '(-H)--hidden[include hidden files]' \
+   '(--hidden)-H[include hidden files]' \
+   '(-d)--directory+[change root directory]:directory:_path_files -/' \
+   '(--directory)-d+[change root directory]:directory:_path_files -/' \
+   '(-e)--exact[exact filename matches]' \
+   '(--exact)-e[exact filename matches]' \
+   '(-g)--grep[grep for occurrences of topic in files]' \
+   '(--grep)-g[grep for occurrences of topic in files]' \
+   '(-o)--only[output filetred lines only]' \
+   '(--only)-o[output filetred lines only]' \
+   '(-v)--view[view with your $EDITOR, use Alt-v from within fzf]' \
+   '(--view)-v[view with your $EDITOR, use Alt-v from within fzf]' \
    '::topic:'
