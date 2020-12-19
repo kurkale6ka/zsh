@@ -29,9 +29,28 @@ fi
 
 if ((EUID == 0))
 then
-   path=(/usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin /root/bin $path)
-   typeset -U path
+   path=(/root/bin /usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin $path)
 fi
+
+# Mac OS specific
+if [[ $(uname) == Darwin ]]
+then
+   formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
+   brew_prefix=/usr/local/opt # brew --prefix
+   path=(/usr/local/bin $path)
+
+   # Amend path to get GNU commands vs the default BSD ones
+   # $brew_prefix/ + formula + /libexec/gnubin
+   path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $path)
+
+   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:/usr/local/share/man:"$(man -w)"
+
+   typeset -U manpath
+   export MANPATH
+fi
+
+path=(~/bin $path)
+typeset -U path
 
 ## Prompts
 psvar[1]=1
@@ -71,25 +90,6 @@ then
 else
    PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
    RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
-fi
-
-## Mac OS specific
-if [[ $(uname) == Darwin ]]
-then
-   formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
-   brew_prefix=/usr/local/opt # brew --prefix
-   path=(/usr/local/bin $path)
-
-   # Amend path to get GNU commands vs the default BSD ones
-   # $brew_prefix/ + formula + /libexec/gnubin
-   path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $path)
-
-   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:/usr/local/share/man:"$(man -w)"
-
-   typeset -U path manpath
-   export MANPATH
-
-   alias xclip=pbcopy
 fi
 
 ## Processes and jobs (see Mac section too ^)
@@ -583,7 +583,12 @@ else
 fi
 
 ## Various applications aliases
-[[ $(uname) != Darwin ]] && alias open=xdg-open
+if [[ $(uname) == Darwin ]]
+then
+   alias xclip=pbcopy
+else
+   alias open=xdg-open
+fi
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
 alias msg=dmesg
