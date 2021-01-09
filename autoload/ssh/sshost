@@ -1,1 +1,1 @@
-sed -n "/^host.*\<$1\>/I,/^host\>/Ip" ~/.ssh/config | grep -v '^\s*#' | grep -i hostname | awk '{print $2}' | tee >(tr -d '\n' | xclip)
+perl -ln0777e "print \$1 if /^host.+?\h$1\s.+?hostname\h+(\S+)\h*$/msi" ~/.ssh/config | tee >(tr -d '\n' | xclip)
