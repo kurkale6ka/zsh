@@ -1,1 +1,1 @@
-perl -ln0777e 'print $1 if /^host\h.+?\h'$1'\s.+?^\h*hostname\h+(\S+)\h*$/msi' ~/.ssh/config | tee >(tr -d '\n' | xclip)
+perl -ln0777e 'print $1 if /^host(?=\h)\N*?\h'$1'\s.*?^\h*hostname\h+(\S+)\h*$/msi' ~/.ssh/config | tee >(tr -d '\n' | xclip)
