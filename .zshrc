@@ -543,13 +543,13 @@ fi
 alias cn='cat -n'
 
 ## Help
+alias mm='man -k'
+alias mp="$REPOS_BASE/scripts/man.pl"
 alias h="ex -d $REPOS_BASE/help"
 
 unalias run-help
 alias help="LESS='-F $LESS' run-help"
 autoload -Uz run-help
-
-alias mm='man -k'
 
 # print info about a command, alias, function...
 alias '?=qmark'
