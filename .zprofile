@@ -26,6 +26,9 @@ fi
 
 export VISUAL=$EDITOR
 
+# Perl
+export PERLDOC_SRC_PAGER=$EDITOR
+
 # fzf
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 if (( $+commands[fd] ))
