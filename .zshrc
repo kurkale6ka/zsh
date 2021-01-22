@@ -534,6 +534,7 @@ alias il='iptables -nvL --line-numbers'
 reg() { whois -H $1 | egrep -A1 -i registrar:; }
 
 ## Head/Tail and cat
+alias ha=$REPOS_BASE/scripts/headall.pl
 alias tf='tail -f -n0'
 
 if (( $+commands[bat] ))
