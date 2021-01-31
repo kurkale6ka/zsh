@@ -596,6 +596,7 @@ alias msg=dmesg
 alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
 alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
+alias rr=$REPOS_BASE/scripts/rrepl.pl
 
 ## Git
 alias ga='git add'
