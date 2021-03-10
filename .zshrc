@@ -47,6 +47,10 @@ then
 
    typeset -U manpath
    export MANPATH
+
+   # Persist Perl modules across brew updates. First install local::lib with:
+   # cpanm -l ~/perl5 local::lib
+   eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 fi
 
 path=(~/bin $path)
