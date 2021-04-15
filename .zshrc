@@ -612,7 +612,7 @@ alias gf='git fetch'
 alias gl='git log --oneline --decorate'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
 alias go='git checkout'
-alias gp='git push origin master'
+alias gp='git push origin HEAD'
 alias gs='git status -sb'
 alias gsa='mkconfig -s'
 
