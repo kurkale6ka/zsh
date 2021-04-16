@@ -43,7 +43,7 @@ then
    # $brew_prefix/ + formula + /libexec/gnubin
    path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $path)
 
-   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:/usr/local/share/man:"$(man -w)"
+   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$HOME/.fzf/man:/usr/local/share/man:"$(man --path)"
 
    typeset -U manpath
    export MANPATH
