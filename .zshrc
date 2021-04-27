@@ -529,6 +529,7 @@ alias cm=chmod
 ## Partitions
 alias umn=umount
 alias fu='sudo fuser -mv' # what uses the named files, sockets, or filesystems
+alias df='df -hPTx{dev,}tmpfs'
 
 ## Networking + firewall aliases
 alias myip='curl ipinfo.io/ip'
