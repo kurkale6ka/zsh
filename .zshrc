@@ -425,10 +425,12 @@ else
    fi
 fi
 
-alias -g V='| v -'
-alias -g J='| python -mjson.tool'
-
 alias ed='ed -v -p:'
+
+## global aliases
+alias -g V='| v -'
+alias -g P='| perl -00lnE "say;exit"'
+alias -g J='| python -mjson.tool'
 
 ## ls and echo
 if [[ $(uname) != OpenBSD ]]
