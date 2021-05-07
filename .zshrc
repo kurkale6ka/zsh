@@ -35,15 +35,21 @@ fi
 # Mac OS specific
 if [[ $(uname) == Darwin ]]
 then
-   formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
    brew_prefix=/usr/local/opt # brew --prefix
    path=(/usr/local/bin $path)
 
+   typeset -A whois fzf
+   whois[bin]=/usr/local/opt/whois/bin
+   whois[man]=/usr/local/opt/whois/share/man
+   fzf[man]=$HOME/.fzf/man
+
+   formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
+
    # Amend path to get GNU commands vs the default BSD ones
    # $brew_prefix/ + formula + /libexec/gnubin
-   path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $path)
+   path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $whois[bin] $path)
 
-   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$HOME/.fzf/man:/usr/local/share/man:"$(man --path)"
+   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$fzf[man]:$whois[man]:/usr/local/share/man:"$(man --path)"
 
    typeset -U manpath
    export MANPATH
@@ -532,11 +538,9 @@ alias fu='sudo fuser -mv' # what uses the named files, sockets, or filesystems
 alias df='df -hPT -x{dev,}tmpfs'
 
 ## Networking + firewall aliases
+alias whois='whois -H'
 alias myip='curl ipinfo.io/ip'
-
 alias il='iptables -nvL --line-numbers'
-
-reg() { whois -H $1 | egrep -A1 -i registrar:; }
 
 ## Head/Tail and cat
 alias ha=$REPOS_BASE/scripts/headall.pl
