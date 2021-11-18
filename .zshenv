@@ -26,13 +26,13 @@ fi
 export XDG_CONFIG_HOME=$base/.config
 export   XDG_DATA_HOME=$base/.local/share
 
-# Zsh dot directory
+# zsh
+mkdir -p {$XDG_CONFIG_HOME,$XDG_DATA_HOME}/zsh
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
+# no ~/.config/zsh links in shared user home (mkconfig will take care of this)
 if [[ $base != $HOME ]]
 then
-   mkdir -p {$XDG_CONFIG_HOME,$XDG_DATA_HOME}/zsh
-
    for config in .zprofile .zshrc autoload
    do
       if [[ ! -L $XDG_CONFIG_HOME/zsh/$config ]]
