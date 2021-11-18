@@ -560,7 +560,7 @@ alias mp="$REPOS_BASE/scripts/man.pl"
 alias h="ex -d $REPOS_BASE/help"
 
 unalias run-help 2>/dev/null
-alias help="LESS='-F $LESS' run-help"
+alias help="LESS='-XF $LESS' run-help"
 autoload -Uz run-help
 
 # print info about a command, alias, function...
