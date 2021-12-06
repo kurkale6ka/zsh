@@ -384,8 +384,6 @@ zstyle ':completion:*' matcher-list '' \
                                     '+l:|=* r:|=*' \
                                     'r:[[:ascii:]]||[[:ascii:]]=**'
 
-zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
-
 # ls f/b/b<tab> results in fob/bar/bing/ fob/baz/bing/ foo/bar/bing/ ... vs (fob|foo)/b/b
 zstyle ':completion:*' list-suffixes true
 
@@ -398,6 +396,15 @@ zstyle ':completion:*:warnings' format 'No matches for: %B%d%b'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
+compdef m=man
+
+# =(#b)..(pattern1)..(pattern2)..=format0=format1=format2
+#      ..(pattern1)..(pattern2).. must match the whole line
+# format0 is for everything unmatched
+zstyle ':completion:*:processes' list-colors '=(#b) #([0-9]##) ##[^ ]## ##([^ ]##)?##=0=32=34'
+zstyle ':completion:*:processes' force-list always
+
+# ps
 zstyle ':completion:*:processes' format '%BPID EUSER START CMD%b'
 if ((EUID == 0))
 then
@@ -406,13 +413,11 @@ else
    zstyle ':completion:*:processes' command 'command ps fxww o pid,euser,start_time,cmd'
 fi
 
-# =(#b)..(pattern1)..(pattern2)..=format0=format1=format2
-#      ..(pattern1)..(pattern2).. must match the whole line
-# format0 is for everything unmatched
-zstyle ':completion:*:processes' list-colors '=(#b) #([0-9]##) ##[^ ]## ##([^ ]##)?##=0=32=34'
-zstyle ':completion:*:processes' force-list always
+# ssh
+zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
 
-compdef m=man
+# kubernetes
+. <(kubectl completion zsh)
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
