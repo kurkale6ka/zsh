@@ -38,13 +38,6 @@ then
    export   FZF_ALT_C_COMMAND='fd -td -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore'
 fi
 
-# clustershell
-if [[ $(uname) == Darwin ]]
-then
-   export PYTHONPATH=$PYTHONPATH:~/Library/Python/2.7/lib
-   export PATH=$PATH:~/Library/Python/2.7/bin
-fi
-
 # ps
 export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
