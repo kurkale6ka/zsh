@@ -606,6 +606,7 @@ then
 else
    alias open=xdg-open
 fi
+alias csv="perl -pe 's/(?:(?<=^)|(?<=,)),/ ,/g'"
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
 alias msg=dmesg
