@@ -417,7 +417,10 @@ fi
 zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
 
 # kubernetes
-. <(kubectl completion zsh)
+if (( $+commands[kubectl] ))
+then
+   . <(kubectl completion zsh)
+fi
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
