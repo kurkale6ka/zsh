@@ -620,6 +620,7 @@ alias python=python3
 alias ff='ffplay -v error -vf scale=220:-1'
 alias rr=$REPOS_BASE/scripts/rrepl.pl
 alias ssh=$REPOS_BASE/scripts/ssh.pl
+alias sc='v ~/.ssh/known_hosts -c "e config"'
 
 ## Git
 alias ga='git add'
