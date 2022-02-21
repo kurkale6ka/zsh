@@ -1,6 +1,6 @@
 if [[ -d $REPOS_BASE/help ]]
 then
-   tail -n+3 $REPOS_BASE/help/cidr.txt
+   tail -n+7 $REPOS_BASE/help/cidr.txt
 else
    print 'Help not installed' 1>&2
 fi
