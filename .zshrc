@@ -357,6 +357,10 @@ then
    fi
 fi
 
+# completions from Bash
+autoload bashcompinit && bashcompinit
+complete -C '/usr/bin/aws_completer' aws
+
 # zstyle context style '...' '...'
 #        \
 #         :completion:function:completer:command:argument:tag
