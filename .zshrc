@@ -360,6 +360,7 @@ fi
 # completions from Bash
 autoload bashcompinit && bashcompinit
 complete -C '/usr/bin/aws_completer' aws
+complete -C '/usr/bin/packer' packer
 
 # zstyle context style '...' '...'
 #        \
