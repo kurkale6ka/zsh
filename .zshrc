@@ -625,6 +625,7 @@ alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias py=python3
 alias python=python3
 alias ff='ffplay -v error -vf scale=220:-1'
+alias cal=$REPOS_BASE/scripts/cal.py
 alias rr=$REPOS_BASE/scripts/rrepl.pl
 alias ssh=$REPOS_BASE/scripts/ssh.pl
 alias sc='v ~/.ssh/known_hosts -c "e config"'
