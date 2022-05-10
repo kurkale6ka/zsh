@@ -613,9 +613,14 @@ fi
 if [[ $(uname) == Darwin ]]
 then
    alias xclip=pbcopy
+elif [[ -n $WSL_DISTRO_NAME || $(uname -r) == *microsoft* ]]
+then
+   alias xclip=clip.exe
+   alias open=wslview
 else
    alias open=xdg-open
 fi
+
 alias csv="perl -pe 's/(?:(?<=^)|(?<=,)),/ ,/g'"
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
