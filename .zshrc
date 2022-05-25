@@ -641,7 +641,7 @@ alias gb='git branch'
 alias gc='git commit -v'
 alias gd='git diff --word-diff=color'
 alias gf='git fetch'
-alias gl='git log --oneline --decorate'
+alias gl='git -P log --oneline -n11'
 alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
 alias go='git checkout'
 alias gp='git push'
