@@ -3,7 +3,7 @@
 export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
 
 # path
-path=(/usr/local/sbin $REPOS_BASE/vim/plugged/fzf.vim/bin $path)
+path=(~/.local/bin /usr/local/sbin $REPOS_BASE/vim/plugged/fzf.vim/bin $path)
 typeset -U path # remove any duplicates from the array
 
 export PYTHONSTARTUP=~/.pyrc
