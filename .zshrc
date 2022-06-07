@@ -188,12 +188,14 @@ key[Right]=${terminfo[kcuf1]}
 
 [[ -n ${key[Insert]}   ]] && bindkey ${key[Insert]}   overwrite-mode
 [[ -n ${key[Delete]}   ]] && bindkey ${key[Delete]}   delete-char
+[[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
+[[ -n ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
+
+# ctrl-a, ctrl-e
+[[ -n ${key[Home]} ]] && bindkey ${key[Home]} beginning-of-line
+[[ -n ${key[End]}  ]] && bindkey ${key[End]}  end-of-line
 bindkey "\e[1;5D" beginning-of-line # Ctrl + <-
 bindkey "\e[1;5C" end-of-line       # Ctrl + ->
-[[ -n ${key[Home]}     ]] && bindkey ${key[Home]}     beginning-of-line
-[[ -n ${key[End]}      ]] && bindkey ${key[End]}      end-of-line
-[[ -n ${key[PageUp]}   ]] && bindkey ${key[PageUp]}   beginning-of-buffer-or-history
-[[ -n ${key[PageDown]} ]] && bindkey ${key[PageDown]} end-of-buffer-or-history
 
 # History navigation
 autoload -Uz history-search-end
