@@ -363,10 +363,10 @@ fi
 
 # completions from Bash
 autoload bashcompinit && bashcompinit
-complete -C '/usr/bin/aws_completer' aws
-complete -C '/usr/bin/packer' packer
-complete -C '/usr/bin/terraform' terraform
-complete -C '/usr/bin/vault' vault
+complete -C aws_completer aws
+complete -C packer packer
+complete -C terraform terraform
+complete -C vault vault
 
 # zstyle context style '...' '...'
 #        \
