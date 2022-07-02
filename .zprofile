@@ -62,4 +62,4 @@ export PAGER=less
 # Local zprofile file
 [[ -r $XDG_CONFIG_HOME/zsh/.zprofile_after ]] && . $XDG_CONFIG_HOME/zsh/.zprofile_after
 
-[[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
+# [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
