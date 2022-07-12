@@ -626,6 +626,7 @@ else
 fi
 
 alias csv="perl -pe 's/(?:(?<=^)|(?<=,)),/ ,/g'"
+alias ip='ip -br -c -4 a'
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
 alias msg=dmesg
