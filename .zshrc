@@ -642,12 +642,12 @@ alias sc='v ~/.ssh/known_hosts -c "e config"'
 
 ## Git
 alias ga='git add'
-alias gb='git branch'
+alias gb='git -P branch -avv'
 alias gc='git commit -v'
-alias gd='git diff --word-diff=color'
+alias gd='git diff'
 alias gf='git fetch'
-alias gl='git -P log --oneline -n11'
-alias gll='git log -U1 --word-diff=color' # -U1: 1 line of context (-p implied)
+alias gl='git -P log --pretty="%C(auto)%h %C(242)%<(10,trunc)%cr %Cgreen%<(13,trunc)%cn%C(auto)%d %s" -n11'
+alias gll='git log -p'
 alias go='git checkout'
 alias gp='git push'
 alias gs='git status -sb'
