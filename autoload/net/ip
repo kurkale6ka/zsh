@@ -1,0 +1,6 @@
+if (($#))
+then
+   command ip $@
+else
+   command ip -br -c -4 a
+fi
