@@ -649,6 +649,7 @@ alias gl='git -P log --pretty="%C(auto)%h %C(242)%<(10,trunc)%ar %Cgreen%<(13,tr
 alias gll='git log -p'
 alias go='git checkout'
 alias gp='git push'
+alias gpu='git push -u origin HEAD'
 alias gs='git status -sb'
 alias gsa='mkconfig -s'
 
