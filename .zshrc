@@ -600,6 +600,7 @@ else
    alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
 fi
 
+alias ge='env | grep -Ei'
 alias vd='v -d'
 alias _=combine
 
