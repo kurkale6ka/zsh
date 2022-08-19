@@ -363,7 +363,7 @@ fi
 
 # completions from Bash
 autoload bashcompinit && bashcompinit
-complete -C aws_completer aws
+complete -C aws_completer aws # complete aws with command (-C) aws_completer
 complete -C packer packer
 complete -C terraform terraform
 complete -C vault vault
