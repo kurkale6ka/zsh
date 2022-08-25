@@ -1,6 +1,6 @@
 if (($#))
 then
-   man $@
+   env MANWIDTH=90 man $@
 else
-   man man
+   env MANWIDTH=90 man man
 fi
