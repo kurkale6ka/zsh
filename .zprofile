@@ -1,3 +1,5 @@
+export MANWIDTH=90
+
 # readline
 # if I wanted to run bash from within zsh
 export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
