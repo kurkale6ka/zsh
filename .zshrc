@@ -83,11 +83,10 @@ precmd() {
    then
       local vcs_info_msg_0_
       vcs_info
-      if [[ $vcs_info_msg_0_ != main ]]
+      psvar[2]=
+      if [[ $vcs_info_msg_0_ != @(master|main|trunk) ]]
       then
          psvar[2]=$vcs_info_msg_0_
-      else
-         psvar[2]=
       fi
    fi
 
