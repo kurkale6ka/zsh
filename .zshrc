@@ -83,7 +83,12 @@ precmd() {
    then
       local vcs_info_msg_0_
       vcs_info
-      psvar[2]=$vcs_info_msg_0_
+      if [[ $vcs_info_msg_0_ != main ]]
+      then
+         psvar[2]=$vcs_info_msg_0_
+      else
+         psvar[2]=
+      fi
    fi
 
    # Set the terminal title to [$PWD] host
@@ -95,7 +100,7 @@ precmd() {
 # %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, V2: psvar[2] != empty
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{238}%2v%f.)\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
+   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{green}%2v%f.)\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
 else
    PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
