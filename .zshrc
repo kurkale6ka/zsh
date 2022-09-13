@@ -411,7 +411,7 @@ zstyle ':completion:*:warnings' format 'No matches for: %B%d%b'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
-compdef m=man
+compdef m=man bat=cat
 
 # =(#b)..(pattern1)..(pattern2)..=format0=format1=format2
 #      ..(pattern1)..(pattern2).. must match the whole line
