@@ -647,7 +647,7 @@ alias sc='v ~/.ssh/known_hosts -c "e config"'
 ## Git
 alias ga='git add'
 alias gb='git -P branch -avv'
-alias gbd='gf && git for-each-ref --format "%(refname) %(upstream:track)" refs/heads | perl -l0ne "print s#refs/heads/(.+) \[gone\]#\$1#r if /gone\]$/" | xargs -0 -n1 git branch -D 2>/dev/null'
+alias gbd='gf && git for-each-ref --format "%(refname) %(upstream:track)" refs/heads | perl -l0ne "print s#refs/heads/(.+) \[gone\]#\$1#r if /gone\]$/" | xargs -0 -n1 git branch -D'
 alias gc='git commit -v'
 alias gd='git diff -w'
 alias gf='git fetch --all --prune'
