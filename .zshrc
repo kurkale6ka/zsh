@@ -75,8 +75,11 @@ fi
 
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' enable git svn
-zstyle ':vcs_info:*' formats '%b' # branch
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr 'F{green}#f%'
+zstyle ':vcs_info:*' unstagedstr 'F{red}#f%'
+zstyle ':vcs_info:git:*' formats '%c%u %b' # index, working dir, branch
 
 precmd() {
    if ((!psvar[1]))
