@@ -79,16 +79,16 @@ autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:*' get-revision true
+# zstyle ':vcs_info:*' get-revision true # %i
 zstyle ':vcs_info:*'   stagedstr '+'  # %c index
 zstyle ':vcs_info:*' unstagedstr '*'  # %u working dir
-zstyle ':vcs_info:*' formats '%i%c%u%b%m' # branch..
+zstyle ':vcs_info:*' formats '%c%u%b%m' # branch..
 
 # Show +N/-N when your local branch is ahead-of or behind remote HEAD
 # make sure you have added misc to your 'formats':  %m
 zstyle ':vcs_info:git*+set-message:*' hooks git-st
 
-function +vi-git-st() {
++vi-git-st() {
     local ahead behind
     local -a gitstatus
 
@@ -111,7 +111,7 @@ function +vi-git-st() {
 # Show remote branch name for remote-tracking branches
 zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
 
-function +vi-git-remotebranch() {
++vi-git-remotebranch() {
     local remote
 
     # Are we on a remote-tracking branch?
