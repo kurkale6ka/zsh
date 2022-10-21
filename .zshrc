@@ -7,6 +7,7 @@ setopt hist_ignore_space
 setopt inc_append_history
 setopt interactivecomments
 setopt list_rows_first
+setopt prompt_subst # do expansions $..., $(...) ``, $((...)) before any substitutions %~, %#, %F{}...%f
 
 unsetopt auto_name_dirs # shorter names in CWD
 unsetopt case_glob
@@ -76,18 +77,17 @@ fi
 autoload -Uz vcs_info
 
 # zstyle ':vcs_info:*+*:*' debug true
-
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:*' get-revision true # %i
-zstyle ':vcs_info:*'   stagedstr '+'  # %c index
-zstyle ':vcs_info:*' unstagedstr '*'  # %u working dir
-zstyle ':vcs_info:*' formats '%c%u%b%m' # branch..
+zstyle ':vcs_info:*'   stagedstr '+' # %c index
+zstyle ':vcs_info:*' unstagedstr '' # %u working dir
+zstyle ':vcs_info:*' formats '%F{green}%c%F{red}%u%F{green}%b%f%m' # %b branch..
+
+zstyle ':vcs_info:git*+set-message:*' hooks git-st
+zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
 
 # Show +N/-N when your local branch is ahead-of or behind remote HEAD
-# make sure you have added misc to your 'formats':  %m
-zstyle ':vcs_info:git*+set-message:*' hooks git-st
-
+# make sure you have added misc to your 'formats': %m
 +vi-git-st() {
     local ahead behind
     local -a gitstatus
@@ -102,41 +102,33 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-st
     ahead=${ahead_and_behind[1]}
     behind=${ahead_and_behind[2]}
 
-    (( $ahead )) && gitstatus+=( "+${ahead}" )
+    (( $ahead  )) && gitstatus+=( "+${ahead}"  )
     (( $behind )) && gitstatus+=( "-${behind}" )
 
     hook_com[misc]+=${(j:/:)gitstatus}
 }
 
 # Show remote branch name for remote-tracking branches
-zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
-
 +vi-git-remotebranch() {
     local remote
 
     # Are we on a remote-tracking branch?
     remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
 
-    # The first test will show a tracking branch whenever there is one. The
-    # second test, however, will only show the remote branch's name if it
-    # differs from the local one.
     if [[ -n $remote ]]
     then
-    # if [[ -n ${remote} && ${remote#*/} != ${hook_com[branch]} ]] ; then
-        hook_com[branch]="${hook_com[branch]}...${remote}"
+        hook_com[branch]="${hook_com[branch]}%f...%F{red}${remote}"
     fi
 }
 
 precmd() {
-   if ((!psvar[1]))
+   if ((!psvar[1])) # ssh
    then
-      local vcs_info_msg_0_
       vcs_info
       psvar[2]=
       if [[ $vcs_info_msg_0_ ]]
       then
-         psvar[2]=$vcs_info_msg_0_
-         # RPROMPT=
+         psvar[2]=
       fi
    fi
 
@@ -149,10 +141,10 @@ precmd() {
 # %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, V2: psvar[2] != empty
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{green}%2v%f.)\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
+   PROMPT=$'\n[%F{69}%~%(2V. %F{cyan}%2v%f.)%f] $vcs_info_msg_0_\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
 else
-   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
+   PROMPT=$'\n[%B%F{blue}%~%f%b] $vcs_info_msg_0_\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
    RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
 fi
 
