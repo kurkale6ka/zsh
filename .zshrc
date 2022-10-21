@@ -7,6 +7,7 @@ setopt hist_ignore_space
 setopt inc_append_history
 setopt interactivecomments
 setopt list_rows_first
+setopt prompt_subst # do expansions $..., $(...) ``, $((...)) before any substitutions %~, %#, %F{}...%f
 
 unsetopt auto_name_dirs # shorter names in CWD
 unsetopt case_glob
@@ -73,21 +74,53 @@ then
    fi
 fi
 
+# https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
+# https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' enable git svn
-zstyle ':vcs_info:*' formats '%b' # branch
+# zstyle ':vcs_info:*+*:*' debug true
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*'   stagedstr '+' # %c index
+zstyle ':vcs_info:*' unstagedstr '' # %u working dir
+zstyle ':vcs_info:*' formats '%F{green}%c%F{red}%u%F{green}%b%f' # %b branch
+zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
+
+# Show remote-tracking branches + ahead/behind status
++vi-git-remotebranch() {
+    local remote
+    local ahead behind
+    local -a gitstatus
+
+    # Are we on a remote-tracking branch?
+    remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+
+    # Show +N/-N when your local branch is ahead-of or behind remote HEAD
+    # exit early in case the worktree is on a detached HEAD
+    git rev-parse ${hook_com[branch]}@{upstream} >/dev/null 2>&1 || return 0
+
+    local -a ahead_and_behind=(
+        $(git rev-list --left-right --count HEAD...${hook_com[branch]}@{upstream} 2>/dev/null)
+    )
+
+    ahead=${ahead_and_behind[1]}
+    behind=${ahead_and_behind[2]}
+
+    (( $ahead  )) && gitstatus+=( "+%F{green}$ahead%f" )
+    (( $behind )) && gitstatus+=( "-%F{red}$behind%f"  )
+
+    if [[ -n $remote ]]
+    then
+        hook_com[branch]="${hook_com[branch]}%f...%F{red}${remote}%f ${(j:/:)gitstatus}"
+    fi
+}
 
 precmd() {
-   if ((!psvar[1]))
+   if ((!psvar[1])) # ssh
    then
-      local vcs_info_msg_0_
       vcs_info
       psvar[2]=
-      if [[ $vcs_info_msg_0_ ]]
-      then
-         psvar[2]=$vcs_info_msg_0_
-      fi
+      [[ $vcs_info_msg_0_ ]] && psvar[2]=
    fi
 
    # Set the terminal title to [$PWD] host
@@ -99,10 +132,10 @@ precmd() {
 # %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, V2: psvar[2] != empty
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%F{69}%~%f] %(2V.%F{green}%2v%f.)\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
+   PROMPT=$'\n[%F{69}%~%(2V. %F{cyan}%2v.)%f] $vcs_info_msg_0_\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
 else
-   PROMPT=$'\n[%B%F{blue}%~%f%b] %2v\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
+   PROMPT=$'\n[%B%F{blue}%~%(2V. %F{cyan}%2v.)%f%b] $vcs_info_msg_0_\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
    RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
 fi
 
