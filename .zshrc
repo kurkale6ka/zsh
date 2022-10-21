@@ -81,9 +81,9 @@ autoload -Uz vcs_info
 # zstyle ':vcs_info:*+*:*' debug true
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*'   stagedstr '+' # %c index
-zstyle ':vcs_info:*' unstagedstr '' # %u working dir
-zstyle ':vcs_info:*' formats '%F{green}%c%F{red}%u%F{green}%b%f' # %b branch
+zstyle ':vcs_info:*'   stagedstr  '%F{41}+%f'    # %c index       (green)
+zstyle ':vcs_info:*' unstagedstr '%F{124}%f'    # %u working dir (red)
+zstyle ':vcs_info:*' formats '%c%u%F{green}%b%f' # %b branch
 zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
 
 # Show remote-tracking branches + ahead/behind status
