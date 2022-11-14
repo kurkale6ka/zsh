@@ -19,6 +19,9 @@ HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=11000
 SAVEHIST=11000
 
+alias history='history -t "%d/%b/%H:%M"'
+alias hg='\history 1 | sed "s/^ [0-9]\+  //" | g'
+
 alias zn='zsh -f'
 
 ## Paths
