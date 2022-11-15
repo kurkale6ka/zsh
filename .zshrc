@@ -73,7 +73,6 @@ then
    if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
    then
       psvar[1]=
-      start_ssh_agent
    fi
 fi
 
