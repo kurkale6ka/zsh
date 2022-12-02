@@ -93,27 +93,27 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
     local remote
 
     # Are we on a remote-tracking branch?
-    remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+    remote=${$(git rev-parse --verify $hook_com[branch]@{upstream} --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
 
     if [[ -n $remote ]]
     then
         # Show +N/-N when your local branch is ahead-of or behind remote HEAD
         # exit early in case the worktree is on a detached HEAD
-        git rev-parse ${hook_com[branch]}@{upstream} >/dev/null 2>&1 || return 0
+        git rev-parse $hook_com[branch]@{upstream} >/dev/null 2>&1 || return 0
 
         local ahead behind
         local -a gitstatus
         local -a ahead_and_behind=(
-            $(git rev-list --left-right --count HEAD...${hook_com[branch]}@{upstream} 2>/dev/null)
+            $(git rev-list --left-right --count HEAD...$hook_com[branch]@{upstream} 2>/dev/null)
         )
 
-        ahead=${ahead_and_behind[1]}
-        behind=${ahead_and_behind[2]}
+        ahead=$ahead_and_behind[1]
+        behind=$ahead_and_behind[2]
 
         (( $ahead  )) && gitstatus+=( "+%F{green}$ahead%f" )
         (( $behind )) && gitstatus+=( "-%F{red}$behind%f"  )
 
-        hook_com[branch]="${hook_com[branch]}%f...%F{red}${remote}%f ${(j:/:)gitstatus}"
+        hook_com[branch]="$hook_com[branch]%f...%F{red}$remote%f ${(j:/:)gitstatus}"
     fi
 
     # Show ?? if there are any untracked files
