@@ -8,6 +8,7 @@ export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
 path=(~/.local/bin /usr/local/sbin $REPOS_BASE/vim/plugged/fzf.vim/bin $path)
 typeset -U path # remove any duplicates from the array
 
+export PYTHONPATH=~/repos
 export PYTHONSTARTUP=~/.pyrc
 
 export LANG=en_GB.UTF-8
