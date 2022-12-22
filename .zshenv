@@ -13,7 +13,7 @@ then
    fi
 fi
 
-if [[ -d ~/github/vim ]]
+if [[ -d ~/github/editor ]]
 then
    base=$HOME
 else
