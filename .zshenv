@@ -1,7 +1,7 @@
 # Repos
 if [[ -z $REPOS_BASE ]]
 then
-   if [[ -d ~/github/vim ]]
+   if [[ -d ~/github/editor ]]
    then
       # - zsh local startup (or su -)
       # - ssh own@...
