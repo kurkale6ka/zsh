@@ -452,7 +452,7 @@ zstyle ':completion:*:warnings' format 'No matches for: %B%d%b'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals*' ignored-patterns 'zshcompctl'
 
-compdef m=man bat=cat
+compdef m=man bat=cat mg=git
 
 # =(#b)..(pattern1)..(pattern2)..=format0=format1=format2
 #      ..(pattern1)..(pattern2).. must match the whole line
@@ -492,6 +492,7 @@ fi
 alias ed='ed -v -p:'
 
 ## global aliases
+alias -g F='| fzf'
 alias -g V='| v -'
 alias -g P='| perl -00lnE "say;exit"'
 alias -g J='| python -mjson.tool'
