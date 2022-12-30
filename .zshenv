@@ -1,7 +1,7 @@
 # Repos
 if [[ -z $REPOS_BASE ]]
 then
-   if [[ -d ~/github/editor ]]
+   if [[ -d ~/github/vim ]]
    then
       # - zsh local startup (or su -)
       # - ssh own@...
@@ -13,7 +13,7 @@ then
    fi
 fi
 
-if [[ -d ~/github/editor ]]
+if [[ -d ~/github/vim ]]
 then
    base=$HOME
 else
