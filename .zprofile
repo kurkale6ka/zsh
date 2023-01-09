@@ -5,7 +5,13 @@ export MANWIDTH=90
 export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
 
 # path
-path=(~/.local/bin /usr/local/sbin $REPOS_BASE/vim/plugged/fzf.vim/bin $path)
+path=(
+~/.local/bin
+/usr/local/sbin
+$XDG_DATA_HOME/npm/bin
+$REPOS_BASE/vim/plugged/fzf.vim/bin
+$path
+)
 typeset -U path # remove any duplicates from the array
 
 export PYTHONPATH=~/repos
