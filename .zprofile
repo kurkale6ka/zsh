@@ -42,9 +42,9 @@ export PERLDOC_SRC_PAGER=$EDITOR
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
 if (( $+commands[fd] ))
 then
-   export FZF_DEFAULT_COMMAND='fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -p'
-   export  FZF_CTRL_T_COMMAND='fd     -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -p'
-   export   FZF_ALT_C_COMMAND='fd -td -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore'
+   export FZF_DEFAULT_COMMAND='fd --strip-cwd-prefix -tf -up -E.git -E"*~"'
+   export  FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix     -up -E.git -E"*~"'
+   export   FZF_ALT_C_COMMAND='fd --strip-cwd-prefix -td -u -E.git -E"*~"'
 fi
 
 # ps

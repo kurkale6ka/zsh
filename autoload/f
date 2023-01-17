@@ -5,11 +5,11 @@ if (( $+commands[fd] ))
 then
    if (($#))
    then
-      fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -p $@
+      fd --strip-cwd-prefix -tf -up -E.git -E'*~' $@
    elif (( $+commands[fzf] ))
    then
       # I want -0 here, that's why I don't use FZF_DEFAULT_COMMAND
-      fd -tf -H -E.git -E.svn -E.hg --ignore-file ~/.gitignore -0 | fzf --read0 -0 -1
+      fd --strip-cwd-prefix -tf -u -E.git -E'*~' -0 | fzf --read0 -0 -1
    fi
    return
 fi
@@ -25,6 +25,7 @@ fi
 (($# <= 1)) || return 1
 
 # use -path to ignore .folders: .git, .svn, ...
+# TODO: fix as above, not ignoring stuff
 if (($#))
 then
    find . -xdev \( -path '*/\.*' -o -fstype sysfs -o -fstype devfs -o -fstype devtmpfs -o -fstype proc \) -prune -o -type f ! -name '*~' -iname "*$1*" -printf '%M %u %g %P\n'
