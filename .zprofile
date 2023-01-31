@@ -4,10 +4,9 @@ export MANWIDTH=90
 # if I wanted to run bash from within zsh
 export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
 
-# path
 path=(
-~/.local/bin
 /usr/local/sbin
+/usr/local/bin
 $XDG_DATA_HOME/npm/bin
 $REPOS_BASE/vim/plugged/fzf.vim/bin
 $path
