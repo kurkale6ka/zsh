@@ -13,7 +13,10 @@ $path
 )
 typeset -U path # remove any duplicates from the array
 
-export PYTHONPATH=~/repos
+# Modules search path
+#    ~/repos/gitlab: styles.py, ...
+# .../site-packages: lightweight modules: tqdm, gitpython, ...
+export PYTHONPATH=~/repos/gitlab:~/py-envs/python-modules/lib/python3.11/site-packages
 export PYTHONSTARTUP=~/.pyrc
 
 export LANG=en_GB.UTF-8
