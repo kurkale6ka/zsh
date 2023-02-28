@@ -63,7 +63,7 @@ then
    eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 fi
 
-path=(~/bin $path)
+path=(~/bin $path $(go env GOPATH)/bin) # shfmt is a go program
 typeset -U path
 
 ## Prompts
@@ -613,10 +613,6 @@ alias il='iptables -nvL --line-numbers'
 alias ha=$REPOS_BASE/scripts/headall.pl
 alias tf='tail -f -n0'
 
-if (( $+commands[bat] ))
-then
-   alias bat='bat --style snip --italic-text always --theme zenburn -mconf:ini'
-fi
 alias cn='cat -n'
 
 ## Help
