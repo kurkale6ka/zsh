@@ -1,43 +1,13 @@
-# Repos
-if [[ -z $REPOS_BASE ]]
+export REPOS_BASE=~/repos
+
+mkdir -p $XDG_CONFIG_HOME/zsh
+mkdir -p $XDG_DATA_HOME/zsh
+
+if [[ ! -L $XDG_CONFIG_HOME/zsh/.zprofile ]]
 then
-   if [[ -d ~/repos/github/vim ]]
-   then
-      # - zsh local startup (or su -)
-      # - ssh own@...
-      export REPOS_BASE=~/repos/github
-   else
-      # command ssh (or /usr/bin/ssh) shared@...
-      # . .zshenv + exec zsh to set REPOS_BASE to ~shared/my_folder
-      export REPOS_BASE=$(cd ${${(%):-%x}%/*}/.. && pwd -P)
-   fi
+    ln -sr $REPOS_BASE/zsh/.zprofile $XDG_CONFIG_HOME/zsh
+    ln -sr $REPOS_BASE/zsh/.zshrc    $XDG_CONFIG_HOME/zsh
+    ln -sr $REPOS_BASE/zsh/autoload  $XDG_CONFIG_HOME/zsh
 fi
 
-if [[ -d ~/repos/github/vim ]]
-then
-   base=$HOME
-else
-   # REPOS_BASE non null for the above reasons or because set from:
-   # after/ssh.alt shared@...
-   base=$REPOS_BASE
-fi
-
-# XDG
-export XDG_CONFIG_HOME=$base/.config
-export   XDG_DATA_HOME=$base/.local/share
-
-# zsh
-mkdir -p {$XDG_CONFIG_HOME,$XDG_DATA_HOME}/zsh
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
-
-# no ~/.config/zsh links in shared user home (mkconfig will take care of this)
-if [[ $base != $HOME ]]
-then
-   for config in .zprofile .zshrc autoload
-   do
-      if [[ ! -L $XDG_CONFIG_HOME/zsh/$config ]]
-      then
-         ln -sr $REPOS_BASE/zsh/$config $XDG_CONFIG_HOME/zsh
-      fi
-   done
-fi
