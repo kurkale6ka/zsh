@@ -1,6 +1,6 @@
-if [[ -d $REPOS_BASE/help ]]
+if [[ -d $REPOS_BASE/github/help ]]
 then
-   tail -n+7 $REPOS_BASE/help/cidr.txt
+   tail -n+7 $REPOS_BASE/github/help/cidr.txt
 else
    print 'Help not installed' 1>&2
 fi

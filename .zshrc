@@ -150,7 +150,7 @@ else
 fi
 
 ## Processes and jobs (see Mac section too ^)
-alias pg=$REPOS_BASE/scripts/pg.pl
+alias pg=$REPOS_BASE/github/scripts/pg.pl
 
 alias k=kill
 alias kg='kill -- -'
@@ -183,7 +183,7 @@ then
    export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
    # Set LS_COLORS
-   [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/config/dotfiles/.dir_colors)"
+   [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
 fi
 
 # Linux virtual console colors
@@ -487,7 +487,7 @@ then
 else
    if [[ -n $REPOS_BASE ]]
    then
-      alias v="vim -u $REPOS_BASE/vim/.vimrc"
+      alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
    fi
 fi
 
@@ -612,15 +612,15 @@ alias myip='curl ipinfo.io/ip'
 alias il='iptables -nvL --line-numbers'
 
 ## Head/Tail and cat
-alias ha=$REPOS_BASE/scripts/headall.pl
+alias ha=$REPOS_BASE/github/scripts/headall.pl
 alias tf='tail -f -n0'
 
 alias cn='cat -n'
 
 ## Help
 alias mm='man -k'
-alias mp="$REPOS_BASE/scripts/man.pl"
-alias h="ex -d $REPOS_BASE/help"
+alias mp="$REPOS_BASE/github/scripts/man.pl"
+alias h="ex -d $REPOS_BASE/github/help"
 
 unalias run-help 2>/dev/null
 alias help="LESS='-XF $LESS' run-help"
@@ -687,9 +687,9 @@ alias msg=dmesg
 alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
 alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
-alias cal=$REPOS_BASE/scripts/cal.py
-alias rr=$REPOS_BASE/scripts/rrepl.pl
-alias ssh=$REPOS_BASE/scripts/ssh.pl
+alias cal=$REPOS_BASE/github/scripts/cal.py
+alias rr=$REPOS_BASE/github/scripts/rrepl.pl
+alias ssh=$REPOS_BASE/github/scripts/ssh.pl
 alias sc='v ~/.ssh/known_hosts -c "e config"'
 
 ## Git
