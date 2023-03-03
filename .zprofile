@@ -2,18 +2,17 @@ export MANWIDTH=90
 
 # readline
 # if I wanted to run bash from within zsh
-export INPUTRC=$REPOS_BASE/config/dotfiles/.inputrc
+export INPUTRC=$REPOS_BASE/github/config/dotfiles/.inputrc
 
 # TODO: merge with path from .zshrc
 path=(
 /usr/local/sbin
 /usr/local/bin
 $XDG_DATA_HOME/npm/bin
-$REPOS_BASE/vim/plugged/fzf.vim/bin
 $path
 ~/py-envs/neovim-modules/bin # LSP linters/formatters/...
 ~/py-envs/aws-modules/bin # awsume (comes with boto3), aws cli INSTALL is separate, in /usr/local/
-~/py-envs/az-modules/bin # az
+~/py-envs/az-modules/bin
 )
 typeset -U path # remove any duplicates from the array
 
@@ -36,7 +35,7 @@ if (( $+commands[nvim] ))
 then
    export EDITOR=nvim
 else
-   export EDITOR="vim -u $REPOS_BASE/vim/.vimrc"
+   export EDITOR="vim -u $REPOS_BASE/github/vim/.vimrc"
 fi
 
 export VISUAL=$EDITOR
