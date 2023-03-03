@@ -27,43 +27,44 @@ alias zn='zsh -f'
 ## Paths
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
-   fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
-   autoload -z $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
+    fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
+    autoload -z $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
 fi
 
 if ((EUID == 0))
 then
-   path=(/root/bin /usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin $path)
+    path=(/root/bin /usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin $path)
 fi
 
 # Mac OS specific
 if [[ $(uname) == Darwin ]]
 then
-   brew_prefix=/usr/local/opt # brew --prefix
-   path=(/usr/local/bin $path)
+    brew_prefix=/usr/local/opt # brew --prefix
+    path=(/usr/local/bin $path)
 
-   typeset -A whois fzf
-   whois[bin]=/usr/local/opt/whois/bin
-   whois[man]=/usr/local/opt/whois/share/man
-   fzf[man]=$HOME/.fzf/man
+    typeset -A whois fzf
+    whois[bin]=/usr/local/opt/whois/bin
+    whois[man]=/usr/local/opt/whois/share/man
+    fzf[man]=$HOME/.fzf/man
 
-   formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
+    formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
 
-   # Amend path to get GNU commands vs the default BSD ones
-   # $brew_prefix/ + formula + /libexec/gnubin
-   path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $whois[bin] $path)
+    # Amend path to get GNU commands vs the default BSD ones
+    # $brew_prefix/ + formula + /libexec/gnubin
+    path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $whois[bin] $path)
 
-   MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$fzf[man]:$whois[man]:/usr/local/share/man:"$(man --path)"
+    MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$fzf[man]:$whois[man]:/usr/local/share/man:"$(man --path)"
 
-   typeset -U manpath
-   export MANPATH
+    typeset -U manpath
+    export MANPATH
 
-   # Persist Perl modules across brew updates. First install local::lib with:
-   # cpanm -l ~/perl5 local::lib
-   eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+    # Persist Perl modules across brew updates. First install local::lib with:
+    # cpanm -l ~/perl5 local::lib
+    eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 fi
 
 if (( $+commands[go] ))
+then
     path=(~/bin $path $(go env GOPATH)/bin) # shfmt is a go program
     typeset -U path
 fi
@@ -72,10 +73,10 @@ fi
 psvar[1]=1
 if [[ -z $SSH_CONNECTION ]]
 then
-   if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
-   then
-      psvar[1]=
-   fi
+    if ! who | 'grep' -q '([0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\})'
+    then
+        psvar[1]=
+    fi
 fi
 
 # https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
@@ -126,15 +127,15 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
 }
 
 precmd() {
-   if ((!psvar[1])) # ssh
-   then
-      vcs_info
-      psvar[2]=
-      [[ $vcs_info_msg_0_ ]] && psvar[2]=
-   fi
+    if ((!psvar[1])) # ssh
+    then
+        vcs_info
+        psvar[2]=
+        [[ $vcs_info_msg_0_ ]] && psvar[2]=
+    fi
 
-   # Set the terminal title to [$PWD] host
-   print -nP '\e]0;[%~] %M\a'
+    # Set the terminal title to [$PWD] host
+    print -nP '\e]0;[%~] %M\a'
 }
 
 # %F{color}...%f
@@ -142,11 +143,11 @@ precmd() {
 # %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, V2: psvar[2] != empty
 if [[ $TERM != *linux* ]]
 then
-   PROMPT=$'\n[%F{69}%~%(2V. %F{cyan}%2v.)%f] $vcs_info_msg_0_\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
-   RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
+    PROMPT=$'\n[%F{69}%~%(2V. %F{cyan}%2v.)%f] $vcs_info_msg_0_\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
+    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
 else
-   PROMPT=$'\n[%B%F{blue}%~%(2V. %F{cyan}%2v.)%f%b] $vcs_info_msg_0_\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
-   RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
+    PROMPT=$'\n[%B%F{blue}%~%(2V. %F{cyan}%2v.)%f%b] $vcs_info_msg_0_\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
+    RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
 fi
 
 ## Processes and jobs (see Mac section too ^)
@@ -162,58 +163,58 @@ alias -- --='fg %-'
 ## Colors
 if [[ $(uname) != OpenBSD ]]
 then
-   # Colored man pages with less
-   # These can't reside in .zprofile since there is no terminal for tput
-   _bld="$(tput bold || tput md)"
-   _udl="$(tput smul || tput us)"
-   _lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
-   _lblu=$_bld"$(tput setaf 4 || tput AF 4)"
-   _res="$(tput sgr0 || tput me)"
+    # Colored man pages with less
+    # These can't reside in .zprofile since there is no terminal for tput
+    _bld="$(tput bold || tput md)"
+    _udl="$(tput smul || tput us)"
+    _lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
+    _lblu=$_bld"$(tput setaf 4 || tput AF 4)"
+    _res="$(tput sgr0 || tput me)"
 
-   export LESS_TERMCAP_mb=$_lgrn # begin blinking
-   export LESS_TERMCAP_md=$_lblu # begin bold
-   export LESS_TERMCAP_me=$_res  # end mode
+    export LESS_TERMCAP_mb=$_lgrn # begin blinking
+    export LESS_TERMCAP_md=$_lblu # begin bold
+    export LESS_TERMCAP_me=$_res  # end mode
 
-   # Stand out (reverse) - info box (yellow on blue bg)
-   export LESS_TERMCAP_so=$_bld"$(tput setaf 3 || tput AF 3)$(tput setab 4 || tput AB 4)"
-   export LESS_TERMCAP_se="$(tput rmso || tput se)"$_res
+    # Stand out (reverse) - info box (yellow on blue bg)
+    export LESS_TERMCAP_so=$_bld"$(tput setaf 3 || tput AF 3)$(tput setab 4 || tput AB 4)"
+    export LESS_TERMCAP_se="$(tput rmso || tput se)"$_res
 
-   # Underline
-   export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
-   export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
+    # Underline
+    export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
+    export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
-   # Set LS_COLORS
-   [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
+    # Set LS_COLORS
+    [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
 fi
 
 # Linux virtual console colors
 if [[ $TERM == linux ]]
 then
-   echo -en "\e]P0262626" #  0. black
-   echo -en "\e]P8605958" #  8. darkgrey
+    echo -en "\e]P0262626" #  0. black
+    echo -en "\e]P8605958" #  8. darkgrey
 
-   echo -en "\e]P18c4665" #  1. darkred
-   echo -en "\e]P9cd5c5c" #  9. red
+    echo -en "\e]P18c4665" #  1. darkred
+    echo -en "\e]P9cd5c5c" #  9. red
 
-   echo -en "\e]P2287373" #  2. darkgreen
-   echo -en "\e]PA7ccd7c" # 10. green
+    echo -en "\e]P2287373" #  2. darkgreen
+    echo -en "\e]PA7ccd7c" # 10. green
 
-   echo -en "\e]P3ffa54f" #  3. brown
-   echo -en "\e]PBeedc82" # 11. yellow
+    echo -en "\e]P3ffa54f" #  3. brown
+    echo -en "\e]PBeedc82" # 11. yellow
 
-   echo -en "\e]P43465A4" #  4. darkblue
-   echo -en "\e]PC87ceeb" # 12. blue
+    echo -en "\e]P43465A4" #  4. darkblue
+    echo -en "\e]PC87ceeb" # 12. blue
 
-   echo -en "\e]P55e468c" #  5. darkmagenta
-   echo -en "\e]PDee799f" # 13. magenta
+    echo -en "\e]P55e468c" #  5. darkmagenta
+    echo -en "\e]PDee799f" # 13. magenta
 
-   echo -en "\e]P631658c" #  6. darkcyan
-   echo -en "\e]PE76eec6" # 14. cyan
+    echo -en "\e]P631658c" #  6. darkcyan
+    echo -en "\e]PE76eec6" # 14. cyan
 
-   echo -en "\e]P7787878" #  7. lightgrey
-   echo -en "\e]PFbebebe" # 15. white
+    echo -en "\e]P7787878" #  7. lightgrey
+    echo -en "\e]PFbebebe" # 15. white
 
-   clear # reset to default input colours
+    clear # reset to default input colours
 fi
 
 ## zle bindings and terminal key settings
@@ -261,14 +262,14 @@ zle -N history-beginning-search-forward-end  history-search-end
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
 then
-   function zle-line-init () {
-      printf '%s' "${terminfo[smkx]}"
-   }
-   function zle-line-finish () {
-      printf '%s' "${terminfo[rmkx]}"
-   }
-   zle -N zle-line-init
-   zle -N zle-line-finish
+    function zle-line-init () {
+        printf '%s' "${terminfo[smkx]}"
+    }
+    function zle-line-finish () {
+        printf '%s' "${terminfo[rmkx]}"
+    }
+    zle -N zle-line-init
+    zle -N zle-line-finish
 fi
 
 # Use EDITOR/VISUAL to edit the command line
@@ -278,9 +279,9 @@ bindkey '^x^e' edit-command-line
 
 # Bash like custom Ctrl + w delete
 custom-backward-kill-word () {
-  local WORDCHARS=${WORDCHARS}'`"+:@'"'"'|\,'
-  WORDCHARS=${WORDCHARS}'-/.'
-  zle backward-kill-word
+    local WORDCHARS=${WORDCHARS}'`"+:@'"'"'|\,'
+    WORDCHARS=${WORDCHARS}'-/.'
+    zle backward-kill-word
 }
 
 zle -N custom-backward-kill-word
@@ -400,12 +401,12 @@ bindkey '^u' backward-kill-line
 
 if autoload -Uz compinit
 then
-   if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
-   then
-      compinit
-   else
-      compinit -C
-   fi
+    if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
+    then
+        compinit
+    else
+        compinit -C
+    fi
 fi
 
 # completions from Bash
@@ -466,9 +467,9 @@ zstyle ':completion:*:processes' force-list always
 zstyle ':completion:*:processes' format '%BPID EUSER START CMD%b'
 if ((EUID == 0))
 then
-   zstyle ':completion:*:processes' command 'command ps faxww o pid,euser,start_time,cmd'
+    zstyle ':completion:*:processes' command 'command ps faxww o pid,euser,start_time,cmd'
 else
-   zstyle ':completion:*:processes' command 'command ps fxww o pid,euser,start_time,cmd'
+    zstyle ':completion:*:processes' command 'command ps fxww o pid,euser,start_time,cmd'
 fi
 
 # ssh
@@ -477,18 +478,18 @@ zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/
 # kubernetes
 if (( $+commands[kubectl] ))
 then
-   . <(kubectl completion zsh)
+    . <(kubectl completion zsh)
 fi
 
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
 then
-   alias v=nvim
+    alias v=nvim
 else
-   if [[ -n $REPOS_BASE ]]
-   then
-      alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
-   fi
+    if [[ -n $REPOS_BASE ]]
+    then
+        alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
+    fi
 fi
 
 alias ed='ed -v -p:'
@@ -502,15 +503,15 @@ alias -g J='| python -mjson.tool'
 ## ls and echo
 if [[ $(uname) != OpenBSD ]]
 then
-   _ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
-   _ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
+    _ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
+    _ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
 
-   _ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
-   _ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
+    _ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
+    _ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
 
-   _ls_no_baks='-B'
-   _ls_color='--color=auto'
-   _time_style="--time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
+    _ls_no_baks='-B'
+    _ls_color='--color=auto'
+    _time_style="--time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
 fi
 
 # Make sure existing aliases won't prevent function definitions
@@ -575,8 +576,8 @@ alias 9='cd ../../../../../../../../..'
 # Hook functions
 if [[ -w $XDG_DATA_HOME/marks/marks.sqlite ]]
 then
-   chpwd_functions+=(update_marks)
-   typeset -U chpwd_functions
+    chpwd_functions+=(update_marks)
+    typeset -U chpwd_functions
 fi
 
 ## File system operations
@@ -636,12 +637,12 @@ alias ldapsearch='ldapsearch -x -LLL'
 # Grep, ripgrep aliases
 if (( $+commands[rg] ))
 then
-   alias rg='rg -S --hidden'
-   alias gr=rg
-   alias g=rg
+    alias rg='rg -S --hidden'
+    alias gr=rg
+    alias g=rg
 else
-   alias gr='grep -IRiE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
-   alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
+    alias gr='grep -IRiE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
+    alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
 fi
 
 alias ge='env | grep -Ei'
@@ -651,15 +652,16 @@ alias _=combine
 ## pacman
 if (( $+commands[pacaur] ))
 then
-   alias pacs='pacaur -Ss'
-   alias pacsync='pacaur -Syu'
+    alias pacs='pacaur -Ss'
+    alias pacsync='pacaur -Syu'
 else
-   alias pacs=pacsearch
-   alias pacsync='pacman -Syu'
+    alias pacs=pacsearch
+    alias pacsync='pacman -Syu'
 fi
 
 ## python
 if (( $+commands[pyenv] ))
+then
     export PYENV_ROOT="$HOME/.pyenv"
     command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
@@ -671,13 +673,13 @@ alias python=python3
 ## Various applications aliases
 if [[ $(uname) == Darwin ]]
 then
-   alias xclip=pbcopy
+    alias xclip=pbcopy
 elif [[ -n $WSL_DISTRO_NAME || $(uname -r) == *microsoft* ]]
 then
-   alias xclip=clip.exe
-   alias open=wslview
+    alias xclip=clip.exe
+    alias open=wslview
 else
-   alias open=xdg-open
+    alias open=xdg-open
 fi
 
 alias csv="perl -pe 's/(?:(?<=^)|(?<=,)),/ ,/g'"

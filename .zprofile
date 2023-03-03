@@ -9,11 +9,10 @@ path=(
 /usr/local/sbin
 /usr/local/bin
 $XDG_DATA_HOME/npm/bin
-# $REPOS_BASE/github/vim/plugged/fzf.vim/bin
 $path
 ~/py-envs/neovim-modules/bin # LSP linters/formatters/...
 ~/py-envs/aws-modules/bin # awsume (comes with boto3), aws cli INSTALL is separate, in /usr/local/
-~/py-envs/az-modules/bin # az
+~/py-envs/az-modules/bin
 )
 typeset -U path # remove any duplicates from the array
 
