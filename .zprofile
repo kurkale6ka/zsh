@@ -17,9 +17,8 @@ $path
 typeset -U path # remove any duplicates from the array
 
 # Modules search path
-#    ~/repos/gitlab: styles.py, ...
-# .../site-packages: lightweight modules: tqdm, gitpython, ...
-export PYTHONPATH=~/repos/gitlab:~/py-envs/python-modules/lib/python3.11/site-packages
+# NB: do not add venv site packages as then `pip -V` is generally wrong, even after `source a_venv/bin/activate`
+export PYTHONPATH=~/repos/gitlab # styles.py, ...
 export PYTHONSTARTUP=~/.pyrc
 
 export LANG=en_GB.UTF-8
