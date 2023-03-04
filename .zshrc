@@ -63,11 +63,12 @@ then
     eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 fi
 
+path=(~/bin $path)
 if (( $+commands[go] ))
 then
-    path=(~/bin $path $(go env GOPATH)/bin) # shfmt is a go program
-    typeset -U path
+    path=($path $(go env GOPATH)/bin) # required by shfmt
 fi
+typeset -U path
 
 ## Prompts
 psvar[1]=1
@@ -662,7 +663,7 @@ fi
 ## python
 export PYENV_ROOT="$HOME/.pyenv"
 (( $+commands[pyenv] )) || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+(( $+commands[pyenv] )) && eval "$(pyenv init -)"
 
 alias py=python3
 alias python=python3
