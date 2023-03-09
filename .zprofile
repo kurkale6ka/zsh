@@ -10,15 +10,9 @@ path=(
 /usr/local/bin
 $XDG_DATA_HOME/npm/bin
 $path
-~/py-envs/neovim-modules/bin # LSP linters/formatters/...
-~/py-envs/aws-modules/bin # awsume (comes with boto3), aws cli INSTALL is separate, in /usr/local/
-~/py-envs/az-modules/bin
 )
 typeset -U path # remove any duplicates from the array
 
-# Modules search path
-# NB: do not add venv site packages as then `pip -V` is generally wrong, even after `source a_venv/bin/activate`
-export PYTHONPATH=~/repos/gitlab # styles.py, ...
 export PYTHONSTARTUP=~/.pyrc
 
 export LANG=en_GB.UTF-8
@@ -44,6 +38,7 @@ export PERLDOC_SRC_PAGER=$EDITOR
 
 # fzf
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
+
 if (( $+commands[fd] ))
 then
    export FZF_DEFAULT_COMMAND='fd --strip-cwd-prefix -tf -up -E.git -E"*~"'
@@ -54,11 +49,6 @@ fi
 # ps
 export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
-
-if [[ -e ~/var/mlocate.db ]]
-then
-   export LOCATE_PATH=~/var/mlocate.db
-fi
 
 # -i   : ignore case
 # -r/R : raw control characters
@@ -72,7 +62,7 @@ fi
 export LESS='-i -r -s -W -M -PM?f%f - :.?L%L lines, .?ltL\:%lt:.?pB, %pB\% : .?e(Bottom)%t'
 export PAGER=less
 
-# Local zprofile file
+# Local zprofile
 [[ -r $XDG_CONFIG_HOME/zsh/.zprofile_after ]] && . $XDG_CONFIG_HOME/zsh/.zprofile_after
 
 # [[ -z $DISPLAY ]] && (( XDG_VTNR == 1 )) && exec startx
