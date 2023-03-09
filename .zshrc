@@ -64,10 +64,6 @@ then
 fi
 
 path=(~/bin $path)
-if (( $+commands[go] ))
-then
-    path=($path $(go env GOPATH)/bin) # required by shfmt
-fi
 typeset -U path
 
 ## Prompts
