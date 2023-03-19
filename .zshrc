@@ -618,7 +618,7 @@ alias cn='cat -n'
 ## Help
 alias mm='man -k'
 alias mp="$REPOS_BASE/github/scripts/man.pl"
-alias h="ex -d $REPOS_BASE/github/help"
+alias h="ex -s $REPOS_BASE/github/help"
 
 unalias run-help 2>/dev/null
 alias help="LESS='-XF $LESS' run-help"
