@@ -1,15 +1,15 @@
 # Find files using a 'fuzzy' search
 
 # Use fd...
-if (( $+commands[fd] ))
+if (( $+commands[fd] )) || (( $+commands[fdfind] ))
 then
    if (($#))
    then
-      fd --strip-cwd-prefix -tf -up -E.git -E'*~' $@
+      fd --strip-cwd-prefix -tf -Hup -E.git -E'*~' $@
    elif (( $+commands[fzf] ))
    then
       # I want -0 here, that's why I don't use FZF_DEFAULT_COMMAND
-      fd --strip-cwd-prefix -tf -u -E.git -E'*~' -0 | fzf --read0 -0 -1
+      fd --strip-cwd-prefix -tf -Hu -E.git -E'*~' -0 | fzf --read0 -0 -1
    fi
    return
 fi
