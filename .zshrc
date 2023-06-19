@@ -15,56 +15,10 @@ unsetopt complete_aliases
 unsetopt clobber
 unsetopt flow_control # no ^s freezing the screen
 
-HISTFILE=$XDG_DATA_HOME/zsh/history
-HISTSIZE=11000
-SAVEHIST=11000
-
 alias history='history -t "%d/%b/%H:%M"'
 alias hg='\history 1 | sed "s/^ [0-9]\+  //" | g'
 
 alias zn='zsh -f'
-
-## Paths
-if [[ -d $XDG_CONFIG_HOME/zsh ]]
-then
-    fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
-    autoload -z $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
-fi
-
-if ((EUID == 0))
-then
-    path=(/root/bin /usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin $path)
-fi
-
-# Mac OS specific
-if [[ $(uname) == Darwin ]]
-then
-    brew_prefix=/usr/local/opt # brew --prefix
-    path=(/usr/local/bin $path)
-
-    typeset -A whois fzf
-    whois[bin]=/usr/local/opt/whois/bin
-    whois[man]=/usr/local/opt/whois/share/man
-    fzf[man]=$HOME/.fzf/man
-
-    formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
-
-    # Amend path to get GNU commands vs the default BSD ones
-    # $brew_prefix/ + formula + /libexec/gnubin
-    path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $whois[bin] $path)
-
-    MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$fzf[man]:$whois[man]:/usr/local/share/man:"$(man --path)"
-
-    typeset -U manpath
-    export MANPATH
-
-    # Persist Perl modules across brew updates. First install local::lib with:
-    # cpanm -l ~/perl5 local::lib
-    eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-fi
-
-path=(~/bin $path)
-typeset -U path
 
 ## Prompts
 psvar[1]=1
@@ -713,6 +667,6 @@ alias ta='tmux attach-session'
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
 ## Local zshrc file
-[[ -r $XDG_CONFIG_HOME/zsh/.zshrc_after ]] && . $XDG_CONFIG_HOME/zsh/.zshrc_after
+[[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
