@@ -20,6 +20,9 @@ alias hg='\history 1 | sed "s/^ [0-9]\+  //" | g'
 
 alias zn='zsh -f'
 
+# autoloading functions
+autoload -z $XDG_CONFIG_HOME/zsh/{autoload,local}/**/*~*~(N.:t)
+
 ## Prompts
 psvar[1]=1
 if [[ -z $SSH_CONNECTION ]]

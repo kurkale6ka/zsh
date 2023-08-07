@@ -27,8 +27,7 @@ export INPUTRC=$REPOS_BASE/github/config/dotfiles/.inputrc
 # Paths
 if [[ -d $XDG_CONFIG_HOME/zsh ]]
 then
-    fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
-    autoload -z $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
+    fpath=($XDG_CONFIG_HOME/zsh/{autoload,local} $XDG_CONFIG_HOME/zsh/{autoload,local}/*(N/) $fpath)
 fi
 
 path=(
