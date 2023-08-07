@@ -15,56 +15,15 @@ unsetopt complete_aliases
 unsetopt clobber
 unsetopt flow_control # no ^s freezing the screen
 
-HISTFILE=$XDG_DATA_HOME/zsh/history
-HISTSIZE=11000
-SAVEHIST=11000
+umask 022 # remove w permissions for group and others
 
 alias history='history -t "%d/%b/%H:%M"'
 alias hg='\history 1 | sed "s/^ [0-9]\+  //" | g'
 
 alias zn='zsh -f'
 
-## Paths
-if [[ -d $XDG_CONFIG_HOME/zsh ]]
-then
-    fpath=($XDG_CONFIG_HOME/zsh/{autoload,after} $XDG_CONFIG_HOME/zsh/{autoload,after}/*(N/) $fpath)
-    autoload -z $XDG_CONFIG_HOME/zsh/{autoload,after}/**/*~*~(N.:t)
-fi
-
-if ((EUID == 0))
-then
-    path=(/root/bin /usr/local/sbin /usr/local/bin /sbin /bin /usr/sbin /usr/bin $path)
-fi
-
-# Mac OS specific
-if [[ $(uname) == Darwin ]]
-then
-    brew_prefix=/usr/local/opt # brew --prefix
-    path=(/usr/local/bin $path)
-
-    typeset -A whois fzf
-    whois[bin]=/usr/local/opt/whois/bin
-    whois[man]=/usr/local/opt/whois/share/man
-    fzf[man]=$HOME/.fzf/man
-
-    formulae=(coreutils ed findutils gnu-sed gnu-tar grep)
-
-    # Amend path to get GNU commands vs the default BSD ones
-    # $brew_prefix/ + formula + /libexec/gnubin
-    path=(${${formulae/#/$brew_prefix/}/%/\/libexec\/gnubin} $whois[bin] $path)
-
-    MANPATH=${(j/:/)${${formulae/#/$brew_prefix/}/%/\/libexec\/gnuman}}:$fzf[man]:$whois[man]:/usr/local/share/man:"$(man --path)"
-
-    typeset -U manpath
-    export MANPATH
-
-    # Persist Perl modules across brew updates. First install local::lib with:
-    # cpanm -l ~/perl5 local::lib
-    eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-fi
-
-path=(~/bin $path)
-typeset -U path
+# autoloading functions
+autoload -z $XDG_CONFIG_HOME/zsh/{autoload,local}/**/*~*~(N.:t)
 
 ## Prompts
 psvar[1]=1
@@ -156,63 +115,6 @@ alias kg='kill -- -'
 # jobs
 alias z=fg
 alias -- --='fg %-'
-
-## Colors
-if [[ $(uname) != OpenBSD ]]
-then
-    # Colored man pages with less
-    # These can't reside in .zprofile since there is no terminal for tput
-    _bld="$(tput bold || tput md)"
-    _udl="$(tput smul || tput us)"
-    _lgrn=$_bld"$(tput setaf 2 || tput AF 2)"
-    _lblu=$_bld"$(tput setaf 4 || tput AF 4)"
-    _res="$(tput sgr0 || tput me)"
-
-    export LESS_TERMCAP_mb=$_lgrn # begin blinking
-    export LESS_TERMCAP_md=$_lblu # begin bold
-    export LESS_TERMCAP_me=$_res  # end mode
-
-    # Stand out (reverse) - info box (yellow on blue bg)
-    export LESS_TERMCAP_so=$_bld"$(tput setaf 3 || tput AF 3)$(tput setab 4 || tput AB 4)"
-    export LESS_TERMCAP_se="$(tput rmso || tput se)"$_res
-
-    # Underline
-    export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
-    export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
-
-    # Set LS_COLORS
-    [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
-fi
-
-# Linux virtual console colors
-if [[ $TERM == linux ]]
-then
-    echo -en "\e]P0262626" #  0. black
-    echo -en "\e]P8605958" #  8. darkgrey
-
-    echo -en "\e]P18c4665" #  1. darkred
-    echo -en "\e]P9cd5c5c" #  9. red
-
-    echo -en "\e]P2287373" #  2. darkgreen
-    echo -en "\e]PA7ccd7c" # 10. green
-
-    echo -en "\e]P3ffa54f" #  3. brown
-    echo -en "\e]PBeedc82" # 11. yellow
-
-    echo -en "\e]P43465A4" #  4. darkblue
-    echo -en "\e]PC87ceeb" # 12. blue
-
-    echo -en "\e]P55e468c" #  5. darkmagenta
-    echo -en "\e]PDee799f" # 13. magenta
-
-    echo -en "\e]P631658c" #  6. darkcyan
-    echo -en "\e]PE76eec6" # 14. cyan
-
-    echo -en "\e]P7787878" #  7. lightgrey
-    echo -en "\e]PFbebebe" # 15. white
-
-    clear # reset to default input colours
-fi
 
 ## zle bindings and terminal key settings
 bindkey -e # emacs like line editing
@@ -713,6 +615,6 @@ alias ta='tmux attach-session'
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
 ## Local zshrc file
-[[ -r $XDG_CONFIG_HOME/zsh/.zshrc_after ]] && . $XDG_CONFIG_HOME/zsh/.zshrc_after
+[[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
 
 # vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
