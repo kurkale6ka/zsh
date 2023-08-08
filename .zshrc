@@ -542,7 +542,6 @@ alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
 alias cal=$REPOS_BASE/github/scripts/cal.py
 alias rr=$REPOS_BASE/github/scripts/rrepl.pl
-alias ssh=$REPOS_BASE/github/scripts/ssh.pl
 alias sc='v ~/.ssh/known_hosts -c "e config"'
 
 ## Git
