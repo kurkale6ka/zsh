@@ -99,8 +99,8 @@ precmd() {
 # %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, V2: psvar[2] != empty
 if [[ $TERM != *linux* ]]
 then
-    PROMPT=$'\n[%F{69}%~%(2V. %F{cyan}%2v.)%f] $vcs_info_msg_0_\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
-    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
+    eval "$(starship init zsh)"
+    RPROMPT='$(date +"%d %b %H:%M")'
 else
     PROMPT=$'\n[%B%F{blue}%~%(2V. %F{cyan}%2v.)%f%b] $vcs_info_msg_0_\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
     RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
