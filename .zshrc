@@ -157,6 +157,10 @@ zle -N history-beginning-search-forward-end  history-search-end
 [[ -n ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
 [[ -n ${key[Right]} ]] && bindkey ${key[Right]} forward-char
 
+# jump to char (vim f/F), or use ^x^v f ...
+bindkey "^]" .vi-find-next-char
+bindkey "^[" .vi-find-prev-char
+
 # Make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
@@ -539,6 +543,11 @@ then
     alias rg='rg -S --hidden'
     alias gr=rg
     alias g=rg
+elif (( $+commands[ag] ))
+then
+    alias ag='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
+    alias gr=ag
+    alias g=ag
 else
     alias gr='grep -IRiE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
     alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
