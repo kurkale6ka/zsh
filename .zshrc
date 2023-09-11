@@ -35,74 +35,20 @@ then
     fi
 fi
 
-# https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
-# https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information
-autoload -Uz vcs_info
-
-# zstyle ':vcs_info:*+*:*' debug true
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*'   stagedstr  '%F{41}+%f'    # %c index       (green)
-zstyle ':vcs_info:*' unstagedstr '%F{124}%f'    # %u working dir (red)
-zstyle ':vcs_info:*' formats '%c%u%F{green}%b%f' # %b branch
-zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
-
-# Show remote-tracking branches + ahead/behind status
-+vi-git-remotebranch() {
-    local remote
-
-    # Are we on a remote-tracking branch?
-    remote=${$(git rev-parse --verify $hook_com[branch]@{upstream} --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
-
-    if [[ -n $remote ]]
-    then
-        # Show +N/-N when your local branch is ahead-of or behind remote HEAD
-        # exit early in case the worktree is on a detached HEAD
-        git rev-parse $hook_com[branch]@{upstream} >/dev/null 2>&1 || return 0
-
-        local ahead behind
-        local -a gitstatus
-        local -a ahead_and_behind=(
-            $(git rev-list --left-right --count HEAD...$hook_com[branch]@{upstream} 2>/dev/null)
-        )
-
-        ahead=$ahead_and_behind[1]
-        behind=$ahead_and_behind[2]
-
-        (( $ahead  )) && gitstatus+=( "+%F{green}$ahead%f" )
-        (( $behind )) && gitstatus+=( "-%F{red}$behind%f"  )
-
-        hook_com[branch]="$hook_com[branch]%f...%F{red}$remote%f ${(j:/:)gitstatus}"
-    fi
-
-    # Show ?? if there are any untracked files
-    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && git status --porcelain | grep -q '^?? ' 2> /dev/null
-    then
-        hook_com[unstaged]+='%F{red}??%f'
-    fi
-}
-
 precmd() {
-    if ((!psvar[1])) # ssh
-    then
-        vcs_info
-        psvar[2]=
-        [[ $vcs_info_msg_0_ ]] && psvar[2]=
-    fi
-
     # Set the terminal title to [$PWD] host
     print -nP '\e]0;[%~] %M\a'
 }
 
 # %F{color}...%f
 # %~: cwd, %2v: psvar[2], %m: hostname, %n: username %#: % or #
-# %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, V2: psvar[2] != empty
+# %(x/true/false), !: root, ?(0): $? == 0, j1: jobs >= 1, 2V: psvar[2] != empty
 if [[ $TERM != *linux* ]]
 then
-    PROMPT=$'\n[%F{69}%~%(2V. %F{cyan}%2v.)%f] $vcs_info_msg_0_\n%(1V.%F{140}.%F{221})%m%f %(!.%F{9}%#%f.%#) '
-    RPROMPT='%(1j.%F{9}%%%j%f ❬ .)%(!.%F{9}.%F{221})%n%f %(?/%T/%F{red}%T%f)'
+    eval "$(starship init zsh)"
+    RPROMPT='$(date +"%d %b %H:%M")'
 else
-    PROMPT=$'\n[%B%F{blue}%~%(2V. %F{cyan}%2v.)%f%b] $vcs_info_msg_0_\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
+    PROMPT=$'\n[%B%F{blue}%~%f%b]\n%(1V.%F{magenta}.%F{yellow})%m%f %(!.%F{red}%#%f.%#) '
     RPROMPT='%(1j.%F{red}%%%j%f ❬ .)%(!.%F{red}.%F{yellow})%n%f %(?/%T/%F{red}%T%f)'
 fi
 
@@ -156,6 +102,10 @@ zle -N history-beginning-search-forward-end  history-search-end
 # Left and right arrows
 [[ -n ${key[Left]}  ]] && bindkey ${key[Left]}  backward-char
 [[ -n ${key[Right]} ]] && bindkey ${key[Right]} forward-char
+
+# jump to char (vim f/F), or use ^x^v f ...
+bindkey "^]" .vi-find-next-char
+bindkey "^[" .vi-find-prev-char
 
 # Make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
@@ -539,6 +489,11 @@ then
     alias rg='rg -S --hidden'
     alias gr=rg
     alias g=rg
+elif (( $+commands[ag] ))
+then
+    alias ag='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
+    alias gr=ag
+    alias g=ag
 else
     alias gr='grep -IRiE --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --color=auto --exclude="*~" --exclude tags'
     alias g='grep -iE --color=auto --exclude="*~" --exclude tags'
@@ -587,7 +542,6 @@ alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
 alias cal=$REPOS_BASE/github/scripts/cal.py
 alias rr=$REPOS_BASE/github/scripts/rrepl.pl
-alias ssh=$REPOS_BASE/github/scripts/ssh.pl
 alias sc='v ~/.ssh/known_hosts -c "e config"'
 
 ## Git
