@@ -1,17 +1,10 @@
 #compdef mkconfig
 
 _arguments \
-   '(-)-h[]' \
-   '(-)--help[]' \
-   '(-)-i[Initial setup]' \
-   '(-)--init[Initial setup]' \
-   '(-)-s[Check repositories statuses]' \
-   '(-)--status[Check repositories statuses]' \
-   '(--update)-u[Update repositories]' \
-   '(-u)--update[Update repositories]' \
-   '(--tags)-t[Generate tags]' \
-   '(-t)--tags[Generate tags]' \
-   '(--links -L --del-links)-l[Make links]' \
-   '(-l -L --del-links)--links[Make links]' \
-   '(--del-links -l --links)-L[Remove links]' \
-   '(-L -l --links)--del-links[Remove links]'
+   '(-)'{-h,--help}'[Help]' \
+   '(-)'{-i,--init}'[Initial setup]' \
+   '(-)'{-s,--status}'[Check repositories statuses]' \
+   '(-u --update)'{-u,--update}'[Update repositories]' \
+   '(-t --tags)'{-t,--tags}'[Generate tags]' \
+   '(-l --links -L --del-links)'{-l,--links}'[Make links]' \
+   '(-l --links -L --del-links)'{-L,--del-links}'[Remove links]'
