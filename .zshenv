@@ -171,6 +171,7 @@ export PAGER=less
 HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
+HISTORY_IGNORE='(v|c|c *|cd|<1-9>|-)'
 
 # Local zprofile
 [[ -r $XDG_CONFIG_HOME/zsh/.zshenv-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshenv-local.zsh
