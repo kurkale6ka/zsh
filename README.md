@@ -1,5 +1,5 @@
 # NB: this is deprecated
-Use [Fuzzy cd, using shell's history](https://github.com/kurkale6ka/scripts/blob/fuzzy-cd/fuzzy_cd/README.md) instead
+Use [Fuzzy cd, using shell's history](https://github.com/kurkale6ka/scripts/blob/master/fuzzy_cd/README.md) instead
 
 # Fuzzy cd based on bookmarks
 
