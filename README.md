@@ -1,9 +1,9 @@
-# NB: this is deprecated
-Use [Fuzzy cd, using shell's history](https://github.com/kurkale6ka/scripts/blob/master/fuzzy_cd/README.md) instead
-
 # Fuzzy cd based on bookmarks
 
 _Every cd is bookmarked and assigned a weight so you can later on jump to it quickly_
+
+*NB*: this is deprecated
+Use [Fuzzy cd, using shell's history](https://github.com/kurkale6ka/scripts/blob/master/fuzzy_cd/README.md) instead
 
 ## All of the following is needed:
 
