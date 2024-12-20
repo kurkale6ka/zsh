@@ -29,6 +29,7 @@ then
 fi
 
 path=(
+~/.local/bin
 ~/bin
 /usr/local/sbin
 /usr/local/bin
