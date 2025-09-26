@@ -23,10 +23,7 @@ export MANWIDTH=90
 export INPUTRC=$REPOS_BASE/github/config/dotfiles/.inputrc
 
 # Paths
-if [[ -d $XDG_CONFIG_HOME/zsh ]]
-then
-    fpath=($XDG_CONFIG_HOME/zsh/{autoload,local} $XDG_CONFIG_HOME/zsh/{autoload,local}/*(N/) $fpath)
-fi
+fpath=($XDG_CONFIG_HOME/zsh/{autoload,local} $XDG_CONFIG_HOME/zsh/{autoload,local}/*(N/) $fpath)
 
 path=(
 ~/.local/bin
@@ -71,7 +68,7 @@ then
     eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 fi
 
-. ~/.cargo/env
+[[ -d ~/.cargo ]] && . ~/.cargo/env
 
 # Editor
 if (($+commands[nvim]))
