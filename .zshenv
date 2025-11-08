@@ -23,7 +23,10 @@ export MANWIDTH=90
 export INPUTRC=$REPOS_BASE/github/config/dotfiles/.inputrc
 
 # Paths
-fpath=($XDG_CONFIG_HOME/zsh/{autoload,local} $XDG_CONFIG_HOME/zsh/{autoload,local}/*(N/) $fpath)
+if [[ -d $XDG_CONFIG_HOME/zsh ]]
+then
+    fpath=($XDG_CONFIG_HOME/zsh/{autoload,local} $XDG_CONFIG_HOME/zsh/{autoload,local}/*(N/) $fpath)
+fi
 
 path=(
 ~/.local/bin
