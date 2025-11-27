@@ -386,8 +386,7 @@ alias llr="lr -l"
 alias vl="l1 V"
 
 # Links (there is also ln() as an autoload)
-alias ln.='ll .*(@)'
-alias lnn='ll *(@D)'
+alias lnn='lld *(@D)'
 
 alias e=echo
 
