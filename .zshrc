@@ -378,7 +378,6 @@ alias llm="lm -l"
 alias  lk="l -s size"
 alias llk="lk -l"
 
-# A single column
 alias l1="l -1"
 
 alias  lr="l -T"
@@ -391,10 +390,6 @@ alias ln.='ll .*(@)'
 alias lnn='ll *(@D)'
 
 alias e=echo
-
-## sudo
-alias  sd=sudo
-alias sde=sudoedit
 
 ## cd
 alias -- -='cd - >/dev/null'
