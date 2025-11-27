@@ -350,54 +350,41 @@ alias -g P='| perl -00lnE "say;exit"'
 alias -g J='| python -mjson.tool'
 
 ## ls and echo
-if [[ $(uname) != OpenBSD ]]
-then
-    _ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
-    _ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
-
-    _ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
-    _ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
-
-    _ls_no_baks='-B'
-    _ls_color='--color=auto'
-    _time_style="--time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
-fi
-
 # Make sure existing aliases won't prevent function definitions
 unalias ln sl 2>/dev/null
 
-alias  l.="ls -Fd   $_ls_color .*~.*~"
-alias ll.="ls -Fdhl $_ls_color $_time_style .*~.*~"
+alias  l="eza -F -I'*~'"
+alias ll="l -l"
 
-alias  l="ls -F   $_ls_no_baks $_ls_color"
-alias ll="ls -Fhl $_ls_no_baks $_ls_color $_time_style"
+alias  la="l -a"
+alias lla="la -l"
 
-alias  la="ls -FA   $_ls_no_baks $_ls_color"
-alias lla="ls -FAhl $_ls_no_baks $_ls_color $_time_style"
+alias  ld="l -d"
+alias lld="ld -l"
 
-alias  ld="ls -Fd   $_ls_no_baks $_ls_color"
-alias lld="ls -Fdhl $_ls_no_baks $_ls_color $_time_style"
+alias  l.="ld .*~.*~"
+alias ll.="l. -l"
 
-alias  l/='ld *(/D)'
-alias ll/='lld *(/D)'
+alias  l/='l -D'
+alias ll/='l/ -l'
 
-alias  lx="ls -Fd   $_ls_color *~*~(*D)"
-alias llx="ls -Fdhl $_ls_color $_time_style *~*~(*D)"
+alias  lx="ld *~*~(*D)"
+alias llx="lx -l"
 
-alias  lm="ls -Ftr   $_ls_no_baks $_ls_color"
-alias llm="ls -Fhltr $_ls_no_baks $_ls_color $_time_style"
+alias  lm="l -s newest"
+alias llm="lm -l"
 
 # Sort by size
-alias  lk="ls -FS   $_ls_no_baks $_ls_color"
-alias llk="ls -FShl $_ls_no_baks $_ls_color $_time_style"
+alias  lk="l -s size"
+alias llk="lk -l"
 
 # A single column
-alias l1="ls -F1 $_ls_no_baks $_ls_color"
+alias l1="l -1"
 
-alias  lr="tree -FAC -I '*~|*.swp' --noreport"
-alias llr="ls -FRhl $_ls_no_baks $_ls_color $_time_style"
+alias  lr="l -T"
+alias llr="lr -l"
 
-alias vl="ls -F1 $_ls_no_baks V"
+alias vl="l1 V"
 
 # Links (there is also ln() as an autoload)
 alias ln.='ll .*(@)'

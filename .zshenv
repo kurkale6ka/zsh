@@ -29,6 +29,7 @@ then
 fi
 
 path=(
+~/.cargo/bin
 ~/.local/bin
 ~/bin
 /usr/local/sbin
@@ -71,7 +72,7 @@ then
     eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 fi
 
-[[ -d ~/.cargo ]] && . ~/.cargo/env
+[[ -f ~/.cargo/env ]] && . ~/.cargo/env
 
 # Editor
 if (($+commands[nvim]))
@@ -125,6 +126,8 @@ then
 
     # Set LS_COLORS
     [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
+
+    export EXA_COLORS='uu=0:gu=0:da=38;5;242'
 fi
 
 # Linux virtual console colors
