@@ -104,6 +104,8 @@ export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 # Colors
 if [[ $(uname) != OpenBSD ]]
 then
+    export GROFF_NO_SGR=1
+
     # Colored man pages with less
     # These can't reside in .zprofile since there is no terminal for tput
     _bld="$(tput bold || tput md)"
@@ -125,7 +127,7 @@ then
     export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
     # Set LS_COLORS
-    [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
+    eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
 
     export EZA_COLORS='uu=0:gu=0:da=38;5;242'
 fi
