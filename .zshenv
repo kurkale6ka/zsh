@@ -126,9 +126,6 @@ then
     export LESS_TERMCAP_us=${_bld}${_udl}"$(tput setaf 5 || tput AF 5)" # purple
     export LESS_TERMCAP_ue="$(tput rmul || tput ue)"$_res
 
-    # Set LS_COLORS
-    eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
-
     export EZA_COLORS='uu=0:gu=0:da=38;5;242'
 fi
 

@@ -349,7 +349,10 @@ alias -g V='| v -'
 alias -g P='| perl -00lnE "say;exit"'
 alias -g J='| python -mjson.tool'
 
-## ls and echo
+## ls
+# Set LS_COLORS
+eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
+
 # Make sure existing aliases won't prevent function definitions
 unalias ln sl 2>/dev/null
 
@@ -387,8 +390,6 @@ alias vl="l1 V"
 
 # Links (there is also ln() as an autoload)
 alias lnn='lld *(@D)'
-
-alias e=echo
 
 ## cd
 alias -- -='cd - >/dev/null'
