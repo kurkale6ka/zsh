@@ -127,7 +127,7 @@ then
     # Set LS_COLORS
     [[ -n $REPOS_BASE ]] && eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
 
-    export EXA_COLORS='uu=0:gu=0:da=38;5;242'
+    export EZA_COLORS='uu=0:gu=0:da=38;5;242'
 fi
 
 # Linux virtual console colors

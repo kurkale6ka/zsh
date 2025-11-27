@@ -353,7 +353,7 @@ alias -g J='| python -mjson.tool'
 # Make sure existing aliases won't prevent function definitions
 unalias ln sl 2>/dev/null
 
-alias  l="eza -F -I'*~'"
+alias  l="eza -F --smart-group --git-ignore"
 alias ll="l -l"
 
 alias  la="l -a"
