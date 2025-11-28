@@ -324,12 +324,6 @@ fi
 # ssh
 zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
 
-# kubernetes
-if (( $+commands[kubectl] ))
-then
-    . <(kubectl completion zsh)
-fi
-
 ## (n)Vim and ed
 if (( $+commands[nvim] ))
 then
@@ -350,7 +344,7 @@ alias -g P='| perl -00lnE "say;exit"'
 alias -g J='| python -mjson.tool'
 
 ## ls
-# Set LS_COLORS
+# LS_COLORS
 eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
 
 # Make sure existing aliases won't prevent function definitions
@@ -388,9 +382,6 @@ alias llr="lr -l"
 
 alias vl="l1 V"
 
-# Links (there is also ln() as an autoload)
-alias lnn='lld *(@D)'
-
 ## cd
 alias -- -='cd - >/dev/null'
 
@@ -414,8 +405,6 @@ fi
 ## File system operations
 alias md='mkdir -p'
 alias pw='pwd -P'
-
-alias to=touch
 
 ## Safer cp/mv(autoload) + rm
 # problem with cp/mv is I don't usually check the destination
@@ -446,8 +435,6 @@ alias il='iptables -nvL --line-numbers'
 ## Head/Tail and cat
 alias ha=$REPOS_BASE/github/scripts/headall.pl
 alias tf='tail -f -n0'
-
-alias cn='cat -n'
 
 ## Help
 alias mm='man -k'
@@ -484,16 +471,6 @@ fi
 alias ge='env | grep -Ei'
 alias vd='v -d'
 alias _=combine
-
-## pacman
-if (( $+commands[pacaur] ))
-then
-    alias pacs='pacaur -Ss'
-    alias pacsync='pacaur -Syu'
-else
-    alias pacs=pacsearch
-    alias pacsync='pacman -Syu'
-fi
 
 ## python
 export PYENV_ROOT="$HOME/.pyenv"

@@ -2,5 +2,5 @@ if (($#))
 then
    command ln $@
 else
-   ld *(@D)
+   lld *(@D)
 fi
