@@ -108,7 +108,7 @@ bindkey "^[" .vi-find-prev-char
 
 # Make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
+if ((${+terminfo[smkx]})) && ((${+terminfo[rmkx]}))
 then
     function zle-line-init () {
         printf '%s' "${terminfo[smkx]}"
@@ -324,7 +324,7 @@ fi
 zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
 
 ## (n)Vim and ed
-if (( $+commands[nvim] ))
+if (($+commands[nvim]))
 then
     alias v=nvim
 else
@@ -445,12 +445,12 @@ alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep, ripgrep aliases
-if (( $+commands[rg] ))
+if (($+commands[rg]))
 then
     alias rg='rg -S --hidden'
     alias gr=rg
     alias g=rg
-elif (( $+commands[ag] ))
+elif (($+commands[ag]))
 then
     alias ag='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
     alias gr=ag
@@ -513,7 +513,7 @@ alias tl='tmux ls'
 alias ta='tmux attach-session'
 
 ## tools
-. $REPOS_BASE/github/zsh/tools.zsh
+. $XDG_CONFIG_HOME/zsh/tools.zsh
 
 ## Local zshrc file
 [[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh

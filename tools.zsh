@@ -1,3 +1,6 @@
+# rust
+[[ -f ~/.cargo/env ]] && . ~/.cargo/env
+
 # fzf
 [[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
 
