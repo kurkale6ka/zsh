@@ -251,9 +251,9 @@ if autoload -Uz compinit
 then
     if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
     then
-        compinit
+        compinit -d $XDG_CACHE_HOME
     else
-        compinit -C
+        compinit -d $XDG_CACHE_HOME -C
     fi
 fi
 

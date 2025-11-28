@@ -2,6 +2,7 @@ export REPOS_BASE=~/repos
 
 if [[ -z $XDG_CONFIG_HOME ]]
 then
+    export XDG_CACHE_HOME=~/.cache
     export XDG_CONFIG_HOME=~/.config
     export XDG_DATA_HOME=~/.local/share
 fi
