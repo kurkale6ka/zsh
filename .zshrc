@@ -59,7 +59,6 @@ alias k=kill
 alias kg='kill -- -'
 
 # jobs
-alias z=fg
 alias -- --='fg %-'
 
 ## zle bindings and terminal key settings
@@ -395,13 +394,6 @@ alias 7='cd ../../../../../../..'
 alias 8='cd ../../../../../../../..'
 alias 9='cd ../../../../../../../../..'
 
-# Hook functions
-if [[ -w $XDG_DATA_HOME/marks/marks.sqlite ]]
-then
-    chpwd_functions+=(update_marks)
-    typeset -U chpwd_functions
-fi
-
 ## File system operations
 alias md='mkdir -p'
 alias pw='pwd -P'
@@ -473,10 +465,6 @@ alias vd='v -d'
 alias _=combine
 
 ## python
-export PYENV_ROOT="$HOME/.pyenv"
-(( $+commands[pyenv] )) || export PATH="$PYENV_ROOT/bin:$PATH"
-(( $+commands[pyenv] )) && eval "$(pyenv init -)"
-
 alias py=python3
 alias python=python3
 
@@ -524,8 +512,8 @@ alias tmux='tmux -2'
 alias tl='tmux ls'
 alias ta='tmux attach-session'
 
-## fzf
-[[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
+## tools
+. $REPOS_BASE/github/zsh/tools.zsh
 
 ## Local zshrc file
 [[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
