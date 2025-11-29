@@ -22,8 +22,8 @@ fi
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
-(( $+commands[pyenv] )) || export PATH="$PYENV_ROOT/bin:$PATH"
-(( $+commands[pyenv] )) && eval "$(pyenv init -)"
+(($+commands[pyenv])) || export PATH="$PYENV_ROOT/bin:$PATH"
+(($+commands[pyenv])) && eval "$(pyenv init -)"
 
 # zoxide
 eval "$(zoxide init --cmd c zsh)"
