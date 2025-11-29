@@ -75,7 +75,7 @@ export PAGER=less
 HISTFILE=$XDG_DATA_HOME/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
-HISTORY_IGNORE='(v|c|c *|cd|<1-9>|-)'
+HISTORY_IGNORE='(-|<1-9>|c|cal|ci|cd|fg|gb|gbd|gl|gp|gpu|gs|history|history 1|l|ll|lla|lld|llm|lr|py|pw|v)'
 
 # Colors
 . $XDG_CONFIG_HOME/zsh/colors.zsh
