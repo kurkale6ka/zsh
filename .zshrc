@@ -59,7 +59,6 @@ alias k=kill
 alias kg='kill -- -'
 
 # jobs
-alias z=fg
 alias -- --='fg %-'
 
 ## zle bindings and terminal key settings
@@ -109,7 +108,7 @@ bindkey "^[" .vi-find-prev-char
 
 # Make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} ))
+if ((${+terminfo[smkx]})) && ((${+terminfo[rmkx]}))
 then
     function zle-line-init () {
         printf '%s' "${terminfo[smkx]}"
@@ -252,9 +251,9 @@ if autoload -Uz compinit
 then
     if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
     then
-        compinit
+        compinit -d $XDG_CACHE_HOME
     else
-        compinit -C
+        compinit -d $XDG_CACHE_HOME -C
     fi
 fi
 
@@ -324,14 +323,8 @@ fi
 # ssh
 zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/Is/\(host\)\?\s\+/\n/gIp" ~/.ssh/config | sort -u))'
 
-# kubernetes
-if (( $+commands[kubectl] ))
-then
-    . <(kubectl completion zsh)
-fi
-
 ## (n)Vim and ed
-if (( $+commands[nvim] ))
+if (($+commands[nvim]))
 then
     alias v=nvim
 else
@@ -349,65 +342,44 @@ alias -g V='| v -'
 alias -g P='| perl -00lnE "say;exit"'
 alias -g J='| python -mjson.tool'
 
-## ls and echo
-if [[ $(uname) != OpenBSD ]]
-then
-    _ls_date_old="$(tput setaf 242 || tput AF 242)%e %b$_res"
-    _ls_time_old="$(tput setaf 238 || tput AF 238) %Y$_res"
-
-    _ls_date="$(tput setaf 242 || tput AF 242)%e %b$_res"
-    _ls_time="$(tput setaf 238 || tput AF 238)%H:%M$_res"
-
-    _ls_no_baks='-B'
-    _ls_color='--color=auto'
-    _time_style="--time-style=$'+$_ls_date_old $_ls_time_old\n$_ls_date $_ls_time'"
-fi
+## ls
+# LS_COLORS
+eval "$(dircolors $REPOS_BASE/github/config/dotfiles/.dir_colors)"
 
 # Make sure existing aliases won't prevent function definitions
 unalias ln sl 2>/dev/null
 
-alias  l.="ls -Fd   $_ls_color .*~.*~"
-alias ll.="ls -Fdhl $_ls_color $_time_style .*~.*~"
+alias  l="eza -F --smart-group --git-ignore"
+alias ll="l -l"
 
-alias  l="ls -F   $_ls_no_baks $_ls_color"
-alias ll="ls -Fhl $_ls_no_baks $_ls_color $_time_style"
+alias  la="l -a"
+alias lla="la -l"
 
-alias  la="ls -FA   $_ls_no_baks $_ls_color"
-alias lla="ls -FAhl $_ls_no_baks $_ls_color $_time_style"
+alias  ld="l -d"
+alias lld="ld -l"
 
-alias  ld="ls -Fd   $_ls_no_baks $_ls_color"
-alias lld="ls -Fdhl $_ls_no_baks $_ls_color $_time_style"
+alias  l.="ld .*~.*~"
+alias ll.="l. -l"
 
-alias  l/='ld *(/D)'
-alias ll/='lld *(/D)'
+alias  l/='l -D'
+alias ll/='l/ -l'
 
-alias  lx="ls -Fd   $_ls_color *~*~(*D)"
-alias llx="ls -Fdhl $_ls_color $_time_style *~*~(*D)"
+alias  lx="ld *~*~(*D)"
+alias llx="lx -l"
 
-alias  lm="ls -Ftr   $_ls_no_baks $_ls_color"
-alias llm="ls -Fhltr $_ls_no_baks $_ls_color $_time_style"
+alias  lm="l -s newest"
+alias llm="lm -l"
 
 # Sort by size
-alias  lk="ls -FS   $_ls_no_baks $_ls_color"
-alias llk="ls -FShl $_ls_no_baks $_ls_color $_time_style"
+alias  lk="l -s size"
+alias llk="lk -l"
 
-# A single column
-alias l1="ls -F1 $_ls_no_baks $_ls_color"
+alias l1="l -1"
 
-alias  lr="tree -FAC -I '*~|*.swp' --noreport"
-alias llr="ls -FRhl $_ls_no_baks $_ls_color $_time_style"
+alias  lr="l -T"
+alias llr="lr -l"
 
-alias vl="ls -F1 $_ls_no_baks V"
-
-# Links (there is also ln() as an autoload)
-alias ln.='ll .*(@)'
-alias lnn='ll *(@D)'
-
-alias e=echo
-
-## sudo
-alias  sd=sudo
-alias sde=sudoedit
+alias vl="l1 V"
 
 ## cd
 alias -- -='cd - >/dev/null'
@@ -422,18 +394,9 @@ alias 7='cd ../../../../../../..'
 alias 8='cd ../../../../../../../..'
 alias 9='cd ../../../../../../../../..'
 
-# Hook functions
-if [[ -w $XDG_DATA_HOME/marks/marks.sqlite ]]
-then
-    chpwd_functions+=(update_marks)
-    typeset -U chpwd_functions
-fi
-
 ## File system operations
 alias md='mkdir -p'
 alias pw='pwd -P'
-
-alias to=touch
 
 ## Safer cp/mv(autoload) + rm
 # problem with cp/mv is I don't usually check the destination
@@ -465,8 +428,6 @@ alias il='iptables -nvL --line-numbers'
 alias ha=$REPOS_BASE/github/scripts/headall.pl
 alias tf='tail -f -n0'
 
-alias cn='cat -n'
-
 ## Help
 alias mm='man -k'
 alias mp="$REPOS_BASE/github/scripts/man.pl"
@@ -484,12 +445,12 @@ alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep, ripgrep aliases
-if (( $+commands[rg] ))
+if (($+commands[rg]))
 then
     alias rg='rg -S --hidden'
     alias gr=rg
     alias g=rg
-elif (( $+commands[ag] ))
+elif (($+commands[ag]))
 then
     alias ag='ag -S --hidden --color-line-number="00;32" --color-path="00;35" --color-match="01;31"'
     alias gr=ag
@@ -503,21 +464,7 @@ alias ge='env | grep -Ei'
 alias vd='v -d'
 alias _=combine
 
-## pacman
-if (( $+commands[pacaur] ))
-then
-    alias pacs='pacaur -Ss'
-    alias pacsync='pacaur -Syu'
-else
-    alias pacs=pacsearch
-    alias pacsync='pacman -Syu'
-fi
-
 ## python
-export PYENV_ROOT="$HOME/.pyenv"
-(( $+commands[pyenv] )) || export PATH="$PYENV_ROOT/bin:$PATH"
-(( $+commands[pyenv] )) && eval "$(pyenv init -)"
-
 alias py=python3
 alias python=python3
 
@@ -565,8 +512,8 @@ alias tmux='tmux -2'
 alias tl='tmux ls'
 alias ta='tmux attach-session'
 
-## fzf
-[[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
+## tools
+. $XDG_CONFIG_HOME/zsh/tools.zsh
 
 ## Local zshrc file
 [[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
