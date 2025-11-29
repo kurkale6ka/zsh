@@ -15,15 +15,19 @@ if (($+commands[pacaur]))
 then
     alias pacs='pacaur -Ss'
     alias pacsync='pacaur -Syu'
-else
+elif (($+commands[pacman]))
+then
     alias pacs=pacsearch
     alias pacsync='pacman -Syu'
 fi
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-(($+commands[pyenv])) || export PATH="$PYENV_ROOT/bin:$PATH"
-(($+commands[pyenv])) && eval "$(pyenv init -)"
+if (($+commands[pyenv]))
+then
+    export PYENV_ROOT="$HOME/.pyenv"
+    [[ -d $PYENV_ROOT/bin ]] && path=($PYENV_ROOT/bin $path)
+    eval "$(pyenv init - zsh)"
+fi
 
 # zoxide
 eval "$(zoxide init --cmd c zsh)"
