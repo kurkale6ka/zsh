@@ -250,13 +250,12 @@ bindkey '^u' backward-kill-line
 if autoload -Uz compinit
 then
     if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
-    then
-        compinit -d $XDG_CACHE_HOME
-    else
-        compinit -d $XDG_CACHE_HOME -C
+    then compinit -d $XDG_CACHE_HOME
+    else compinit -d $XDG_CACHE_HOME -C
     fi
 fi
 
+# TODO: move to tools?
 # completions from Bash
 autoload bashcompinit && bashcompinit
 complete -C aws_completer aws # complete aws with command (-C) aws_completer
@@ -325,13 +324,8 @@ zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/
 
 ## (n)Vim and ed
 if (($+commands[nvim]))
-then
-    alias v=nvim
-else
-    if [[ -n $REPOS_BASE ]]
-    then
-        alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
-    fi
+then alias v=nvim
+else alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
 fi
 
 alias ed='ed -v -p:'
