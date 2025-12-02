@@ -2,11 +2,13 @@ export REPOS_BASE=~/repos
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-~/.cache}
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-~/.config}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-~/.local/share}
+export XDG_STATE_HOME=${XDG_STATE_HOME:-~/.local/state}
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
 mkdir -p $XDG_CACHE_HOME
-mkdir -p $ZDOTDIR
 mkdir -p $XDG_DATA_HOME/zsh
+mkdir -p $XDG_STATE_HOME/nvim/backup
+mkdir -p $ZDOTDIR
 
 # Paths
 path=(
