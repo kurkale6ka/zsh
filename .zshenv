@@ -8,7 +8,7 @@ export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 mkdir -p $XDG_CACHE_HOME
 mkdir -p $XDG_DATA_HOME/zsh
 mkdir -p $XDG_STATE_HOME/nvim/backup
-mkdir -p $ZDOTDIR
+mkdir -p $ZDOTDIR # creates XDG_CONFIG_HOME
 
 # Paths
 path=(

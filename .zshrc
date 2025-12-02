@@ -55,9 +55,6 @@ fi
 ## Processes and jobs (see Mac section too ^)
 alias pg=$REPOS_BASE/github/scripts/pg.pl
 
-alias k=kill
-alias kg='kill -- -'
-
 # jobs
 alias -- --='fg %-'
 
@@ -404,12 +401,7 @@ alias    setuid='chmod u+s'
 alias    setgid='chmod g+s'
 alias setsticky='chmod  +t'
 
-alias cg=chgrp
-alias co=chown
-alias cm=chmod
-
 ## Partitions
-alias umn=umount
 alias fu='sudo fuser -mv' # what uses the named files, sockets, or filesystems
 alias df='df -hPT -x{dev,}tmpfs'
 
@@ -435,7 +427,6 @@ autoload -Uz run-help
 alias '?=qmark'
 
 ## Find stuff and diffs
-alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep, ripgrep aliases
@@ -477,7 +468,6 @@ fi
 alias csv="perl -pe 's/(?:(?<=^)|(?<=,)),/ ,/g'"
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
-alias msg=dmesg
 alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
 alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
