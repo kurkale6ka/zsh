@@ -52,13 +52,12 @@ export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 
 # Fzf
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
-
 if (($+commands[fd])) || (($+commands[fdfind]))
 then
-   export FZF_DEFAULT_COMMAND='fd --strip-cwd-prefix -tf -Hup -E.git -E.venv -E"*~"' # find files
-   export  FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix     -Hup -E.git -E.venv -E"*~"' # find everything
-   export   FZF_ALT_C_COMMAND='fd --strip-cwd-prefix -td -Hp'                        # fuzzy cd
+   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
+   export FZF_DEFAULT_COMMAND='fd --strip-cwd-prefix -tf -Hp' # find files
+   export  FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix     -Hp' # find everything
+   export   FZF_ALT_C_COMMAND='fd --strip-cwd-prefix -td -Hp' # fuzzy cd
 fi
 
 # -i   : ignore case
