@@ -1,8 +1,8 @@
 # rust
 [[ -f ~/.cargo/env ]] && . ~/.cargo/env
 
-# fzf
-[[ -f ~/.fzf.zsh ]] && . ~/.fzf.zsh
+# fzf key bindings and fuzzy completion
+. <(fzf --zsh)
 
 # kubernetes
 if (($+commands[kubectl]))

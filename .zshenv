@@ -2,11 +2,13 @@ export REPOS_BASE=~/repos
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-~/.cache}
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-~/.config}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-~/.local/share}
+export XDG_STATE_HOME=${XDG_STATE_HOME:-~/.local/state}
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
 mkdir -p $XDG_CACHE_HOME
-mkdir -p $ZDOTDIR
 mkdir -p $XDG_DATA_HOME/zsh
+mkdir -p $XDG_STATE_HOME/nvim/backup
+mkdir -p $ZDOTDIR # creates XDG_CONFIG_HOME
 
 # Paths
 path=(
@@ -50,13 +52,12 @@ export PS_PERSONALITY=bsd
 export PS_FORMAT=pid,ppid,pgid,sid,tname,tpgid,stat,euser,egroup,start_time,cmd
 
 # Fzf
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
-
 if (($+commands[fd])) || (($+commands[fdfind]))
 then
-   export FZF_DEFAULT_COMMAND='fd --strip-cwd-prefix -tf -Hup -E.git -E.venv -E"*~"' # find files
-   export  FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix     -Hup -E.git -E.venv -E"*~"' # find everything
-   export   FZF_ALT_C_COMMAND='fd --strip-cwd-prefix -td -Hp'                        # fuzzy cd
+   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
+   export FZF_DEFAULT_COMMAND='fd --strip-cwd-prefix -tf -Hp' # find files
+   export  FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix     -Hp' # find everything
+   export   FZF_ALT_C_COMMAND='fd --strip-cwd-prefix -td -Hp' # fuzzy cd
 fi
 
 # -i   : ignore case

@@ -55,9 +55,6 @@ fi
 ## Processes and jobs (see Mac section too ^)
 alias pg=$REPOS_BASE/github/scripts/pg.pl
 
-alias k=kill
-alias kg='kill -- -'
-
 # jobs
 alias -- --='fg %-'
 
@@ -250,13 +247,12 @@ bindkey '^u' backward-kill-line
 if autoload -Uz compinit
 then
     if [[ -n $ZDOTDIR/.zcompdump(#qN.mh+24) ]]
-    then
-        compinit -d $XDG_CACHE_HOME
-    else
-        compinit -d $XDG_CACHE_HOME -C
+    then compinit
+    else compinit -C
     fi
 fi
 
+# TODO: move to tools?
 # completions from Bash
 autoload bashcompinit && bashcompinit
 complete -C aws_completer aws # complete aws with command (-C) aws_completer
@@ -325,13 +321,8 @@ zstyle -e ':completion:*:*:ssh:*' hosts 'reply=($(sed -n "/^\s*host\s\+[^*?]\+$/
 
 ## (n)Vim and ed
 if (($+commands[nvim]))
-then
-    alias v=nvim
-else
-    if [[ -n $REPOS_BASE ]]
-    then
-        alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
-    fi
+then alias v=nvim
+else alias v="vim -u $REPOS_BASE/github/vim/.vimrc"
 fi
 
 alias ed='ed -v -p:'
@@ -382,17 +373,17 @@ alias llr="lr -l"
 alias vl="l1 V"
 
 ## cd
-alias -- -='cd - >/dev/null'
+alias -- -='c - >/dev/null'
 
-alias 1='cd ..'
-alias 2='cd ../..'
-alias 3='cd ../../..'
-alias 4='cd ../../../..'
-alias 5='cd ../../../../..'
-alias 6='cd ../../../../../..'
-alias 7='cd ../../../../../../..'
-alias 8='cd ../../../../../../../..'
-alias 9='cd ../../../../../../../../..'
+alias 1='c ..'
+alias 2='c ../..'
+alias 3='c ../../..'
+alias 4='c ../../../..'
+alias 5='c ../../../../..'
+alias 6='c ../../../../../..'
+alias 7='c ../../../../../../..'
+alias 8='c ../../../../../../../..'
+alias 9='c ../../../../../../../../..'
 
 ## File system operations
 alias md='mkdir -p'
@@ -410,12 +401,7 @@ alias    setuid='chmod u+s'
 alias    setgid='chmod g+s'
 alias setsticky='chmod  +t'
 
-alias cg=chgrp
-alias co=chown
-alias cm=chmod
-
 ## Partitions
-alias umn=umount
 alias fu='sudo fuser -mv' # what uses the named files, sockets, or filesystems
 alias df='df -hPT -x{dev,}tmpfs'
 
@@ -441,7 +427,6 @@ autoload -Uz run-help
 alias '?=qmark'
 
 ## Find stuff and diffs
-alias lo='locate -i'
 alias ldapsearch='ldapsearch -x -LLL'
 
 # Grep, ripgrep aliases
@@ -483,7 +468,6 @@ fi
 alias csv="perl -pe 's/(?:(?<=^)|(?<=,)),/ ,/g'"
 alias wgetpaste='wgetpaste -s dpaste -n kurkale6ka -Ct'
 alias parallel='parallel --no-notice'
-alias msg=dmesg
 alias os='tail -n99 /etc/*(release|version) 2>/dev/null | cat -s'
 alias password='apg -a1 -n1 -m11 -x11 -MSNCL'
 alias ff='ffplay -v error -vf scale=220:-1'
@@ -517,5 +501,3 @@ alias ta='tmux attach-session'
 
 ## Local zshrc file
 [[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
-
-# vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
