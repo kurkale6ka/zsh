@@ -373,17 +373,17 @@ alias llr="lr -l"
 alias vl="l1 V"
 
 ## cd
-alias -- -='cd - >/dev/null'
+alias -- -='c - >/dev/null'
 
-alias 1='cd ..'
-alias 2='cd ../..'
-alias 3='cd ../../..'
-alias 4='cd ../../../..'
-alias 5='cd ../../../../..'
-alias 6='cd ../../../../../..'
-alias 7='cd ../../../../../../..'
-alias 8='cd ../../../../../../../..'
-alias 9='cd ../../../../../../../../..'
+alias 1='c ..'
+alias 2='c ../..'
+alias 3='c ../../..'
+alias 4='c ../../../..'
+alias 5='c ../../../../..'
+alias 6='c ../../../../../..'
+alias 7='c ../../../../../../..'
+alias 8='c ../../../../../../../..'
+alias 9='c ../../../../../../../../..'
 
 ## File system operations
 alias md='mkdir -p'
