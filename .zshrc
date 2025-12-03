@@ -501,5 +501,3 @@ alias ta='tmux attach-session'
 
 ## Local zshrc file
 [[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
-
-# vim: fdm=expr fde=getline(v\:lnum)=~'^\\s*##'?'>'.(len(matchstr(getline(v\:lnum),'###*'))-1)\:'='
