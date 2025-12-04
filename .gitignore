@@ -1,3 +1,1 @@
-.zshenv-local.zsh
-.zshrc-local.zsh
-!autoload/tags
+local/

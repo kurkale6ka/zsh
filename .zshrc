@@ -500,4 +500,4 @@ alias ta='tmux attach-session'
 . $XDG_CONFIG_HOME/zsh/tools.zsh
 
 ## Local zshrc file
-[[ -r $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshrc-local.zsh
+[[ -r $XDG_CONFIG_HOME/zsh/local/.zshrc ]] && . $XDG_CONFIG_HOME/zsh/local/.zshrc
