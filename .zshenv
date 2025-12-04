@@ -85,4 +85,4 @@ HISTORY_IGNORE='(-|<1-9>|c|cal|ci|cd|fg|gb|gbd|gg|gl|gp|gpu|gs|history|history 1
 [[ $(uname) == Darwin ]] && . $XDG_CONFIG_HOME/zsh/darwin.zsh
 
 # Local
-[[ -r $XDG_CONFIG_HOME/zsh/.zshenv-local.zsh ]] && . $XDG_CONFIG_HOME/zsh/.zshenv-local.zsh
+[[ -r $XDG_CONFIG_HOME/zsh/local/.zshenv ]] && . $XDG_CONFIG_HOME/zsh/local/.zshenv
