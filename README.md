@@ -1,11 +1,13 @@
-# NB: this is deprecated
-Use [Fuzzy cd, using shell's history](https://github.com/kurkale6ka/scripts/blob/master/fuzzy_cd/README.md) instead
+# Smart cd
+zoxide: [smarter cd command, inspired by z and autojump](https://github.com/ajeetdsouza/zoxide)
 
-# Fuzzy cd based on bookmarks
+# Previous 'smart cd' solutions
+- [Fuzzy cd, using shell's history](https://github.com/kurkale6ka/scripts/blob/master/fuzzy_cd/README.md)
+- Fuzzy cd based on bookmarks:
 
 _Every cd is bookmarked and assigned a weight so you can later on jump to it quickly_
 
-## All of the following is needed:
+**All of the following is needed**:
 
 1. **Install** [fzf](https://github.com/junegunn/fzf)
 
@@ -42,13 +44,13 @@ _Every cd is bookmarked and assigned a weight so you can later on jump to it qui
    ```
 
 4. **Autoload functions** ([ZSH Functions](http://zsh.sourceforge.net/Doc/Release/Functions.html)):  
-     * [fuzzy cd](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/c)
-     * [bookmarks update](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/update_marks)
-     * [bookmarks cleanup](https://github.com/kurkale6ka/zsh/blob/master/autoload/fuzzy/ccleanup)
+     * [fuzzy cd](https://github.com/kurkale6ka/zsh/blob/dd4293e/autoload/fuzzy/c)
+     * [bookmarks update](https://github.com/kurkale6ka/zsh/blob/dd4293e/autoload/fuzzy/update_marks)
+     * [bookmarks cleanup](https://github.com/kurkale6ka/zsh/blob/dd4293e/autoload/fuzzy/ccleanup)
 
 5. **PWD hook function**: `chpwd_functions+=(update_marks)` in `~/.zshrc`
 
-## Usage:
+Usage:
 ```
 c             # choose where to cd from all bookmarks
 c pattern ... # cd to a matching path
