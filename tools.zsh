@@ -21,6 +21,10 @@ then
     alias pacsync='pacman -Syu'
 fi
 
+# pnpm
+export PNPM_HOME="$XDG_DATA_HOME"/pnpm
+path=($PNPM_HOME $path)
+
 # pyenv
 if (($+commands[pyenv]))
 then
