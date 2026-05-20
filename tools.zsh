@@ -23,7 +23,7 @@ fi
 
 # pnpm
 export PNPM_HOME="$XDG_DATA_HOME"/pnpm
-path=($PNPM_HOME $path)
+path=($PNPM_HOME/bin $path)
 
 # pyenv
 if (($+commands[pyenv]))
