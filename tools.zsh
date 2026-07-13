@@ -35,3 +35,5 @@ fi
 
 # zoxide
 eval "$(zoxide init --cmd c zsh)"
+
+export HEADROOM_CODE_AWARE_ENABLED=1
